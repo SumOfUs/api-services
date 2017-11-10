@@ -1,0 +1,30 @@
+{
+  "name": "api-services",
+  "version": "0.1.0",
+  "description": "Monorepo of SumOfUs' serverless services",
+  "main": "index.js",
+  "scripts": {
+    "precommit": "lint-staged",
+    "flow": "flow",
+    "test": "jest"
+  },
+  "lint-staged": {
+    "*.{js,ts}": ["prettier --write", "git add"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SumOfUs/api-services.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SumOfUs/api-services/issues"
+  },
+  "homepage": "https://github.com/SumOfUs/api-services#readme",
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "jest": "^21.2.1",
+    "lint-staged": "^4.3.0",
+    "prettier": "^1.8.2"
+  }
+}
