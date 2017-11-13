@@ -1,7 +1,7 @@
 {
-  "name": "aws-nodejs-ecma-script",
+  "name": "sumofus-braintree-service",
   "version": "1.0.0",
-  "description": "Serverless webpack example using ecma script",
+  "description": "Braintree service",
   "scripts": {
     "test": "jest"
   },
