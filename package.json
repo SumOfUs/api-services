@@ -9,7 +9,10 @@
     "test": "jest"
   },
   "lint-staged": {
-    "*.{js,ts}": ["prettier --write", "git add"]
+    "*.{js,ts}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -22,9 +25,15 @@
   },
   "homepage": "https://github.com/SumOfUs/api-services#readme",
   "devDependencies": {
+    "flow-bin": "^0.59.0",
     "husky": "^0.14.3",
     "jest": "^21.2.1",
     "lint-staged": "^4.3.0",
     "prettier": "^1.8.2"
+  },
+  "prettier": {
+    "parser": "babylon",
+    "singleQuote": true,
+    "trailingComma": "es5"
   }
 }
