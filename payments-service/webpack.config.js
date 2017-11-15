@@ -10,7 +10,7 @@ module.exports = {
       {
         test: /\.js$/,
         loaders: ['babel-loader'],
-        include: __dirname,
+        include: path.resolve(__dirname, '..'),
         exclude: /node_modules/,
       },
     ],
