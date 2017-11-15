@@ -2,7 +2,6 @@ const path = require('path');
 // eslint-disable-next-line import/no-unresolved
 const slsw = require('serverless-webpack');
 
-console.log('entries:', slsw.lib.entries);
 module.exports = {
   entry: slsw.lib.entries,
   target: 'node',
@@ -11,7 +10,7 @@ module.exports = {
       {
         test: /\.js$/,
         loaders: ['babel-loader'],
-        include: __dirname,
+        include: path.resolve(__dirname, '..'),
         exclude: /node_modules/,
       },
     ],

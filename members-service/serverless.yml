@@ -1,0 +1,41 @@
+service:
+  name: actionkit-service
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: ${env:AWS_STAGE, 'dev'}
+  environment:
+    AK_API_URL: ${env:AK_API_URL}
+    AK_USERNAME: ${env:AK_USERNAME}
+    AK_PASSWORD: ${env:AK_PASSWORD}
+
+
+functions:
+  users-list:
+    handler: users.index
+    events:
+      - http:
+          method: GET
+          path: user
+          cors: true
+
+  users-get:
+    handler: users.show
+    events:
+      - http:
+          method: GET
+          path: user/{id}
+          cors: true
+
+  users-update:
+    handler: users.update
+    events:
+      - http:
+          method: POST
+          path: user/{id}
+          cors: true

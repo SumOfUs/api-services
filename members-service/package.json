@@ -1,9 +1,10 @@
 {
-  "name": "sumofus-actionkit-service",
-  "version": "1.0.0",
-  "description": "ActionKit service. Initially intended to encapsulate CRUD actions on users",
+  "name": "sumofus-member-service",
+  "version": "0.1.0",
+  "description": "Member service. Mainly interfaces with ActionKit.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "nyc": "nyc",
+    "test": "jest"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -12,13 +13,14 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.1",
+    "jest": "^21.2.1",
+    "nyc": "^11.3.0",
     "serverless-webpack": "^3.1.1",
     "webpack": "^3.3.0"
   },
   "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
   "license": "MIT",
   "dependencies": {
-    "ajv": "^5.3.0",
     "axios-es6": "^0.11.1",
     "lodash": "^4.17.4"
   },
@@ -37,6 +39,31 @@
     "plugins": [
       "transform-flow-strip-types",
       "transform-object-rest-spread"
+    ],
+    "env": {
+      "test": {
+        "presets": [
+          [
+            "env",
+            {
+              "modules": false,
+              "targets": {
+                "node": "6.10"
+              }
+            }
+          ]
+        ],
+        "plugins": [
+          "transform-flow-strip-types",
+          "transform-object-rest-spread",
+          "transform-es2015-modules-commonjs"
+        ]
+      }
+    }
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/"
     ]
   }
 }
