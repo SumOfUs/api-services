@@ -40,7 +40,6 @@ export function show(event, context, callback) {
       );
     },
     errors => {
-      console.log('errors:', errors);
       callback(null, badRequest({ cors: true, body: errors }));
     }
   );

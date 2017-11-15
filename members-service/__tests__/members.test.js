@@ -25,12 +25,18 @@ describe('handler: members-show', () => {
         },
       };
       return show(params, null, cb).then(() => {
-        const response = cb.mock.calls[0][1];
-        expect(response.body).toEqual(
-          expect.stringMatching(/properties\/id\/pattern/)
+        expect(cb).toBeCalledWith(
+          null,
+          expect.objectContaining({
+            statusCode: 400,
+            body: expect.stringMatching(/(properties\/id\/pattern)/),
+          })
         );
-        expect(response.body).toEqual(
-          expect.stringMatching(/should match pattern/)
+        expect(cb).toBeCalledWith(
+          null,
+          expect.objectContaining({
+            body: expect.stringMatching(/should match pattern/),
+          })
         );
       });
     });
@@ -45,7 +51,10 @@ describe('handler: members-show', () => {
       return show(event, null, cb).then(() =>
         expect(cb).toBeCalledWith(
           null,
-          expect.objectContaining({ statusCode: 200 })
+          expect.objectContaining({
+            statusCode: 200,
+            body: expect.stringMatching(/Go Serverless Webpack/),
+          })
         )
       );
     });
