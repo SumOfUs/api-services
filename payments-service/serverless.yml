@@ -8,17 +8,14 @@ plugins:
 provider:
   name: aws
   runtime: nodejs6.10
-provider:
-  name: aws
-  runtime: nodejs6.10
   stage: ${env:AWS_STAGE, 'dev'}
   environment:
-    BRAINTREE_MERCHANT_ID: ${env:BRAINTREE_MERCHANT_ID} 
+    BRAINTREE_MERCHANT_ID: ${env:BRAINTREE_MERCHANT_ID}
     BRAINTREE_PUBLIC_KEY: ${env:BRAINTREE_PUBLIC_KEY}
     BRAINTREE_PRIVATE_KEY: ${env:BRAINTREE_PRIVATE_KEY}
     BRAINTREE_ENVIRONMENT: ${env:BRAINTREE_ENV, 'sandbox'}
-    GOCARDLESS_TOKEN: ${env:GOCARDLESS_TOKEN} 
-    GOCARDLESS_ENV: ${env:GOCARDLESS_ENV, 'sandbox'} 
+    GOCARDLESS_TOKEN: ${env:GOCARDLESS_TOKEN}
+    GOCARDLESS_ENV: ${env:GOCARDLESS_ENV, 'sandbox'}
 
 functions:
   token:
