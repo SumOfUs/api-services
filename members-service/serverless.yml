@@ -14,28 +14,32 @@ provider:
     AK_USERNAME: ${env:AK_USERNAME}
     AK_PASSWORD: ${env:AK_PASSWORD}
 
-
 functions:
-  users-list:
-    handler: users.index
+  members-list:
+    handler: members.index
     events:
       - http:
           method: GET
-          path: user
+          path: members
           cors: true
-
-  users-get:
-    handler: users.show
+  members-show:
+    handler: members.show
     events:
       - http:
           method: GET
-          path: user/{id}
+          path: members/{id}
           cors: true
-
-  users-update:
-    handler: users.update
+  members-update:
+    handler: members.update
     events:
       - http:
           method: POST
-          path: user/{id}
+          path: members/{id}
+          cors: true
+  members-unsubscribe:
+    handler: members.unsubscribe
+    events:
+      - http:
+          method: POST
+          path: members/{id}/unsubscribe
           cors: true

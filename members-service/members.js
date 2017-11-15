@@ -5,8 +5,9 @@ import { ok, notFound, badRequest } from '../shared/lambda-utils/responses';
 import { searchUser } from './providers/actionkit/user';
 import {
   LIST_MEMBERS_SCHEMA,
-  UPDATE_MEMBER_SCHEMA,
   SHOW_MEMBER_SCHEMA,
+  UNSUBSCRIBE_MEMBER_SCHEMA,
+  UPDATE_MEMBER_SCHEMA,
 } from './request-schemas';
 
 export function index(event, context, callback) {
@@ -34,6 +35,18 @@ export function show(event, context, callback) {
 
 export function update(event, context, callback) {
   validateRequest(UPDATE_MEMBER_SCHEMA, event.queryStringParameters).then(
+    params => {
+      callback(null, {
+        message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',
+        event,
+      });
+    },
+    errors => callback(null, badRequest({ cors: true, body: errors }))
+  );
+}
+
+export function unsubscribe(event, context, callback) {
+  validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, event.queryStringParameters).then(
     params => {
       callback(null, {
         message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',

@@ -19,6 +19,7 @@ export const FILTER_MEMBERS_SCHEMA = {
     },
   },
 };
+
 export const SHOW_MEMBER_SCHEMA = {
   type: 'object',
   required: ['id'],
@@ -30,6 +31,16 @@ export const SHOW_MEMBER_SCHEMA = {
 };
 
 export const UPDATE_MEMBER_SCHEMA = {
+  type: 'object',
+  required: ['id'],
+  properties: {
+    id: {
+      type: 'number',
+    },
+  },
+};
+
+export const UNSUBSCRIBE_MEMBER_SCHEMA = {
   type: 'object',
   required: ['id'],
   properties: {
