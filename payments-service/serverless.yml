@@ -28,10 +28,10 @@ functions:
           method: get
           path: braintree/token
           cors: true
-  subscription:
+  subscriptions-list:
     handler: subscription.index
     events:
       - http:
           method: get
-          path: braintree/token
+          path: subscription
           cors: true
