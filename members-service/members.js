@@ -1,4 +1,5 @@
-import { pick } from 'lodash';
+// @flow weak
+import pick from 'lodash/pick';
 import { get } from 'axios-es6';
 import { validateRequest } from '../shared/request-validator';
 import { ok, notFound, badRequest } from '../shared/lambda-utils/responses';
@@ -13,7 +14,7 @@ import {
 export function index(event, context, callback) {
   validateRequest(LIST_MEMBERS_SCHEMA, event.queryStringParameters).then(
     params => {
-      searchUser(pick(params, ...Object.keys(schema.properties)))
+      searchUser(pick(params, ...Object.keys(LIST_MEMBERS_SCHEMA.properties)))
         .then(result => callback(null, result))
         .catch(failure => callback(null, { cors: true, body: failure.data }));
     },
@@ -22,14 +23,26 @@ export function index(event, context, callback) {
 }
 
 export function show(event, context, callback) {
-  validateRequest(SHOW_MEMBER_SCHEMA, event.queryStringParameters).then(
+  const parameters = {
+    ...event.pathParameters,
+    ...event.queryStringParameters,
+  };
+  return validateRequest(SHOW_MEMBER_SCHEMA, parameters).then(
     params => {
-      callback(null, {
-        message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',
-        event,
-      });
+      callback(
+        null,
+        ok({
+          body: {
+            message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',
+            event,
+          },
+        })
+      );
     },
-    errors => callback(null, badRequest({ cors: true, body: errors }))
+    errors => {
+      console.log('errors:', errors);
+      callback(null, badRequest({ cors: true, body: errors }));
+    }
   );
 }
 

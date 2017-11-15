@@ -95,11 +95,11 @@ export function response(options?: ResponseOptions = {}): ProxyResult {
   };
 }
 
-function body(content?: $PropertyType<ResponseOptions, 'body'>): string {
-  if (!content) return '';
-  return typeof content !== 'string'
-    ? JSON.stringify(content, null, 2)
-    : content;
+function body(content?: $PropertyType<ResponseOptions, 'body'> = ''): string {
+  if (content == null) return '';
+  if (content instanceof Error) content = content.message;
+  if (typeof content === 'string') return content;
+  return JSON.stringify(content, null, 2);
 }
 
 function headers(

@@ -1,9 +1,6 @@
-export const FILTER_MEMBERS_SCHEMA = {
+export const LIST_MEMBERS_SCHEMA = {
   type: 'object',
-  anyOf: [
-    { required: ['email'] },
-    { required: ['last_name__iexact', 'country__iexact'] },
-  ],
+  required: ['email'],
   properties: {
     email: {
       type: 'string',
@@ -25,7 +22,8 @@ export const SHOW_MEMBER_SCHEMA = {
   required: ['id'],
   properties: {
     id: {
-      type: 'number',
+      type: 'string',
+      pattern: '^[0-9]+$',
     },
   },
 };
@@ -35,7 +33,8 @@ export const UPDATE_MEMBER_SCHEMA = {
   required: ['id'],
   properties: {
     id: {
-      type: 'number',
+      type: 'string',
+      pattern: '^[0-9]+$',
     },
   },
 };
@@ -45,7 +44,8 @@ export const UNSUBSCRIBE_MEMBER_SCHEMA = {
   required: ['id'],
   properties: {
     id: {
-      type: 'number',
+      type: 'string',
+      pattern: '^[0-9]+$',
     },
   },
 };

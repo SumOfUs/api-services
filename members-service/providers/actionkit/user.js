@@ -1,3 +1,4 @@
+// @flow weak
 import { get } from 'axios-es6';
 import {
   ok,
@@ -6,12 +7,12 @@ import {
 } from '../../../shared/lambda-utils/responses';
 
 const auth = {
-  username: process.env.AK_USERNAME,
-  password: process.env.AK_PASSWORD,
+  username: process.env.AK_USERNAME || '',
+  password: process.env.AK_PASSWORD || '',
 };
 
 export function searchUser(filters) {
-  return get(`${process.env.AK_API_URL}/user`, {
+  return get(`${process.env.AK_API_URL || ''}/user`, {
     auth: auth,
     params: { ...filters, limit: 1 },
   })
