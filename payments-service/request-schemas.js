@@ -1,0 +1,2 @@
+export const LIST_SUBSCRIPTIONS_SCHEMA = {};
+export const DELETE_SUBSCRIPTIONS_SCHEMA = {};
