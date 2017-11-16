@@ -1,4 +1,5 @@
 // @flow weak
+import 'source-map-support/register';
 import pick from 'lodash/pick';
 import { get } from 'axios-es6';
 import { validateRequest } from '../shared/request-validator';
@@ -58,8 +59,13 @@ export function update(event, context, callback) {
 }
 
 export function unsubscribe(event, context, callback) {
-  validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, event.queryStringParameters).then(
+  const parameters = {
+    ...event.pathParameters,
+    ...event.queryStringParameters,
+  };
+  validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, parameters).then(
     params => {
+      console.log(alo);
       callback(null, {
         message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',
         event,
