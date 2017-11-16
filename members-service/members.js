@@ -13,11 +13,17 @@ import {
 } from './request-schemas';
 
 export function index(event, context, callback) {
-  validateRequest(LIST_MEMBERS_SCHEMA, event.queryStringParameters).then(
+  return validateRequest(LIST_MEMBERS_SCHEMA, event.queryStringParameters).then(
     params => {
-      searchUser(pick(params, ...Object.keys(LIST_MEMBERS_SCHEMA.properties)))
-        .then(result => callback(null, result))
-        .catch(failure => callback(null, { cors: true, body: failure.data }));
+      searchUser(pick(params, Object.keys(LIST_MEMBERS_SCHEMA.properties)))
+        .then(body => callback(null, ok({ cors: true, body })))
+        .catch(error => {
+          console.group('members-list');
+          console.error(error);
+          console.debug(event);
+          console.groupEnd();
+          return callback(error);
+        });
     },
     errors => callback(null, badRequest({ cors: true, body: errors }))
   );
@@ -47,7 +53,10 @@ export function show(event, context, callback) {
 }
 
 export function update(event, context, callback) {
-  validateRequest(UPDATE_MEMBER_SCHEMA, event.queryStringParameters).then(
+  return validateRequest(
+    UPDATE_MEMBER_SCHEMA,
+    event.queryStringParameters
+  ).then(
     params => {
       callback(null, {
         message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',
@@ -63,7 +72,7 @@ export function unsubscribe(event, context, callback) {
     ...event.pathParameters,
     ...event.queryStringParameters,
   };
-  validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, parameters).then(
+  return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, parameters).then(
     params => {
       callback(null, {
         message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',
