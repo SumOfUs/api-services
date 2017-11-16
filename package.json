@@ -1,11 +1,12 @@
 {
   "name": "api-services",
   "version": "0.1.0",
-  "description": "Monorepo of SumOfUs' serverless services",
+  "description": "SumOfUs serverless services",
   "main": "index.js",
   "scripts": {
     "precommit": "lint-staged",
     "flow": "flow",
+    "nyc": "nyc",
     "test": "jest"
   },
   "lint-staged": {
@@ -25,14 +26,27 @@
   },
   "homepage": "https://github.com/SumOfUs/api-services#readme",
   "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "flow-bin": "^0.59.0",
     "husky": "^0.14.3",
     "jest": "^21.2.1",
     "lint-staged": "^4.3.0",
-    "prettier": "^1.8.2"
+    "nyc": "^11.3.0",
+    "prettier": "^1.8.2",
+    "serverless-webpack": "^3.1.1",
+    "webpack": "^3.3.0"
+  },
+  "dependencies": {
+    "axios-es6": "^0.11.1",
+    "braintree-node": "^1.1.2",
+    "lodash": "^4.17.4",
+    "rest": "^2.0.0",
+    "source-map-support": "^0.5.0"
   },
   "prettier": {
     "parser": "babylon",
@@ -57,10 +71,28 @@
     ],
     "env": {
       "test": {
+        "presets": [
+          [
+            "env",
+            {
+              "modules": false,
+              "targets": {
+                "node": "6.10"
+              }
+            }
+          ]
+        ],
         "plugins": [
+          "transform-flow-strip-types",
+          "transform-object-rest-spread",
           "transform-es2015-modules-commonjs"
         ]
       }
     }
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
