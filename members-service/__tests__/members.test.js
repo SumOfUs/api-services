@@ -1,9 +1,5 @@
-// @flow weak
+// @flow
 import { show } from '../members';
-
-test('example', () => {
-  expect(1 + 1).toEqual(2);
-});
 
 describe('handler: members-show', () => {
   describe('Request Validation', () => {

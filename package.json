@@ -4,10 +4,12 @@
   "description": "SumOfUs serverless services",
   "main": "index.js",
   "scripts": {
+    "ci:test": "jest --coverage",
+    "ci:coveralls": "cat coverage/lcov.info | coveralls",
     "precommit": "lint-staged",
     "flow": "flow",
-    "nyc": "nyc",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "lint-staged": {
     "*.{js,ts}": [
@@ -32,11 +34,11 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.1",
+    "coveralls": "^3.0.0",
     "flow-bin": "^0.59.0",
     "husky": "^0.14.3",
     "jest": "^21.2.1",
     "lint-staged": "^4.3.0",
-    "nyc": "^11.3.0",
     "prettier": "^1.8.2",
     "serverless-webpack": "^3.1.1",
     "webpack": "^3.3.0"
