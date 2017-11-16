@@ -1,6 +1,10 @@
 # Dependency directories
 node_modules/
 
+# Build directories
+.serverless
+.webpack
+
 # Logs
 *.log
 npm-debug.log*
