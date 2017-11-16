@@ -1,10 +1,11 @@
 import braintree from 'braintree';
 
+console.log(process.env);
 const gateway = braintree.connect({
-  environment: braintree.Environment[process.env.ENV],
-  merchantId: process.env.MERCHANT_ID,
-  publicKey: process.env.PUBLIC_KEY,
-  privateKey: process.env.PRIVATE_KEY,
+  environment: braintree.Environment[process.env.BRAINTREE_ENVIRONMENT],
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
 });
 
 const response = (code, body) => {
