@@ -65,7 +65,6 @@ export function unsubscribe(event, context, callback) {
   };
   validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, parameters).then(
     params => {
-      console.log(alo);
       callback(null, {
         message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',
         event,
