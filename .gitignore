@@ -15,3 +15,7 @@ coverage
 # dotenv environment variables file
 .env
 
+# Settings files!
+settings/*
+!settings/prod.yml
+!settings/dev.yml
