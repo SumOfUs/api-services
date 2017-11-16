@@ -8,7 +8,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs6.10
-  stage: ${opt:stage, ${env:AWS_STAGE, 'dev'}}
+  stage: ${opt:stage, 'dev'}
   environment:
     AK_API_URL: ${env:AK_API_URL}
     AK_PASSWORD: ${env:AK_PASSWORD}
