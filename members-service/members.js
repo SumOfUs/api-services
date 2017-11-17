@@ -1,9 +1,14 @@
 // @flow weak
 import 'source-map-support/register';
-import pick from 'lodash/pick';
+import { pick } from 'lodash';
 import { get } from 'axios-es6';
 import { validateRequest } from '../shared/request-validator';
-import { ok, notFound, badRequest } from '../shared/lambda-utils/responses';
+import {
+  badRequest,
+  notFound,
+  ok,
+  response,
+} from '../shared/lambda-utils/responses';
 import { searchUser } from './providers/actionkit/user';
 import {
   LIST_MEMBERS_SCHEMA,
@@ -12,20 +17,23 @@ import {
   UPDATE_MEMBER_SCHEMA,
 } from './request-schemas';
 
-export function index(event, context, callback) {
+export function index(event, context, callback, search = searchUser) {
+  const permittedParams = Object.keys(LIST_MEMBERS_SCHEMA.properties);
   return validateRequest(LIST_MEMBERS_SCHEMA, event.queryStringParameters).then(
-    params => {
-      searchUser(pick(params, Object.keys(LIST_MEMBERS_SCHEMA.properties)))
-        .then(body => callback(null, ok({ cors: true, body })))
-        .catch(error => {
-          console.group('members-list');
-          console.error(error);
-          console.debug(event);
-          console.groupEnd();
-          return callback(error);
-        });
-    },
-    errors => callback(null, badRequest({ cors: true, body: errors }))
+    params =>
+      search(pick(params, permittedParams)).then(
+        result => callback(null, ok({ cors: true, body: result })),
+        error => {
+          if (error.statusCode) {
+            return callback(null, response({ cors: true, ...error }));
+          } else {
+            throw error;
+          }
+        }
+      ),
+    error => {
+      callback(null, badRequest({ cors: true, body: error }));
+    }
   );
 }
 
