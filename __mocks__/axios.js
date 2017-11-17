@@ -1,9 +1,9 @@
 // @flow
-import type { AxiosRequestConfig, AxiosPromise } from 'axios-es6';
+import type { AxiosXHRConfig, AxiosPromise } from 'axios';
 
 export const get = (
   url: string,
-  options: AxiosRequestConfig
+  options: AxiosXHRConfig<*>
 ): AxiosPromise<*> => {
   if (url.match(/user$/) && options.params) {
     if (options.params.email) {

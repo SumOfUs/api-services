@@ -1,7 +1,6 @@
 // @flow weak
 import 'source-map-support/register';
 import { pick } from 'lodash';
-import { get } from 'axios-es6';
 import { validateRequest } from '../shared/request-validator';
 import {
   badRequest,

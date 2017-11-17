@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/SumOfUs/api-services#readme",
   "devDependencies": {
+    "axios": "^0.17.1",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-lodash": "^3.3.2",
@@ -37,6 +38,7 @@
     "babel-preset-env": "^1.6.1",
     "coveralls": "^3.0.0",
     "dotenv": "^4.0.0",
+    "flow-aws-lambda": "^1.0.0",
     "flow-bin": "^0.59.0",
     "husky": "^0.14.3",
     "jest": "^21.2.1",
@@ -46,7 +48,6 @@
     "webpack": "^3.3.0"
   },
   "dependencies": {
-    "axios-es6": "^0.11.1",
     "braintree-node": "^1.1.2",
     "lodash": "^4.17.4",
     "source-map-support": "^0.5.0"
