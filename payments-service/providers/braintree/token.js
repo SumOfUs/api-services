@@ -1,6 +1,5 @@
 import braintree from 'braintree';
 
-console.log(process.env);
 const gateway = braintree.connect({
   environment: braintree.Environment[process.env.BRAINTREE_ENV],
   merchantId: process.env.BRAINTREE_MERCHANT_ID,
