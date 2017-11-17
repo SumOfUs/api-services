@@ -30,3 +30,4 @@ jobs:
 
       - run: npm run ci:test
       - run: npm run ci:coveralls
+      - run: npm run flow check
