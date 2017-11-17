@@ -47,6 +47,15 @@ functions:
           method: get
           path: members/braintree_data
           cors: true
+  braintree-cancel-subscription:
+    handler: payments-service/test-auth.handler
+    events:
+      - http:
+          method: get
+          path: foo/bar
+          cors: true
+          authorizer:
+            arn: arn:aws:cognito-idp:us-west-2:108409592308:userpool/us-west-2_pywcbSi8E
   braintree-token:
     handler: payments-service/providers/braintree/token.handler
     events:
