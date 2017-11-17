@@ -72,6 +72,10 @@ export function timeout(options?: ResponseOptions = {}): ProxyResult {
 }
 
 // 5xx Server Error responses
+export function serverError(options?: ResponseOptions = {}): ProxyResult {
+  return response({ ...options, statusCode: 500 });
+}
+
 export function notImplemented(options?: ResponseOptions = {}): ProxyResult {
   return response({ ...options, statusCode: 501, body: '' });
 }

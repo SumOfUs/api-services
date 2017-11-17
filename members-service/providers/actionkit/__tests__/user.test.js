@@ -42,23 +42,8 @@ describe('searchUser', () => {
       searchUser(null, { ...env, AK_PASSWORD: '' })
     ).rejects.toMatchSnapshot();
   });
+
+  test('fails gracefully on network errors', () => {
+    return expect(searchUser()).rejects.toMatchSnapshot();
+  });
 });
-
-// Mock AK API requests.
-// To make real requests (and update snapshots), comment the following lines:
-jest.mock('axios-es6', () => ({
-  get(query, options) {
-    if (options.params.email) {
-      return Promise.resolve(
-        require('../__tapes__/searchUser')[options.params.email]
-      );
-    }
-
-    if (options.params.email__startswith) {
-      const error = require('../__tapes__/searchUser')['email__startswith'];
-      return Promise.reject(error);
-    }
-
-    return Promise.reject(new Error('connect ECONNREFUSED 127.0.0.1:80'));
-  },
-}));

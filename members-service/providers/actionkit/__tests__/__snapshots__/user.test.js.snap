@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`searchUser fails gracefully on network errors 1`] = `[Error: connect ECONNREFUSED 127.0.0.1:80]`;
+
 exports[`searchUser passes through the error responses, rejecting the promise 1`] = `
 Object {
   "body": Object {
