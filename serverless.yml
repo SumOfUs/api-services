@@ -40,12 +40,12 @@ functions:
           method: post
           path: members/{id}/unsubscribe
           cors: true
-  subscriptions-list:
-    handler: payments-service/subscription.index
+  members-braintree-data:
+    handler: payments-service/braintree_data.show
     events:
       - http:
           method: get
-          path: subscriptions
+          path: members/braintree_data
           cors: true
   braintree-token:
     handler: payments-service/providers/braintree/token.handler
