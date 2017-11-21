@@ -1,46 +1,45 @@
 {
   "Records": [
     {
-      "eventID": "a0b0c46f575600e1f9bd12e0d33f6e5c",
+      "eventID": "47798cd879e9ff3ce53ee2dfe4fe89a2",
       "eventName": "INSERT",
       "eventVersion": "1.1",
       "eventSource": "aws:dynamodb",
       "awsRegion": "us-east-1",
       "dynamodb": {
-        "ApproximateCreationDateTime": 1511256060,
+        "ApproximateCreationDateTime": 1511282400,
         "Keys": {
           "createdAt": {
-            "S": "2017-11-21T09:21:22.811Z"
+            "S": "2017-11-21T16:40:18.591Z"
           },
           "id": {
-            "S": "ae75403d-9baf-01da-2065-bd10f7135bd9"
+            "S": "3a2e8033-cc41-a897-c831-64932944be0b"
           }
         },
         "NewImage": {
           "createdAt": {
-            "S": "2017-11-21T09:21:22.811Z"
+            "S": "2017-11-21T16:40:18.591Z"
+          },
+          "data": {
+            "M": {
+              "recurringId": {
+                "S": "fz27ww"
+              },
+              "paymentProcessor": {
+                "S": "braintree"
+              }
+            }
           },
           "eventType": {
             "S": "PAYMENT_SERVICE:SUBSCRIPTION:CANCEL"
           },
           "id": {
-            "S": "ae75403d-9baf-01da-2065-bd10f7135bd9"
-          },
-          "data": {
-            "paymentProcessor": {
-              "S": "braintree"
-            },
-            "recurringId": {
-              "S": "c5dg96"
-            }
+            "S": "3a2e8033-cc41-a897-c831-64932944be0b"
           },
           "status": {
             "M": {
               "actionkit": {
                 "S": "PENDING"
-              },
-              "braintree": {
-                "S": "SUCCESS"
               },
               "champaign": {
                 "S": "PENDING"
@@ -48,11 +47,11 @@
             }
           }
         },
-        "SequenceNumber": "3294700000000040528742710",
-        "SizeBytes": 273,
+        "SequenceNumber": "100000000008752455558",
+        "SizeBytes": 280,
         "StreamViewType": "NEW_AND_OLD_IMAGES"
       },
-      "eventSourceARN": "arn:aws:dynamodb:us-east-1:108409592308:table/OperationsTable-omar/stream/2017-11-20T16:28:36.723"
+      "eventSourceARN": "arn:aws:dynamodb:us-east-1:108409592308:table/OperationsTable-omar/stream/2017-11-21T16:38:13.504"
     }
   ]
 }

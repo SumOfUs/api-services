@@ -11,6 +11,17 @@ provider:
   stage: ${opt:stage, self:custom.aws_stage}
   environment: ${self:custom.environment}
 
+  iamRoleStatements:
+    - Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:DescribeStream
+        - dynamodb:GetRecords
+        - dynamodb:GetShardIterator
+        - dynamodb:ListStreams
+      Resource: "arn:aws:dynamodb:us-east-1:*:table/${self:provider.environment.DB_LOG_TABLE}"
+      Effect: Allow
+
 resources:
   Resources:
     OperationsTable:
