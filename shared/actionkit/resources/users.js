@@ -25,7 +25,9 @@ export function search(f: ?SearchFilters, config: any = CONFIG) {
 
 export function find(id: string, config: any = CONFIG) {
   return axios
-    .get(`${config.baseUrl}/user/${id}`)
+    .get(`${config.baseUrl}/user/${id}`, {
+      ...config,
+    })
     .then(resolveProxyShape, rejectProxyShape);
 }
 

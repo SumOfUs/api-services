@@ -19,9 +19,13 @@ export const axiosMock = {
         const error = require('./__tapes__/user')['email__startswith'];
         return Promise.reject(error);
       }
+    } else if (url.match(/user\/388175$/)) {
+      return Promise.resolve(require('./__tapes__/user')['388175']);
+    } else if (url.match(/user\/000000$/)) {
+      return Promise.reject(require('./__tapes__/user')['000000']);
+    } else {
+      return Promise.reject(new Error('connect ECONNREFUSED 127.0.0.1:80'));
     }
-
-    return Promise.reject(new Error('connect ECONNREFUSED 127.0.0.1:80'));
   },
 };
 

@@ -19,8 +19,4 @@ describe('search', () => {
       search({ email__startswith: true })
     ).rejects.toMatchSnapshot();
   });
-
-  test('fails gracefully on network errors', () => {
-    return expect(search()).rejects.toMatchSnapshot();
-  });
 });

@@ -85,10 +85,10 @@ describe('members-list', () => {
         email: 'example@example.com',
       },
     };
+
     test('Returns 200 OK when when successful', () => {
       const callback = jest.fn((error, data) => ({ error, data }));
-      const search = jest.fn(params => Promise.resolve(params));
-      return index(event, null, callback, search).then(({ error, data }) => {
+      return index(event, null, callback).then(({ error, data }) => {
         expect(error).toBeNull();
         expect(data).toEqual(
           expect.objectContaining({
@@ -99,30 +99,21 @@ describe('members-list', () => {
       });
     });
 
-    test('Passes through HTTP errors', () => {
+    test('on rejection, it calls the callback with the error', () => {
       const callback = jest.fn((error, data) => ({ error, data }));
-      const search = jest.fn(params =>
+      const search = jest.fn(() =>
         Promise.reject({
-          statusCode: 400,
-          body: 'There was an issue with your request',
+          statusCode: 404,
         })
       );
-      return index(event, null, callback, search).then(() => {
-        expect(callback).toHaveBeenCalledWith(
-          null,
+      return index(event, null, callback, search).then(({ error, data }) => {
+        expect(error).toBeNull();
+        expect(data).toEqual(
           expect.objectContaining({
-            statusCode: 400,
-            body: 'There was an issue with your request',
+            statusCode: 404,
           })
         );
       });
-    });
-
-    test('Throws unknown errors, to trigger an Internal Server Error', () => {
-      const error = new Error('An error');
-      const callback = jest.fn((error, data) => ({ error, data }));
-      const search = jest.fn(() => Promise.reject(error));
-      return expect(index(event, null, callback, search)).rejects.toBe(error);
     });
   });
 });

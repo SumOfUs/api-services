@@ -14,7 +14,7 @@ export type ProxyShape<T> = {
 
 interface AxiosShape<T> {
   status: number;
-  headers: any;
+  headers?: any;
   data: T;
 }
 
