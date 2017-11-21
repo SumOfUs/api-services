@@ -9,15 +9,17 @@ export const handler = (event, context, callback) => {
   // braintree.subscription.cancel(id, (err, result) => {
   //   console.log(JSON.stringify(result, null, 2));
   // });
-  console.log(process.env);
 
   const params = {
     TableName: process.env.DB_LOG_TABLE,
     Item: {
       id: guid.raw(),
       createdAt: new Date().toISOString(),
-      event_type: 'PAYMENT_SERVICE:SUBSCRIPTION:CANCEL',
-      payment_processor: 'braintree',
+      eventType: 'PAYMENT_SERVICE:SUBSCRIPTION:CANCEL',
+      data: {
+        recurring_id: id,
+        paymentProcessor: 'braintree',
+      },
       status: {
         braintree: 'SUCCESS',
         actionkit: 'PENDING',
