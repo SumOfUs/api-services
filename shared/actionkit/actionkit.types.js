@@ -1,6 +1,8 @@
+import { Dictionary } from '../../../../../../Library/Caches/typescript/2.6/node_modules/@types/lodash';
+
 // @flow
 
-export type AKListResponse<T> = {
+export type Collection<T> = {
   meta: {
     next: ?string,
     previous: ?string,
@@ -8,7 +10,7 @@ export type AKListResponse<T> = {
     offset: number,
     total_count: number,
   },
-  objects: T,
+  objects: Array<T>,
 };
 
 export type UserFields = {
@@ -18,6 +20,8 @@ export type UserFields = {
   fr: string,
   multichannel_exp161209: string,
 };
+
+export type UserCollection = Collection<User>;
 
 export type User = {
   actions: string,
@@ -57,5 +61,27 @@ export type User = {
   usergeofields: string,
   usermailings: string,
   useroriginal: string,
+  zip: string,
+};
+export type IUserUpdate = {
+  address1: string,
+  address2: string,
+  city: string,
+  country: string,
+  created_at: string,
+  email: string,
+  fields: UserFields,
+  first_name: string,
+  last_name: string,
+  middle_name: string,
+  phones: any[],
+  plus4: string,
+  postal: string,
+  prefix: string,
+  region: string,
+  source: string,
+  state: string,
+  subscription_status: string,
+  suffix: string,
   zip: string,
 };

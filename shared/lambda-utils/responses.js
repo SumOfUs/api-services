@@ -1,16 +1,5 @@
 // @flow
-
-// AWS ProxyResult
-// This is the object shape that Lambdas with the API_PROXY
-// integration expect
-type ProxyResult = {
-  statusCode: number,
-  headers?: {
-    [header: string]: boolean | number | string,
-  },
-  body: string,
-  isBase64Encoded?: boolean,
-};
+import type { ProxyResult } from 'flow-aws-lambda';
 
 // Generic parameters interface for all response helpers.
 // All response should receive an options parameter where we
@@ -19,17 +8,39 @@ type ResponseOptions = {
   statusCode?: number,
   cors?: boolean,
   headers?: $PropertyType<ProxyResult, 'headers'>,
-  body?: JSONValue | JSONValue[] | string,
+  body?: any,
 };
 
-// Instead of using Object (which accepts functions), this mimicks a
-// JSON type of object.
-// Note: Never send an object with circular dependencies as the body
-// to any of the response helpers, as it will break when we pass it
-// to JSON.stringify, causing a 500 Internal Server error response.
-type JSONValue = {
-  [key: string]: string | number | JSONValue,
-};
+// Helpers
+
+export function response(options?: ResponseOptions = {}): ProxyResult {
+  return {
+    statusCode: options.statusCode || 200,
+    headers: headers(options),
+    body: body(options.body),
+  };
+}
+
+export function body(content: any = ''): string {
+  if (content == null) return '';
+  if (content instanceof Error) content = content.message;
+  if (typeof content === 'string') return content;
+  return JSON.stringify(content, null, 2);
+}
+
+export function headers(
+  options?: ResponseOptions = {}
+): $PropertyType<ProxyResult, 'headers'> {
+  const headers = options.headers || {};
+  if (options.cors) {
+    return {
+      ...headers,
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    };
+  }
+  return headers;
+}
 
 // 2xx SUCCESS statuses
 
@@ -87,35 +98,4 @@ export function head(options?: ResponseOptions = {}): ProxyResult {
     statusCode: options.statusCode || 200,
     body: '',
   });
-}
-
-// Generic helpers
-
-export function response(options?: ResponseOptions = {}): ProxyResult {
-  return {
-    statusCode: options.statusCode || 200,
-    headers: headers(options),
-    body: body(options.body),
-  };
-}
-
-function body(content?: $PropertyType<ResponseOptions, 'body'> = ''): string {
-  if (content == null) return '';
-  if (content instanceof Error) content = content.message;
-  if (typeof content === 'string') return content;
-  return JSON.stringify(content, null, 2);
-}
-
-function headers(
-  options?: ResponseOptions = {}
-): $PropertyType<ProxyResult, 'headers'> {
-  const headers = options.headers || {};
-  if (options.cors) {
-    return {
-      ...headers,
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-    };
-  }
-  return headers;
 }

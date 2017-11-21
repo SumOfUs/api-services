@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`search fails gracefully on network errors 1`] = `[Error: connect ECONNREFUSED 127.0.0.1:80]`;
+
+exports[`search passes through the error responses, rejecting the promise 1`] = `
+Object {
+  "body": Object {
+    "error": "'startswith' is not an allowed filter on the 'email' field.",
+  },
+  "headers": Object {
+    "Access-Control-Allow-Credentials": true,
+    "Access-Control-Allow-Origin": "*",
+    "cache-control": "no-cache",
+    "connection": "close",
+    "content-type": "application/json",
+    "date": "Tue, 21 Nov 2017 17:57:07 GMT",
+    "server": "nginx",
+    "transfer-encoding": "chunked",
+    "vary": "Accept,Cookie,Accept-Encoding,User-Agent",
+    "x-handled-for": "89.197.86.130",
+    "x-machine-id": "ip-10-50-2-213",
+  },
+  "statusCode": 400,
+}
+`;
+
+exports[`search returns an array of matches 1`] = `
+Object {
+  "body": Object {
+    "meta": Object {
+      "limit": 20,
+      "next": null,
+      "offset": 0,
+      "previous": null,
+      "total_count": 1,
+    },
+    "objects": Array [
+      Object {
+        "actions": "/rest/v1/action/?user=388175",
+        "address1": "",
+        "address2": "",
+        "city": "Philadelphia",
+        "country": "United States",
+        "created_at": "2012-03-25T06:44:11",
+        "email": "example@example.com",
+        "events": "/rest/v1/event/?creator=388175",
+        "eventsignups": "/rest/v1/eventsignup/?user=388175",
+        "fields": Object {
+          "en": "1",
+        },
+        "first_name": "Ashley",
+        "id": 388175,
+        "lang": "/rest/v1/language/100/",
+        "last_name": "Mease",
+        "location": "/rest/v1/location/388175/",
+        "logintoken": "/rest/v1/user/388175/logintoken/",
+        "middle_name": "",
+        "orderrecurrings": "/rest/v1/orderrecurring/?user=388175",
+        "orders": "/rest/v1/order/?user=388175",
+        "phones": Array [],
+        "plus4": "",
+        "postal": "19145",
+        "prefix": "",
+        "rand_id": 692604506,
+        "region": "",
+        "resource_uri": "/rest/v1/user/388175/",
+        "source": "starbucks 3/12",
+        "state": "PA",
+        "subscription_status": "bounced",
+        "subscriptionhistory": "/rest/v1/subscriptionhistory/?user=388175",
+        "subscriptions": "/rest/v1/subscription/?user=388175",
+        "suffix": "",
+        "token": ".388175.onPRSf",
+        "updated_at": "2017-01-31T00:07:52",
+        "usergeofields": "/rest/v1/usergeofield/?user=388175",
+        "usermailings": "/rest/v1/usermailing/?user=388175",
+        "useroriginal": "/rest/v1/useroriginal/388175/",
+        "zip": "19145",
+      },
+    ],
+  },
+  "headers": Object {
+    "Access-Control-Allow-Credentials": true,
+    "Access-Control-Allow-Origin": "*",
+    "cache-control": "no-cache",
+    "connection": "close",
+    "content-type": "application/json",
+    "date": "Tue, 21 Nov 2017 17:57:07 GMT",
+    "server": "nginx",
+    "transfer-encoding": "chunked",
+    "vary": "Accept,Cookie,Accept-Encoding,User-Agent",
+    "x-handled-for": "89.197.86.130",
+    "x-machine-id": "ip-10-50-2-213",
+  },
+  "statusCode": 200,
+}
+`;
+
+exports[`search returns an empty array if there are no matches 1`] = `
+Object {
+  "body": Object {
+    "meta": Object {
+      "limit": 20,
+      "next": null,
+      "offset": 0,
+      "previous": null,
+      "total_count": 0,
+    },
+    "objects": Array [],
+  },
+  "headers": Object {
+    "Access-Control-Allow-Credentials": true,
+    "Access-Control-Allow-Origin": "*",
+    "cache-control": "no-cache",
+    "connection": "close",
+    "content-type": "application/json",
+    "date": "Tue, 21 Nov 2017 17:57:07 GMT",
+    "server": "nginx",
+    "transfer-encoding": "chunked",
+    "vary": "Accept,Cookie,Accept-Encoding,User-Agent",
+    "x-handled-for": "89.197.86.130",
+    "x-machine-id": "ip-10-50-2-213",
+  },
+  "statusCode": 200,
+}
+`;

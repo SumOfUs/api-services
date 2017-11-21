@@ -1,11 +1,34 @@
 module.exports = {
   email__startswith: {
     status: 400,
+    headers: {
+      'cache-control': 'no-cache',
+      connection: 'close',
+      'content-type': 'application/json',
+      date: 'Tue, 21 Nov 2017 17:57:07 GMT',
+      server: 'nginx',
+      'transfer-encoding': 'chunked',
+      vary: 'Accept,Cookie,Accept-Encoding,User-Agent',
+      'x-handled-for': '89.197.86.130',
+      'x-machine-id': 'ip-10-50-2-213',
+    },
     data: {
       error: "'startswith' is not an allowed filter on the 'email' field.",
     },
   },
   'nonexistentuser@example.com': {
+    status: 200,
+    headers: {
+      'cache-control': 'no-cache',
+      connection: 'close',
+      'content-type': 'application/json',
+      date: 'Tue, 21 Nov 2017 17:57:07 GMT',
+      server: 'nginx',
+      'transfer-encoding': 'chunked',
+      vary: 'Accept,Cookie,Accept-Encoding,User-Agent',
+      'x-handled-for': '89.197.86.130',
+      'x-machine-id': 'ip-10-50-2-213',
+    },
     data: {
       meta: {
         limit: 20,
@@ -18,6 +41,18 @@ module.exports = {
     },
   },
   'example@example.com': {
+    status: 200,
+    headers: {
+      'cache-control': 'no-cache',
+      connection: 'close',
+      'content-type': 'application/json',
+      date: 'Tue, 21 Nov 2017 17:57:07 GMT',
+      server: 'nginx',
+      'transfer-encoding': 'chunked',
+      vary: 'Accept,Cookie,Accept-Encoding,User-Agent',
+      'x-handled-for': '89.197.86.130',
+      'x-machine-id': 'ip-10-50-2-213',
+    },
     data: {
       meta: {
         limit: 20,

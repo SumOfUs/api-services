@@ -8,7 +8,7 @@ import {
   ok,
   response,
 } from '../shared/lambda-utils/responses';
-import { searchUser } from './providers/actionkit/user';
+import { search } from '../shared/actionkit/resources/users';
 import {
   LIST_MEMBERS_SCHEMA,
   SHOW_MEMBER_SCHEMA,
@@ -16,11 +16,11 @@ import {
   UPDATE_MEMBER_SCHEMA,
 } from './request-schemas';
 
-export function index(event, context, callback, search = searchUser) {
+export function index(event, context, callback, _search = search) {
   const permittedParams = Object.keys(LIST_MEMBERS_SCHEMA.properties);
   return validateRequest(LIST_MEMBERS_SCHEMA, event.queryStringParameters).then(
     params =>
-      search(pick(params, permittedParams)).then(
+      _search(pick(params, permittedParams)).then(
         result => callback(null, ok({ cors: true, body: result })),
         error => {
           if (error.statusCode) {
