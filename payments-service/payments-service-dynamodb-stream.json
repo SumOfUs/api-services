@@ -1,0 +1,58 @@
+{
+  "Records": [
+    {
+      "eventID": "a0b0c46f575600e1f9bd12e0d33f6e5c",
+      "eventName": "INSERT",
+      "eventVersion": "1.1",
+      "eventSource": "aws:dynamodb",
+      "awsRegion": "us-east-1",
+      "dynamodb": {
+        "ApproximateCreationDateTime": 1511256060,
+        "Keys": {
+          "createdAt": {
+            "S": "2017-11-21T09:21:22.811Z"
+          },
+          "id": {
+            "S": "ae75403d-9baf-01da-2065-bd10f7135bd9"
+          }
+        },
+        "NewImage": {
+          "createdAt": {
+            "S": "2017-11-21T09:21:22.811Z"
+          },
+          "eventType": {
+            "S": "PAYMENT_SERVICE:SUBSCRIPTION:CANCEL"
+          },
+          "id": {
+            "S": "ae75403d-9baf-01da-2065-bd10f7135bd9"
+          },
+          "data": {
+            "paymentProcessor": {
+              "S": "braintree"
+            },
+            "recurringId": {
+              "S": "c5dg96"
+            }
+          },
+          "status": {
+            "M": {
+              "actionkit": {
+                "S": "PENDING"
+              },
+              "braintree": {
+                "S": "SUCCESS"
+              },
+              "champaign": {
+                "S": "PENDING"
+              }
+            }
+          }
+        },
+        "SequenceNumber": "3294700000000040528742710",
+        "SizeBytes": 273,
+        "StreamViewType": "NEW_AND_OLD_IMAGES"
+      },
+      "eventSourceARN": "arn:aws:dynamodb:us-east-1:108409592308:table/OperationsTable-omar/stream/2017-11-20T16:28:36.723"
+    }
+  ]
+}

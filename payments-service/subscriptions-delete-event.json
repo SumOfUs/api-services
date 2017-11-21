@@ -21,7 +21,7 @@
   },
   "queryStringParameters": null,
   "pathParameters": {
-    "id": "1"
+    "id": "2"
   },
   "stageVariables": null,
   "requestContext": {
