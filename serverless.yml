@@ -98,8 +98,14 @@ functions:
     events:
       - http:
           method: delete
-          path: payments-service/subscriptions/{id}
+          path: payments-service/{provider}/subscriptions/{id}
           cors: true
+          request:
+            parameters:
+              paths:
+                id: true
+                provider: true
+
           # authorizer:
           #   arn: arn:aws:cognito-idp:us-west-2:108409592308:userpool/us-west-2_pywcbSi8E
   braintree-token:
