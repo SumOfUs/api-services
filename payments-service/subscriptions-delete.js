@@ -1,4 +1,4 @@
-import { post } from 'axios-es6';
+import { post } from 'axios';
 import { ok, badRequest } from '../shared/lambda-utils/responses';
 import braintree from '../shared/clients/braintree';
 import guid from 'guid';
