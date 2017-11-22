@@ -1,3 +1,4 @@
+import { post } from 'axios-es6';
 import { ok, badRequest } from '../shared/lambda-utils/responses';
 import braintree from '../shared/clients/braintree';
 import guid from 'guid';
@@ -30,17 +31,40 @@ const logOperation = id => {
     .catch(err => console.log('TABLE PUT ERROR', err));
 };
 
-export const handler = (event, context, callback) => {
-  const id = event.pathParameters.id;
+const gocardless = id => {
+  const url = `${process.env.GOCARDLESS_DOMAIN}/subscriptions/${
+    id
+  }/actions/cancel`;
+  post(
+    url,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.GOCARDLESS_API_TOKEN}`,
+        'GoCardless-Version': '2015-07-06',
+      },
+    }
+  );
+};
 
-  braintree.subscription
-    .cancel(id)
+const subscription = (id, provider) => {
+  if (provider === 'braintree') {
+    return braintree.subscription.cancel(id);
+  } else {
+    return gocardless.subscription.cancel(id);
+  }
+};
+
+export const handler = (event, context, callback) => {
+  const { id, provider } = event.pathParameters;
+
+  cancelSubscription(id, provider)
     .then(() => {
-      logOperation(id);
+      logOperation(id, provider);
       callback(null, ok());
     })
     .catch(err => {
-      console.log('BRAINTREE SUBSCRIPTION CANCEL ERROR:', err);
+      console.log(`${provider} SUBSCRIPTION CANCEL ERROR:`, err);
       callback(null, badRequest());
     });
 };
