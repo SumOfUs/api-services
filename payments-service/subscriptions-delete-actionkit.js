@@ -1,4 +1,4 @@
-import { post } from 'axios-es6';
+import { post } from 'axios';
 import AWS from 'aws-sdk';
 import updateOperationsLog from './updateOperationsLog';
 
