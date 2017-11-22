@@ -35,7 +35,8 @@ const gocardless = id => {
   const url = `${process.env.GOCARDLESS_DOMAIN}/subscriptions/${
     id
   }/actions/cancel`;
-  post(
+
+  return post(
     url,
     {},
     {
@@ -47,11 +48,11 @@ const gocardless = id => {
   );
 };
 
-const subscription = (id, provider) => {
+const cancelSubscription = (id, provider) => {
   if (provider === 'braintree') {
     return braintree.subscription.cancel(id);
   } else {
-    return gocardless.subscription.cancel(id);
+    return gocardless(id);
   }
 };
 
