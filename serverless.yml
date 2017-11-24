@@ -40,8 +40,25 @@ functions:
   #         method: post
   #         path: members/{id}/unsubscribe
   #         cors: true
+  braintree-customer-transactions:
+    handler: payments-service/providers/braintree/customer-transactions.handler
+    timeout: 10
+    events:
+      - http:
+          method: get
+          path: braintree/{email}/transactions
+          cors: true
+  braintree-customer-subscriptions:
+    handler: payments-service/providers/braintree/customer-subscriptions.handler
+    timeout: 10
+    events:
+      - http:
+          method: get
+          path: braintree/{email}/subscriptions
+          cors: true
   members-braintree-data:
     handler: payments-service/braintree_data.show
+    timeout: 20
     events:
       - http:
           method: get

@@ -51,7 +51,8 @@
     "braintree-node": "^1.1.2",
     "lodash": "^4.17.4",
     "replayer": "^2.1.3",
-    "source-map-support": "^0.5.0"
+    "source-map-support": "^0.5.0",
+    "stream-to-promise": "^2.2.0"
   },
   "prettier": {
     "parser": "babylon",
