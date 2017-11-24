@@ -3,7 +3,7 @@ import braintree from 'braintree';
 import { pick, map } from 'lodash';
 
 const CUSTOMER_FIELDS = ['firstName', 'lastName', 'email', 'createdAt'];
-const PAYMENT_METHOD_FIELDS = [
+const CREDIT_CARD_FIELDS = [
   'cardType',
   'cardholderName',
   'last4',
@@ -80,7 +80,7 @@ const buildPaymentMethod = btPaymentMethod => {
   if (btPaymentMethod instanceof braintree.CreditCard) {
     paymentMethod = {
       type: 'CreditCard',
-      ...pick(btPaymentMethod, PAYMENT_METHOD_FIELDS),
+      ...pick(btPaymentMethod, CREDIT_CARD_FIELDS),
     };
   } else if (btPaymentMethod instanceof braintree.PayPalAccount) {
     paymentMethod = {
