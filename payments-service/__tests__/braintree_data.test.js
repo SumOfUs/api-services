@@ -26,11 +26,20 @@ describe('handler: braintree-data.show', () => {
       queryStringParameters: { email: 'bob@sou.com' },
     };
 
+    const braintree = require('../../shared/clients/braintree');
+    braintree.searchCustomer = jest.fn(email => {
+      if (email == 'bob@sou.com') {
+        return Promise.resolve([{ firstName: 'Bob' }]);
+      }
+      return Promise.reject();
+    });
+
     show(params, null, cb).then(() => {
       expect(cb).toBeCalledWith(
         null,
         expect.objectContaining({
           statusCode: 200,
+          body: expect.stringMatching(/"firstName": "Bob"/),
         })
       );
     }, null);

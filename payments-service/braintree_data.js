@@ -1,5 +1,6 @@
 import { validateRequest } from '../shared/request-validator';
 import { ok, badRequest } from '../shared/lambda-utils/responses';
+import { searchCustomer } from '../shared/clients/braintree';
 
 const showSchema = {
   type: 'object',
@@ -14,7 +15,9 @@ const showSchema = {
 export const show = (event, context, callback) => {
   return validateRequest(showSchema, event.queryStringParameters).then(
     () => {
-      callback(null, ok({ body: { message: 'Yay', event } }));
+      searchCustomer(event.queryStringParameters.email).then(customers => {
+        callback(null, ok({ body: { customers: customers } }));
+      });
     },
     errors => {
       callback(null, badRequest({ cors: true, body: errors }));
