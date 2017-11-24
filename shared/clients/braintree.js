@@ -1,8 +1,116 @@
-const braintree = require('braintree');
+// @flow weak
+import braintree from 'braintree';
+import { pick, map } from 'lodash';
 
-export default braintree.connect({
+const CUSTOMER_FIELDS = ['firstName', 'lastName', 'email', 'createdAt'];
+const PAYMENT_METHOD_FIELDS = [
+  'cardType',
+  'cardholderName',
+  'last4',
+  'expirationMonth',
+  'expirationYear',
+  'issuingBank',
+];
+const SUBSCRIPTION_FIELDS = [
+  'balance',
+  'billingPeriodEndDate',
+  'billingPeriodStartDate',
+  'createdAt',
+  'currentBillingCycle',
+  'daysPastDue',
+  'description',
+  'failureCount',
+  'firstBillingDate',
+  'id',
+  'merchantAccountId',
+  'nextBillingDate',
+  'nextBillingPeriodAmount',
+  'numberOfBillingCycles',
+  'price',
+  'status',
+];
+const TRANSACTION_FIELDS = [
+  'status',
+  'currencyIsoCode',
+  'amount',
+  'createdAt',
+  'id',
+  'orderId',
+  'refundIds',
+  'refundedTransactionId',
+];
+
+const client = braintree.connect({
   environment: braintree.Environment[process.env.BRAINTREE_ENV],
   merchantId: process.env.BRAINTREE_MERCHANT_ID,
   publicKey: process.env.BRAINTREE_PUBLIC_KEY,
   privateKey: process.env.BRAINTREE_PRIVATE_KEY,
 });
+
+const searchCustomer = (email: string) => {
+  return new Promise((resolve, reject) => {
+    const customers = [];
+    const stream = client.customer.search(search => {
+      search.email().is(email);
+    });
+
+    stream.on('data', btCustomer => {
+      customers.push(buildCustomer(btCustomer));
+    });
+
+    stream.on('end', response => {
+      resolve(customers);
+    });
+
+    stream.on('error', error => {
+      reject(error);
+    });
+  });
+};
+
+const buildCustomer = btCustomer => {
+  const customer = pick(btCustomer, CUSTOMER_FIELDS);
+  customer.paymentMethods = map(btCustomer.paymentMethods, buildPaymentMethod);
+  return customer;
+};
+
+const buildPaymentMethod = btPaymentMethod => {
+  let paymentMethod;
+
+  if (btPaymentMethod instanceof braintree.CreditCard) {
+    paymentMethod = {
+      type: 'CreditCard',
+      ...pick(btPaymentMethod, PAYMENT_METHOD_FIELDS),
+    };
+  } else if (btPaymentMethod instanceof braintree.PayPalAccount) {
+    paymentMethod = {
+      type: 'PayPalAccount',
+      ...pick(btPaymentMethod, 'email'),
+    };
+  } else {
+    console.log('WARN: Not supported Braintree Payment Method Type');
+    paymentMethod = { type: 'Unknown' };
+  }
+
+  paymentMethod.subscriptions = map(
+    btPaymentMethod.subscriptions,
+    buildSubscription
+  );
+
+  return paymentMethod;
+};
+
+const buildSubscription = btSubscription => {
+  const subscription = pick(btSubscription, SUBSCRIPTION_FIELDS);
+
+  subscription.statusHistory = map(btSubscription.statusHistory, status => {
+    return pick(status, 'status', 'balance', 'price');
+  });
+
+  subscription.transactions = map(btSubscription.transactions, transaction => {
+    return pick(transaction, TRANSACTION_FIELDS);
+  });
+  return subscription;
+};
+
+export { searchCustomer };
