@@ -75,4 +75,11 @@ describe('searchCustomer', () => {
       done();
     });
   });
+
+  test("given the user doesn't exist returns an empty array", done => {
+    searchCustomer('inexistent@sou.com').then(customers => {
+      expect(customers).toEqual([]);
+      done();
+    });
+  });
 });
