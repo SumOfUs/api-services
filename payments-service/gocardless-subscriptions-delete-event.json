@@ -1,6 +1,6 @@
 {
-  "resource": "/payments-service/subscriptions/{id}",
-  "path": "/payments-service/subscriptions/1",
+  "resource": "/payments-service/{provider}/subscriptions/{id}",
+  "path": "/payments-service/gocardless/subscriptions/SB0000AQ29SC5E",
   "httpMethod": "DELETE",
   "headers": {
     "Accept": "*/*",
@@ -21,12 +21,12 @@
   },
   "queryStringParameters": null,
   "pathParameters": {
-    "id": "5b5n8m",
-    "provider": "braintree"
+    "id": "SB0000AQ29SC5E",
+    "provider": "gocardless"
   },
   "stageVariables": null,
   "requestContext": {
-    "path": "/omar/payments-service/braintree/subscriptions/5b5n8m",
+    "path": "/omar/payments-service/gocardless/subscriptions/SB0000AQ29SC5E",
     "accountId": "108409592308",
     "resourceId": "gyp387",
     "stage": "omar",
