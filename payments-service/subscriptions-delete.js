@@ -6,7 +6,7 @@ import AWS from 'aws-sdk';
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
-const logOperation = id => {
+const logOperation = (id, provider) => {
   const params = {
     TableName: process.env.DB_LOG_TABLE,
     Item: {
@@ -15,7 +15,7 @@ const logOperation = id => {
       eventType: 'PAYMENT_SERVICE:SUBSCRIPTION:CANCEL',
       data: {
         recurringId: id,
-        paymentProcessor: 'braintree',
+        paymentProcessor: provider,
       },
       status: {
         actionkit: 'PENDING',
@@ -41,8 +41,9 @@ const gocardless = id => {
     {},
     {
       headers: {
-        Authorization: `Bearer ${process.env.GOCARDLESS_API_TOKEN}`,
+        Authorization: `Bearer ${process.env.GOCARDLESS_TOKEN}`,
         'GoCardless-Version': '2015-07-06',
+        Accept: 'application/json',
       },
     }
   );
@@ -60,12 +61,11 @@ export const handler = (event, context, callback) => {
   const { id, provider } = event.pathParameters;
 
   cancelSubscription(id, provider)
-    .then(() => {
+    .then(resp => {
       logOperation(id, provider);
       callback(null, ok());
     })
     .catch(err => {
-      console.log(`${provider} SUBSCRIPTION CANCEL ERROR:`, err);
       callback(null, badRequest());
     });
 };
