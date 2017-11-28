@@ -1,7 +1,15 @@
 // @flow weak
 import braintree from 'braintree';
 import { pick, map, uniq } from 'lodash';
-import streamToPromise from 'stream-to-promise';
+
+function streamToPromise(stream) {
+  return new Promise((resolve, reject) => {
+    const result = [];
+    stream.on('data', data => result.push(data));
+    stream.on('end', () => resolve(result));
+    stream.on('error', error => reject(error));
+  });
+}
 
 export const gateway = braintree.connect({
   environment: braintree.Environment[process.env.BRAINTREE_ENV],
