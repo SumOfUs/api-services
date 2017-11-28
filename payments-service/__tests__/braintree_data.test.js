@@ -29,7 +29,11 @@ describe('handler: braintree-data.show', () => {
     const braintree = require('../../shared/clients/braintree');
     braintree.searchCustomer = jest.fn(email => {
       if (email == 'bob@sou.com') {
-        return Promise.resolve([{ firstName: 'Bob' }]);
+        return Promise.resolve({
+          customers: [{ firstName: 'Bob' }],
+          paymentMethods: [],
+          subscriptions: [],
+        });
       }
       return Promise.reject();
     });

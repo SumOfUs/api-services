@@ -4,7 +4,8 @@ require('replayer');
 
 describe('searchCustomer', () => {
   test('given the user exists returns a customer object', done => {
-    searchCustomer('test@sou.com').then(customers => {
+    searchCustomer('test@sou.com').then(result => {
+      let { customers, paymentMethods, subscriptions } = result;
       const customer = customers[0];
       // Includes customer's basic info
       expect(customer).toEqual({
@@ -12,11 +13,10 @@ describe('searchCustomer', () => {
         lastName: 'Doe',
         email: 'test@sou.com',
         createdAt: '2017-11-23T21:57:17Z',
-        paymentMethods: expect.any(Array),
       });
 
       // Includes payment method of type CreditCard
-      expect(customer.paymentMethods).toContainEqual({
+      expect(paymentMethods).toContainEqual({
         type: 'CreditCard',
         cardType: 'Visa',
         cardholderName: null,
@@ -24,18 +24,16 @@ describe('searchCustomer', () => {
         expirationMonth: '12',
         expirationYear: '2017',
         issuingBank: 'Unknown',
-        subscriptions: expect.any(Array),
       });
 
       // Includes payment method of type PayPalAccount
-      expect(customer.paymentMethods).toContainEqual({
+      expect(paymentMethods).toContainEqual({
         type: 'PayPalAccount',
         email: 'payer@example.com',
-        subscriptions: expect.any(Array),
       });
 
       // Includes the subscriptions for a payment method
-      expect(customer.paymentMethods[0].subscriptions).toEqual([
+      expect(subscriptions).toEqual([
         {
           balance: '0.00',
           billingPeriodEndDate: '2017-12-22',
@@ -59,7 +57,7 @@ describe('searchCustomer', () => {
       ]);
 
       // Includes the transactions for a subscription
-      expect(customer.paymentMethods[0].subscriptions[0].transactions).toEqual([
+      expect(subscriptions[0].transactions).toEqual([
         {
           status: 'submitted_for_settlement',
           currencyIsoCode: 'USD',
@@ -77,8 +75,11 @@ describe('searchCustomer', () => {
   });
 
   test("given the user doesn't exist returns an empty array", done => {
-    searchCustomer('inexistent@sou.com').then(customers => {
+    searchCustomer('inexistent@sou.com').then(result => {
+      let { customers, paymentMethods, subscriptions } = result;
       expect(customers).toEqual([]);
+      expect(paymentMethods).toEqual([]);
+      expect(subscriptions).toEqual([]);
       done();
     });
   });

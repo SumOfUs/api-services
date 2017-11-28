@@ -49,17 +49,28 @@ const client = braintree.connect({
 
 const searchCustomer = (email: string) => {
   return new Promise((resolve, reject) => {
-    const customers = [];
+    const result = {
+      customers: [],
+      paymentMethods: [],
+      subscriptions: [],
+    };
+
     const stream = client.customer.search(search => {
       search.email().is(email);
     });
 
     stream.on('data', btCustomer => {
-      customers.push(buildCustomer(btCustomer));
+      result.customers.push(buildCustomer(btCustomer));
+      btCustomer.paymentMethods.forEach(btPaymentMethod => {
+        result.paymentMethods.push(buildPaymentMethod(btPaymentMethod));
+        result.subscriptions = result.subscriptions.concat(
+          map(btPaymentMethod.subscriptions, buildSubscription)
+        );
+      });
     });
 
     stream.on('end', response => {
-      resolve(customers);
+      resolve(result);
     });
 
     stream.on('error', error => {
@@ -70,7 +81,6 @@ const searchCustomer = (email: string) => {
 
 const buildCustomer = btCustomer => {
   const customer = pick(btCustomer, CUSTOMER_FIELDS);
-  customer.paymentMethods = map(btCustomer.paymentMethods, buildPaymentMethod);
   return customer;
 };
 
@@ -91,11 +101,6 @@ const buildPaymentMethod = btPaymentMethod => {
     console.log('WARN: Not supported Braintree Payment Method Type');
     paymentMethod = { type: 'Unknown' };
   }
-
-  paymentMethod.subscriptions = map(
-    btPaymentMethod.subscriptions,
-    buildSubscription
-  );
 
   return paymentMethod;
 };
