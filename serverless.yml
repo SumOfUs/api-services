@@ -26,13 +26,13 @@ functions:
           method: get
           path: members/{id}
           cors: true
-  # members-update:
-  #   handler: members-service/members.update
-  #   events:
-  #     - http:
-  #         method: post
-  #         path: members/{id}
-  #         cors: true
+  members-update:
+    handler: members-service/members.update
+    events:
+      - http:
+          method: put
+          path: members/{id}/
+          cors: true
   # members-unsubscribe:
   #   handler: members-service/members.unsubscribe
   #   events:

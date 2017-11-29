@@ -6,33 +6,35 @@ import type { Axios, AxiosPromise } from 'axios';
 import type { User, IUserUpdate, UserCollection } from '../actionkit.types.js';
 
 const CONFIG = {
-  baseUrl: process.env.AK_API_URL,
+  baseURL: process.env.AK_API_URL || '',
   auth: {
-    username: process.env.AK_USERNAME,
-    password: process.env.AK_PASSWORD,
+    username: process.env.AK_USERNAME || '',
+    password: process.env.AK_PASSWORD || '',
   },
 };
+
+const client = axios.create(CONFIG);
+
 export type SearchResult = Promise<ProxyShape<User[]>>;
 export type SearchFilters = { [key: string]: string | number | boolean };
 export function search(f: ?SearchFilters, config: any = CONFIG) {
-  return axios
-    .get(`${config.baseUrl}/user`, {
-      ...config,
+  return client
+    .get(`/user`, {
       params: f || {},
     })
     .then(resolveProxyShape, rejectProxyShape);
 }
 
 export function find(id: string, config: any = CONFIG) {
-  return axios
-    .get(`${config.baseUrl}/user/${id}`, {
+  return client
+    .get(`/user/${id}`, {
       ...config,
     })
     .then(resolveProxyShape, rejectProxyShape);
 }
 
 export function update(id: string, data: IUserUpdate, config: any = CONFIG) {
-  return axios
-    .put(`${config.baseUrl}/user/${id}`, data)
+  return client
+    .patch(`/user/${id}/`, data)
     .then(resolveProxyShape, rejectProxyShape);
 }

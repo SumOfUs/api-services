@@ -8,7 +8,11 @@ import {
   ok,
   response,
 } from '../shared/lambda-utils/responses';
-import { search, find } from '../shared/actionkit/resources/users';
+import {
+  search,
+  find,
+  update as updateMember,
+} from '../shared/actionkit/resources/users';
 import {
   LIST_MEMBERS_SCHEMA,
   SHOW_MEMBER_SCHEMA,
@@ -45,20 +49,23 @@ export function show(event, context, callback, _find = find) {
   );
 }
 
-// export function update(event, context, callback) {
-//   return validateRequest(
-//     UPDATE_MEMBER_SCHEMA,
-//     event.queryStringParameters
-//   ).then(
-//     params => {
-//       callback(null, {
-//         message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',
-//         event,
-//       });
-//     },
-//     errors => callback(null, badRequest({ cors: true, body: errors }))
-//   );
-// }
+export function update(event, context, callback) {
+  console.log('event:', event);
+  const parameters = {
+    ...event.pathParameters,
+    ...JSON.parse(event.body),
+  };
+  const { id, ...data } = parameters;
+  return validateRequest(UPDATE_MEMBER_SCHEMA, parameters).then(
+    params => {
+      updateMember(id, data).then(
+        result => callback(null, response(result)),
+        error => callback(null, response(error))
+      );
+    },
+    errors => callback(null, badRequest({ cors: true, body: errors }))
+  );
+}
 
 // export function unsubscribe(event, context, callback) {
 //   const parameters = {
