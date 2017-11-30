@@ -120,4 +120,4 @@ const buildSubscription = btSubscription => {
   return subscription;
 };
 
-export { searchCustomer };
+export { searchCustomer, client };
