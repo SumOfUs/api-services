@@ -40,7 +40,7 @@ const TRANSACTION_FIELDS = [
   'refundedTransactionId',
 ];
 
-const client = braintree.connect({
+export const client = braintree.connect({
   environment: braintree.Environment[process.env.BRAINTREE_ENV],
   merchantId: process.env.BRAINTREE_MERCHANT_ID,
   publicKey: process.env.BRAINTREE_PUBLIC_KEY,
@@ -120,4 +120,4 @@ const buildSubscription = btSubscription => {
   return subscription;
 };
 
-export { searchCustomer, client };
+export { searchCustomer };
