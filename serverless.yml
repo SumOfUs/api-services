@@ -94,6 +94,18 @@ functions:
               - OperationsTable
               - StreamArn
 
+  payments-subscriptions-del-champaign:
+      handler: payments-service/subscriptions-delete-champaign.handler
+      events:
+        - stream:
+            type: dynamodb
+            batchSize: 1
+            startingPosition: LATEST
+            arn:
+              Fn::GetAtt:
+                - OperationsTable
+                - StreamArn
+
   payments-subscriptions-del:
     handler: payments-service/subscriptions-delete.handler
     events:
