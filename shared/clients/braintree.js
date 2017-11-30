@@ -115,6 +115,8 @@ const buildSubscription = btSubscription => {
   subscription.transactions = map(btSubscription.transactions, transaction => {
     return pick(transaction, TRANSACTION_FIELDS);
   });
+
+  subscription.provider = 'braintree';
   return subscription;
 };
 

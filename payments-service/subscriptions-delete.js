@@ -63,9 +63,9 @@ export const handler = (event, context, callback) => {
   cancelSubscription(id, provider)
     .then(resp => {
       logOperation(id, provider);
-      callback(null, ok());
+      callback(null, ok({ cors: true, body: data }));
     })
     .catch(err => {
-      callback(null, badRequest());
+      callback(null, badRequest({ cors: true, body: err }));
     });
 };
