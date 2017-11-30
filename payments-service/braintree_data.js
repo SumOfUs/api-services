@@ -15,8 +15,8 @@ const showSchema = {
 export const show = (event, context, callback) => {
   return validateRequest(showSchema, event.queryStringParameters).then(
     () => {
-      searchCustomer(event.queryStringParameters.email).then(body => {
-        callback(null, ok({ body }));
+      searchCustomer(event.queryStringParameters.email).then(data => {
+        callback(null, ok({ cors: true, body: data }));
       });
     },
     errors => {

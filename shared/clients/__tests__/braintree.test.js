@@ -35,6 +35,7 @@ describe('searchCustomer', () => {
       // Includes the subscriptions for a payment method
       expect(subscriptions).toEqual([
         {
+          provider: 'braintree',
           balance: '0.00',
           billingPeriodEndDate: '2017-12-22',
           billingPeriodStartDate: '2017-11-23',
