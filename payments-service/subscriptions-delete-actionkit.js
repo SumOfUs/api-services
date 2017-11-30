@@ -1,8 +1,6 @@
 import { post } from 'axios';
-import AWS from 'aws-sdk';
 import updateOperationsLog from './updateOperationsLog';
 
-const documentClient = new AWS.DynamoDB.DocumentClient();
 const CANCEL_PAYMENT_EVENT = 'PAYMENT_SERVICE:SUBSCRIPTION:CANCEL';
 
 const validEventType = record => {

@@ -1,7 +1,7 @@
 import { post } from 'axios';
 import { ok, badRequest } from '../shared/lambda-utils/responses';
-import braintree from '../shared/clients/braintree';
-import guid from 'guid';
+import { client as braintree } from '../shared/clients/braintree';
+import uuid from 'uuid/v1';
 import AWS from 'aws-sdk';
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
@@ -10,7 +10,7 @@ const logOperation = (id, provider) => {
   const params = {
     TableName: process.env.DB_LOG_TABLE,
     Item: {
-      id: guid.raw(),
+      id: uuid(),
       createdAt: new Date().toISOString(),
       eventType: 'PAYMENT_SERVICE:SUBSCRIPTION:CANCEL',
       data: {
