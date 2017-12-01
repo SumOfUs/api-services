@@ -48,6 +48,7 @@
     "webpack": "^3.3.0"
   },
   "dependencies": {
+    "braintree": "^2.4.0",
     "braintree-node": "^1.1.2",
     "lodash": "^4.17.4",
     "replayer": "^2.1.3",
