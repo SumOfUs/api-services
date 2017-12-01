@@ -19,8 +19,6 @@ export const handler = (event, context, callback) => {
     process.env.CHAMPAIGN_URL
   }/api/member_services/recurring_donations/${provider}/${recurringId}`;
 
-  console.log('URL: ', url);
-
   const data = JSON.stringify({
     id: recurringId,
     provider: provider,
@@ -33,11 +31,11 @@ export const handler = (event, context, callback) => {
     .digest('hex');
 
   axios
-    .delete(url, data, {
+    .delete(url, {
       headers: {
         'Content-Type': 'application/json',
         'X-CHAMPAIGN-NONCE': nonce,
-        'X-CHAMPAIGN-AUTH': signature,
+        'X-CHAMPAIGN-SIGNATURE': signature,
       },
     })
     .then(resp => {

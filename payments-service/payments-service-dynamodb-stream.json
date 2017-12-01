@@ -10,20 +10,20 @@
         "ApproximateCreationDateTime": 1511282400,
         "Keys": {
           "createdAt": {
-            "S": "2017-11-21T16:40:18.591Z"
+            "S": "2017-12-01T14:37:06.559Z"
           },
           "id": {
-            "S": "3a2e8033-cc41-a897-c831-64932944be0b"
+            "S": "1acba0f0-d6a5-11e7-bbfa-9dd27b61293a"
           }
         },
         "NewImage": {
           "createdAt": {
-            "S": "2017-11-21T16:40:18.591Z"
+            "S": "2017-12-01T14:37:06.559Z"
           },
           "data": {
             "M": {
               "recurringId": {
-                "S": "fz27ww"
+                "S": "jhx24m"
               },
               "paymentProcessor": {
                 "S": "braintree"
@@ -34,7 +34,7 @@
             "S": "PAYMENT_SERVICE:SUBSCRIPTION:CANCEL"
           },
           "id": {
-            "S": "3a2e8033-cc41-a897-c831-64932944be0b"
+            "S": "1acba0f0-d6a5-11e7-bbfa-9dd27b61293a"
           },
           "status": {
             "M": {
