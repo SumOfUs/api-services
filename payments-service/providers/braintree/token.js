@@ -1,4 +1,4 @@
-import gateway from '../../../shared/clients/braintree';
+import { client as gateway } from '../../../shared/clients/braintree';
 
 const response = (code, body) => {
   return {
