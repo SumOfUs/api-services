@@ -23,10 +23,10 @@
           "data": {
             "M": {
               "recurringId": {
-                "S": "jhx24m"
+                "S": "SB0000BGEH3K10"
               },
               "paymentProcessor": {
-                "S": "braintree"
+                "S": "gocardless"
               }
             }
           },
