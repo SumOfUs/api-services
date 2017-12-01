@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/SumOfUs/api-services#readme",
   "devDependencies": {
+    "aws-sdk": "^2.161.0",
     "axios": "^0.17.1",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",

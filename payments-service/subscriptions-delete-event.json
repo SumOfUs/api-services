@@ -26,10 +26,10 @@
   },
   "stageVariables": null,
   "requestContext": {
-    "path": "/omar/payments-service/braintree/subscriptions/5b5n8m",
+    "path": "/tuuli/payments-service/braintree/subscriptions/5b5n8m",
     "accountId": "108409592308",
     "resourceId": "gyp387",
-    "stage": "omar",
+    "stage": "tuuli",
     "requestId": "925962c9-ce01-11e7-96b5-c5e34d7310ec",
     "identity": {
       "cognitoIdentityPoolId": null,

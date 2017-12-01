@@ -19,6 +19,8 @@ export const handler = (event, context, callback) => {
     process.env.CHAMPAIGN_URL
   }/api/member_services/recurring_donations/${provider}/${recurringId}`;
 
+  console.log('URL: ', url);
+
   const data = JSON.stringify({
     id: recurringId,
     provider: provider,
@@ -27,7 +29,8 @@ export const handler = (event, context, callback) => {
   const nonce = uuid();
   const signature = crypto
     .createHmac('sha256', process.env.MEMBER_SERVICES_SECRET)
-    .update(nonce);
+    .update(nonce)
+    .digest('hex');
 
   axios
     .delete(url, data, {
