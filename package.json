@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/SumOfUs/api-services#readme",
   "devDependencies": {
+    "aws-sdk": "^2.161.0",
     "axios": "^0.17.1",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
@@ -48,6 +49,7 @@
     "webpack": "^3.3.0"
   },
   "dependencies": {
+    "braintree": "^2.4.0",
     "braintree-node": "^1.1.2",
     "lodash": "^4.17.4",
     "replayer": "^2.1.3",
