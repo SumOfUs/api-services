@@ -1,17 +1,17 @@
 {
   "statusCode": 404,
   "headers": {
-    "date": "Tue, 05 Dec 2017 19:19:19 GMT",
+    "date": "Tue, 05 Dec 2017 21:11:04 GMT",
     "content-type": "text/html; charset=utf-8",
     "content-length": "0",
     "connection": "keep-alive",
     "server": "nginx",
-    "x-machine-id": "ip-10-50-2-102",
+    "x-machine-id": "ip-10-50-1-122",
     "x-handled-for": "80.4.94.40",
     "vary": "Accept,Cookie,Accept-Encoding,User-Agent"
   },
-  "url": "https://<AK_USERNAME>:nd59%24kY2TRpd2%24j@act.sumofus.org/rest/v1/user/9999999999/",
-  "time": 837,
+  "url": "https://vincent.martinez:<AK_PASSWORD_ESCAPED>@act.sumofus.org/rest/v1/user/9999999999/",
+  "time": 622,
   "request": {
     "method": "GET",
     "headers": {

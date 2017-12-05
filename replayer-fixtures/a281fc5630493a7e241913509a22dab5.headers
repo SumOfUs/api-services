@@ -1,7 +1,7 @@
 {
   "statusCode": 200,
   "headers": {
-    "date": "Tue, 05 Dec 2017 17:02:57 GMT",
+    "date": "Tue, 05 Dec 2017 21:13:56 GMT",
     "content-type": "application/xml; charset=utf-8",
     "content-length": "14666",
     "vary": "Accept-Encoding, Accept-Encoding",
@@ -12,17 +12,17 @@
     "x-user": "t2g9fjnxgkvr8rdp",
     "etag": "W/\"3e296aeb1e5fb5a5a3e8367ec622ec64\"",
     "cache-control": "max-age=0, private, must-revalidate",
-    "x-request-id": "6e8e5945-3541-42b7-a63f-d2273defd250",
-    "x-runtime": "0.494528",
+    "x-request-id": "e89b565a-4f0a-4a92-8104-4f20ec1da132",
+    "x-runtime": "0.372810",
     "content-security-policy": "frame-ancestors 'self'",
     "strict-transport-security": "max-age=31536000; includeSubDomains"
   },
   "url": "http://api.sandbox.braintreegateway.com:443/merchants/<BRAINTREE_MERCHANT_ID>/customers/advanced_search",
-  "time": 1274,
+  "time": 1116,
   "request": {
     "method": "POST",
     "headers": {
-      "Authorization": "Basic cXFnaDU2ZmY2cThxc2dtNDo3OGEwYTY4OWYwMWQ5YjRjMDhmZDQ2MjM3MGNmMWIwOA==",
+      "Authorization": "Basic <BRAINTRE_BASIC_AUTH_TOKEN>",
       "X-ApiVersion": "4",
       "Accept": "application/xml",
       "Content-Type": "application/json",

@@ -23,8 +23,13 @@ describe('search', () => {
   });
 
   test('passes through the error responses, rejecting the promise', () => {
-    return expect(
-      search({ email__startswith: true })
-    ).rejects.toMatchSnapshot();
+    return expect(search({ email__startswith: true })).rejects.toEqual(
+      objectContaining({
+        statusCode: 400,
+        body: {
+          error: "'startswith' is not an allowed filter on the 'email' field.",
+        },
+      })
+    );
   });
 });

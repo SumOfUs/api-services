@@ -1,18 +1,18 @@
 {
   "statusCode": 301,
   "headers": {
-    "date": "Tue, 05 Dec 2017 18:56:15 GMT",
+    "date": "Tue, 05 Dec 2017 21:13:56 GMT",
     "content-type": "text/html; charset=utf-8",
     "content-length": "0",
     "connection": "keep-alive",
     "server": "nginx",
-    "x-machine-id": "ip-10-50-2-102",
+    "x-machine-id": "ip-10-50-1-122",
     "x-handled-for": "80.4.94.40",
-    "location": "<AK_API_URL>/user/?email=nonexistentuser@example.com",
+    "location": "https://act.sumofus.org/rest/v1/user/?email=nonexistentuser@example.com",
     "vary": "Accept-Encoding,User-Agent"
   },
-  "url": "https://<AK_USERNAME>:nd59%24kY2TRpd2%24j@act.sumofus.org/rest/v1/user?email=nonexistentuser@example.com",
-  "time": 593,
+  "url": "https://vincent.martinez:<AK_PASSWORD_ESCAPED>@act.sumofus.org/rest/v1/user?email=nonexistentuser@example.com",
+  "time": 611,
   "request": {
     "method": "get",
     "headers": {

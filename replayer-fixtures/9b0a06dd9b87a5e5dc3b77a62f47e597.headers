@@ -1,7 +1,7 @@
 {
   "statusCode": 400,
   "headers": {
-    "date": "Tue, 05 Dec 2017 18:56:17 GMT",
+    "date": "Tue, 05 Dec 2017 21:13:58 GMT",
     "content-type": "application/json",
     "transfer-encoding": "chunked",
     "connection": "keep-alive",
@@ -11,8 +11,8 @@
     "vary": "Cookie,Accept-Encoding,User-Agent",
     "x-pad": "avoid browser bug"
   },
-  "url": "https://<AK_USERNAME>:nd59%24kY2TRpd2%24j@act.sumofus.org/rest/v1/user/?email__startswith=true",
-  "time": 624,
+  "url": "https://vincent.martinez:<AK_PASSWORD_ESCAPED>@act.sumofus.org/rest/v1/user/?email__startswith=true",
+  "time": 704,
   "request": {
     "method": "GET",
     "headers": {
