@@ -60,7 +60,7 @@ describe('searchCustomer', () => {
       // Includes the transactions for a subscription
       expect(subscriptions[0].transactions).toEqual([
         {
-          status: 'submitted_for_settlement',
+          status: 'settled',
           currencyIsoCode: 'USD',
           amount: '1.00',
           createdAt: '2017-11-23T21:57:18Z',

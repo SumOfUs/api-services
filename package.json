@@ -8,8 +8,11 @@
     "ci:coveralls": "cat coverage/lcov.info | coveralls",
     "precommit": "lint-staged",
     "flow": "flow",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "npm run test:cache",
+    "test:record": "VCR_MODE=record jest",
+    "test:playback": "VCR_MODE=playback jest",
+    "test:cache": "VCR_MODE=cache jest",
+    "test:watch": "npm run test:record --watch"
   },
   "lint-staged": {
     "*.{js,ts}": [

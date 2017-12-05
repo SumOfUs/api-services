@@ -95,7 +95,7 @@
           <transactions type="array">
             <transaction>
               <id>pcww0nx2</id>
-              <status>submitted_for_settlement</status>
+              <status>settled</status>
               <type>sale</type>
               <currency-iso-code>USD</currency-iso-code>
               <amount>1.00</amount>
@@ -104,7 +104,7 @@
               <master-merchant-account-id nil="true"/>
               <order-id nil="true"/>
               <created-at type="datetime">2017-11-23T21:57:18Z</created-at>
-              <updated-at type="datetime">2017-11-23T21:57:19Z</updated-at>
+              <updated-at type="datetime">2017-11-23T23:11:05Z</updated-at>
               <customer>
                 <id>646205769</id>
                 <first-name>John</first-name>
@@ -135,7 +135,7 @@
               <refunded-transaction-id nil="true"/>
               <partial-settlement-transaction-ids type="array"/>
               <authorized-transaction-id nil="true"/>
-              <settlement-batch-id nil="true"/>
+              <settlement-batch-id>2017-11-23_USD_83kwwyyv</settlement-batch-id>
               <shipping>
                 <id nil="true"/>
                 <first-name nil="true"/>
@@ -202,6 +202,13 @@
                   <user>EricBoersma</user>
                   <transaction-source>recurring</transaction-source>
                 </status-event>
+                <status-event>
+                  <timestamp type="datetime">2017-11-23T23:11:05Z</timestamp>
+                  <status>settled</status>
+                  <amount>1.00</amount>
+                  <user nil="true"/>
+                  <transaction-source></transaction-source>
+                </status-event>
               </status-history>
               <plan-id>35wm</plan-id>
               <subscription-id>j4ym6w</subscription-id>
@@ -221,12 +228,12 @@
               <service-fee-amount nil="true"/>
               <escrow-status nil="true"/>
               <disbursement-details>
-                <disbursement-date nil="true"/>
-                <settlement-amount nil="true"/>
-                <settlement-currency-iso-code nil="true"/>
-                <settlement-currency-exchange-rate nil="true"/>
-                <funds-held nil="true"/>
-                <success nil="true"/>
+                <disbursement-date type="date">2017-11-24</disbursement-date>
+                <settlement-amount>1.00</settlement-amount>
+                <settlement-currency-iso-code>USD</settlement-currency-iso-code>
+                <settlement-currency-exchange-rate>1</settlement-currency-exchange-rate>
+                <funds-held type="boolean">false</funds-held>
+                <success type="boolean">true</success>
               </disbursement-details>
               <disputes type="array"/>
               <authorization-adjustments type="array"/>
