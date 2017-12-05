@@ -18,6 +18,10 @@ interface AxiosShape<T> {
   data: T;
 }
 
+export interface AxiosError extends Error {
+  response?: AxiosShape<*>;
+}
+
 export function resolveProxyShape<T>(
   xhr: AxiosShape<T> | Error
 ): Promise<ProxyShape<T>> {
@@ -31,12 +35,16 @@ export function resolveProxyShape<T>(
 }
 
 export function rejectProxyShape<T>(
-  xhr: AxiosShape<T> | Error
+  xhr: AxiosErrorShape
 ): Promise<ProxyShape<T>> {
-  if (xhr instanceof Error) throw xhr;
-  return Promise.reject({
-    statusCode: xhr.status,
-    headers: headers({ cors: true, headers: xhr.headers }),
-    body: xhr.data,
-  });
+  const { response } = xhr;
+  if (response) {
+    return Promise.reject({
+      statusCode: response.status,
+      headers: headers({ cors: true, headers: response.headers }),
+      body: response.data,
+    });
+  }
+
+  throw xhr;
 }

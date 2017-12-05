@@ -1,0 +1,23 @@
+{
+  "statusCode": 301,
+  "headers": {
+    "date": "Tue, 05 Dec 2017 19:19:18 GMT",
+    "content-type": "text/html; charset=utf-8",
+    "transfer-encoding": "chunked",
+    "connection": "keep-alive",
+    "server": "nginx",
+    "x-machine-id": "ip-10-50-1-122",
+    "x-handled-for": "80.4.94.40",
+    "location": "<AK_API_URL>/user/9999999999/",
+    "vary": "Accept-Encoding,User-Agent"
+  },
+  "url": "https://<AK_USERNAME>:nd59%24kY2TRpd2%24j@act.sumofus.org/rest/v1/user/9999999999",
+  "time": 779,
+  "request": {
+    "method": "get",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "User-Agent": "axios/0.17.1"
+    }
+  }
+}

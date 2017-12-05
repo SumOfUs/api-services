@@ -1,6 +1,5 @@
 // @flow weak
 import { searchCustomer } from '../braintree';
-require('replayer');
 
 describe('searchCustomer', () => {
   test('given the user exists returns a customer object', done => {

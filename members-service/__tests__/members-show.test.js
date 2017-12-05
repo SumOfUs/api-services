@@ -1,8 +1,6 @@
 // @flow
 import { show } from '../members';
 
-jest.mock('axios');
-
 describe('handler: members-show', () => {
   describe('Request Validation', () => {
     test('Invalid when {id} is undefined', () => {
@@ -39,21 +37,21 @@ describe('handler: members-show', () => {
           null,
           expect.objectContaining({
             statusCode: 200,
-            body: expect.stringMatching('"id": 388'),
+            body: expect.stringMatching('"id": 388175'),
           })
         );
       });
     });
 
-    test('calls the callback on failure if it is a 400 error', () => {
+    test('calls the callback on failure if it is a 4xx error', () => {
       const cb = jest.fn();
-      const find = jest.fn(() => Promise.reject({ statusCode: 401 }));
-      const event = { pathParameters: { id: '000000' } };
-      return show(event, null, cb, find).then(() => {
+      const event = { pathParameters: { id: '9999999999' } };
+      return show(event, null, cb).then(() => {
         return expect(cb).toBeCalledWith(
           null,
           expect.objectContaining({
-            statusCode: 401,
+            statusCode: 404,
+            body: '',
           })
         );
       });

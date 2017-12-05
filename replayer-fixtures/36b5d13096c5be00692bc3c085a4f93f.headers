@@ -1,0 +1,22 @@
+{
+  "statusCode": 404,
+  "headers": {
+    "date": "Tue, 05 Dec 2017 19:19:19 GMT",
+    "content-type": "text/html; charset=utf-8",
+    "content-length": "0",
+    "connection": "keep-alive",
+    "server": "nginx",
+    "x-machine-id": "ip-10-50-2-102",
+    "x-handled-for": "80.4.94.40",
+    "vary": "Accept,Cookie,Accept-Encoding,User-Agent"
+  },
+  "url": "http://<AK_USERNAME>:nd59%24kY2TRpd2%24j@act.sumofus.org/rest/v1/user/9999999999/",
+  "time": 740,
+  "request": {
+    "method": "GET",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "User-Agent": "axios/0.17.1"
+    }
+  }
+}

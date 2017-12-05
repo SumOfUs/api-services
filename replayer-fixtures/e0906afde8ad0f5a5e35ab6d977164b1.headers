@@ -1,0 +1,13 @@
+{
+  "error": {},
+  "timeout": true,
+  "url": "https://<AK_USERNAME>:nd59%24kY2TRpd2%24j@act.sumofus.org/rest/v1/user?email=nonexistentexample@example.com",
+  "time": 5,
+  "request": {
+    "method": "get",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "User-Agent": "axios/0.17.1"
+    }
+  }
+}

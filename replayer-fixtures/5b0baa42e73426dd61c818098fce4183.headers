@@ -1,0 +1,33 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "date": "Tue, 05 Dec 2017 18:40:09 GMT",
+    "content-type": "application/xml; charset=utf-8",
+    "content-length": "108",
+    "vary": "Accept-Encoding, Accept-Encoding",
+    "x-frame-options": "SAMEORIGIN, SAMEORIGIN",
+    "x-xss-protection": "1; mode=block",
+    "x-content-type-options": "nosniff",
+    "x-authentication": "basic_auth",
+    "x-user": "t2g9fjnxgkvr8rdp",
+    "etag": "W/\"5bae3a2f1ccfce61efd4b340cc94ecd1\"",
+    "cache-control": "max-age=0, private, must-revalidate",
+    "x-request-id": "0b37f1f5-4666-491f-a90c-ab8539fba180",
+    "x-runtime": "0.035955",
+    "content-security-policy": "frame-ancestors 'self'",
+    "strict-transport-security": "max-age=31536000; includeSubDomains"
+  },
+  "url": "https://api.<GOCARDLESS_ENV>.braintreegateway.com:443/merchants/<BRAINTREE_MERCHANT_ID>/customers/advanced_search_ids",
+  "time": 5,
+  "request": {
+    "method": "POST",
+    "headers": {
+      "Authorization": "Basic cXFnaDU2ZmY2cThxc2dtNDo3OGEwYTY4OWYwMWQ5YjRjMDhmZDQ2MjM3MGNmMWIwOA==",
+      "X-ApiVersion": "4",
+      "Accept": "application/xml",
+      "Content-Type": "application/json",
+      "User-Agent": "Braintree Node 1.37.1",
+      "Content-Length": "48"
+    }
+  }
+}

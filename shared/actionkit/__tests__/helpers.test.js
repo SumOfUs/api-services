@@ -1,5 +1,6 @@
 // @flow
 import { resolveProxyShape, rejectProxyShape } from '../helpers';
+import type { AxiosError } from '../helpers';
 import { search } from '../resources/users';
 import axios from 'axios';
 
@@ -33,17 +34,16 @@ describe('resolveProxyShape', () => {
 });
 
 describe('rejectProxyShape', () => {
-  test('throws when it is passed an Error', () => {
-    expect(() => rejectProxyShape(new Error('Testing error'))).toThrow(
-      /Testing error/
-    );
+  const error: AxiosError = new Error('Testing error');
+  test('throws when it is passed a generic Error', () => {
+    expect(() => rejectProxyShape(error)).toThrow(/Testing error/);
   });
 
   test('rejects with a ProxyShape object', () => {
-    expect(rejectProxyShape({ status: 404, data: null })).rejects.toMatchObject(
-      {
-        statusCode: 404,
-      }
-    );
+    expect(
+      rejectProxyShape({ response: { status: 404, data: null } })
+    ).rejects.toMatchObject({
+      statusCode: 404,
+    });
   });
 });
