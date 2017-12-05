@@ -2,7 +2,7 @@
 import { searchCustomer } from '../braintree';
 
 describe('searchCustomer', () => {
-  test.only('given the user exists returns a customer object', done => {
+  test('given the user exists returns a customer object', done => {
     searchCustomer('test@sou.com').then(result => {
       let { customers, paymentMethods, subscriptions } = result;
       const customer = customers[0];
