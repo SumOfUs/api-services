@@ -28,4 +28,4 @@ replayer.substitute(`<BRAINTRE_BASIC_AUTH_TOKEN>`, () => {
 replayer.fixtureDir(path.join(process.cwd(), 'replayer-fixtures'));
 
 replayer.configure({});
-jest.setTimeout(10000);
+jest.setTimeout(20000);

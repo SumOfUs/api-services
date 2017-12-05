@@ -15,12 +15,15 @@ const showSchema = {
 export const show = (event, context, callback) => {
   return validateRequest(showSchema, event.queryStringParameters).then(
     () => {
-      searchCustomer(event.queryStringParameters.email).then(data => {
-        callback(null, ok({ cors: true, body: data }));
-      });
+      return searchCustomer(event.queryStringParameters.email).then(
+        data => callback(null, ok({ cors: true, body: data })),
+        errors => {
+          callback(null, badRequest({ cors: true, body: errors }));
+        }
+      );
     },
     errors => {
-      callback(null, badRequest({ cors: true, body: errors }));
+      return callback(null, badRequest({ cors: true, body: errors }));
     }
   );
 };

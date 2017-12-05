@@ -34,9 +34,7 @@ export function resolveProxyShape<T>(
   return Promise.resolve(result);
 }
 
-export function rejectProxyShape<T>(
-  xhr: AxiosErrorShape
-): Promise<ProxyShape<T>> {
+export function rejectProxyShape<T>(xhr: AxiosError): Promise<ProxyShape<T>> {
   const { response } = xhr;
   if (response) {
     return Promise.reject({

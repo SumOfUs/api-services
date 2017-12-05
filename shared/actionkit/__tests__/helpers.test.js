@@ -40,9 +40,9 @@ describe('rejectProxyShape', () => {
   });
 
   test('rejects with a ProxyShape object', () => {
-    expect(
-      rejectProxyShape({ response: { status: 404, data: null } })
-    ).rejects.toMatchObject({
+    const error: AxiosError = new Error();
+    error.response = { status: 404, data: null };
+    expect(rejectProxyShape(error)).rejects.toMatchObject({
       statusCode: 404,
     });
   });
