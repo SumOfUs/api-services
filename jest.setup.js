@@ -3,6 +3,7 @@ import replayer from 'replayer';
 import { escape } from 'querystring';
 
 const sensitiveKeys = [
+  'AK_USERNAME',
   'AK_PASSWORD',
   'BRAINTREE_MERCHANT_ID',
   'BRAINTREE_PRIVATE_KEY',
