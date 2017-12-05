@@ -4,7 +4,7 @@
   "description": "SumOfUs serverless services",
   "main": "index.js",
   "scripts": {
-    "ci:test": "VCR_MODE=playback jest --coverage",
+    "ci:test": "VCR_MODE=cache jest --coverage",
     "ci:coveralls": "cat coverage/lcov.info | coveralls",
     "precommit": "lint-staged",
     "flow": "flow",
