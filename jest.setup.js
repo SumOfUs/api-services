@@ -1,7 +1,7 @@
 import path from 'path';
 import replayer from 'replayer';
 import { escape } from 'querystring';
-import { token } from './lib/actionkit/resources/users';
+import { basicAuthToken } from './lib/util/basicAuthToken';
 
 const sensitiveKeys = [
   'AK_USERNAME',
@@ -20,7 +20,7 @@ sensitiveKeys.forEach(key => {
 
 // Special case: substitute AK auth token (base64 encoded)
 replayer.substitute(`<AK_BASIC_AUTH_TOKEN>`, () =>
-  token(process.env.AK_USERNAME, process.env.AK_PASSWORD)
+  basicAuthToken(process.env.AK_USERNAME, process.env.AK_PASSWORD)
 );
 
 // Special case: substitute braintree auth token (base64 encoded)
