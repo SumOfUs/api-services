@@ -19,21 +19,25 @@ describe('handler: braintree-data.show', () => {
     }, null);
   });
 
-  test('if email param is present it returns 200 ok', () => {
-    const cb = jest.fn();
-    const params = {
-      httpMethod: 'GET',
-      queryStringParameters: { email: 'example@example.com' },
-    };
+  test(
+    'if email param is present it returns 200 ok',
+    () => {
+      const cb = jest.fn();
+      const params = {
+        httpMethod: 'GET',
+        queryStringParameters: { email: 'example@example.com' },
+      };
 
-    return show(params, null, cb).then(() => {
-      return expect(cb).toBeCalledWith(
-        null,
-        expect.objectContaining({
-          statusCode: 200,
-          body: expect.stringMatching(/"email": "example@example.com"/),
-        })
-      );
-    });
-  });
+      return show(params, null, cb).then(() => {
+        return expect(cb).toBeCalledWith(
+          null,
+          expect.objectContaining({
+            statusCode: 200,
+            body: expect.stringMatching(/"email": "example@example.com"/),
+          })
+        );
+      });
+    },
+    10000
+  );
 });
