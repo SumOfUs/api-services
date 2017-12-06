@@ -1,0 +1,54 @@
+{
+  "resource": "/payments-service/{provider}/subscriptions/{id}",
+  "path": "/payments-service/gocardless/subscriptions/SB0000AQ29SC5E",
+  "httpMethod": "DELETE",
+  "headers": {
+    "Accept": "*/*",
+    "CloudFront-Forwarded-Proto": "https",
+    "CloudFront-Is-Desktop-Viewer": "true",
+    "CloudFront-Is-Mobile-Viewer": "false",
+    "CloudFront-Is-SmartTV-Viewer": "false",
+    "CloudFront-Is-Tablet-Viewer": "false",
+    "CloudFront-Viewer-Country": "GB",
+    "Host": "7c6m72mh4k.execute-api.us-east-1.amazonaws.com",
+    "User-Agent": "curl/7.54.0",
+    "Via": "2.0 d795063895060e28a848e5add0f84cff.cloudfront.net (CloudFront)",
+    "X-Amz-Cf-Id": "hudy59bm1H3-PhkRSoG6Y9HFcrOCEbePVfKFfaOvuAhW0Am8_zUJ0Q==",
+    "X-Amzn-Trace-Id": "Root=1-5a12eabc-1543a501077a44704d13334f",
+    "X-Forwarded-For": "92.17.83.12, 54.239.166.98",
+    "X-Forwarded-Port": "443",
+    "X-Forwarded-Proto": "https"
+  },
+  "queryStringParameters": null,
+  "pathParameters": {
+    "id": "SB0000AQ29SC5E",
+    "provider": "gocardless"
+  },
+  "stageVariables": null,
+  "requestContext": {
+    "path": "/omar/payments-service/gocardless/subscriptions/SB0000AQ29SC5E",
+    "accountId": "108409592308",
+    "resourceId": "gyp387",
+    "stage": "omar",
+    "requestId": "925962c9-ce01-11e7-96b5-c5e34d7310ec",
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "accountId": null,
+      "cognitoIdentityId": null,
+      "caller": null,
+      "apiKey": "",
+      "sourceIp": "92.17.83.12",
+      "accessKey": null,
+      "cognitoAuthenticationType": null,
+      "cognitoAuthenticationProvider": null,
+      "userArn": null,
+      "userAgent": "curl/7.54.0",
+      "user": null
+    },
+    "resourcePath": "/payments-service/{provider}/subscriptions/{id}",
+    "httpMethod": "DELETE",
+    "apiId": "7c6m72mh4k"
+  },
+  "body": null,
+  "isBase64Encoded": false
+}

@@ -1,0 +1,57 @@
+{
+  "Records": [
+    {
+      "eventID": "47798cd879e9ff3ce53ee2dfe4fe89a2",
+      "eventName": "INSERT",
+      "eventVersion": "1.1",
+      "eventSource": "aws:dynamodb",
+      "awsRegion": "us-east-1",
+      "dynamodb": {
+        "ApproximateCreationDateTime": 1511282400,
+        "Keys": {
+          "createdAt": {
+            "S": "2017-12-01T14:37:06.559Z"
+          },
+          "id": {
+            "S": "1acba0f0-d6a5-11e7-bbfa-9dd27b61293a"
+          }
+        },
+        "NewImage": {
+          "createdAt": {
+            "S": "2017-12-01T14:37:06.559Z"
+          },
+          "data": {
+            "M": {
+              "recurringId": {
+                "S": "SB0000BGEH3K10"
+              },
+              "paymentProcessor": {
+                "S": "gocardless"
+              }
+            }
+          },
+          "eventType": {
+            "S": "PAYMENT_SERVICE:SUBSCRIPTION:CANCEL"
+          },
+          "id": {
+            "S": "1acba0f0-d6a5-11e7-bbfa-9dd27b61293a"
+          },
+          "status": {
+            "M": {
+              "actionkit": {
+                "S": "PENDING"
+              },
+              "champaign": {
+                "S": "PENDING"
+              }
+            }
+          }
+        },
+        "SequenceNumber": "100000000008752455558",
+        "SizeBytes": 280,
+        "StreamViewType": "NEW_AND_OLD_IMAGES"
+      },
+      "eventSourceARN": "arn:aws:dynamodb:us-east-1:108409592308:table/OperationsTable-omar/stream/2017-11-21T16:38:13.504"
+    }
+  ]
+}
