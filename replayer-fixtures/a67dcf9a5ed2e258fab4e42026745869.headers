@@ -1,0 +1,24 @@
+{
+  "statusCode": 301,
+  "headers": {
+    "date": "Wed, 06 Dec 2017 15:10:20 GMT",
+    "content-type": "text/html; charset=utf-8",
+    "transfer-encoding": "chunked",
+    "connection": "keep-alive",
+    "server": "nginx",
+    "x-machine-id": "ip-10-50-1-119",
+    "x-handled-for": "89.197.86.130",
+    "location": "https://act.sumofus.org/rest/v1/user/?email=nonexistentuser@example.com",
+    "vary": "Accept-Encoding,User-Agent"
+  },
+  "url": "http://act.sumofus.org/rest/v1/user?email=nonexistentuser@example.com",
+  "time": 707,
+  "request": {
+    "method": "get",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "authorization": "Basic <AK_BASIC_AUTH_TOKEN>",
+      "User-Agent": "axios/0.17.1"
+    }
+  }
+}

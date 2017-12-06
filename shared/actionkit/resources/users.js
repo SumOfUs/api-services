@@ -7,13 +7,19 @@ import type { User, IUserUpdate, UserCollection } from '../actionkit.types.js';
 
 const CONFIG = {
   baseURL: process.env.AK_API_URL || '',
-  auth: {
-    username: process.env.AK_USERNAME || '',
-    password: process.env.AK_PASSWORD || '',
+  headers: {
+    authorization: `Basic ${token(
+      process.env.AK_USERNAME || '',
+      process.env.AK_PASSWORD || ''
+    )}`,
   },
 };
 
 const client = axios.create(CONFIG);
+
+export function token(user: string, password: string): string {
+  return new Buffer(`${user || ''}:${password || ''}`).toString('base64');
+}
 
 export type SearchResult = Promise<ProxyShape<User[]>>;
 export type SearchFilters = { [key: string]: string | number | boolean };
