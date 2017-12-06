@@ -1,18 +1,18 @@
 // @flow weak
 import 'source-map-support/register';
 import { pick } from 'lodash';
-import { validateRequest } from '../shared/request-validator';
+import { validateRequest } from '../lib/request-validator';
 import {
   badRequest,
   notFound,
   ok,
   response,
-} from '../shared/lambda-utils/responses';
+} from '../lib/lambda-utils/responses';
 import {
   search,
   find,
   update as updateMember,
-} from '../shared/actionkit/resources/users';
+} from '../lib/actionkit/resources/users';
 import {
   LIST_MEMBERS_SCHEMA,
   SHOW_MEMBER_SCHEMA,

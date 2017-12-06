@@ -1,7 +1,7 @@
 import path from 'path';
 import replayer from 'replayer';
 import { escape } from 'querystring';
-import { token } from './shared/actionkit/resources/users';
+import { token } from './lib/actionkit/resources/users';
 
 const sensitiveKeys = [
   'AK_USERNAME',
