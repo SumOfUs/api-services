@@ -1,0 +1,24 @@
+{
+  "statusCode": 301,
+  "headers": {
+    "date": "Wed, 06 Dec 2017 21:09:46 GMT",
+    "content-type": "text/html; charset=utf-8",
+    "content-length": "0",
+    "connection": "keep-alive",
+    "server": "nginx",
+    "x-machine-id": "ip-10-50-1-217",
+    "x-handled-for": "190.194.200.78",
+    "location": "https://act.sumofus.org/rest/v1/orderrecurring/?user=11727499",
+    "vary": "Accept-Encoding,User-Agent"
+  },
+  "url": "https://act.sumofus.org/rest/v1/orderrecurring?user=11727499",
+  "time": 1187,
+  "request": {
+    "method": "get",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "authorization": "<AK_BASIC_AUTH_TOKEN>",
+      "User-Agent": "axios/0.17.1"
+    }
+  }
+}
