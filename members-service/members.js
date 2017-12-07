@@ -1,4 +1,4 @@
-// @flow weak
+
 import 'source-map-support/register';
 import { pick } from 'lodash';
 import { validateRequest } from '../lib/request-validator';
@@ -13,6 +13,7 @@ import {
   find,
   update as updateMember,
   unsubscribe as unsubscribeMember,
+
 } from '../lib/clients/actionkit/resources/users';
 import {
   LIST_MEMBERS_SCHEMA,
