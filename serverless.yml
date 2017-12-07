@@ -74,6 +74,19 @@ functions:
   #         method: post
   #         path: members/{id}/unsubscribe
   #         cors: true
+
+  trigger-champaign-member-update:
+    handler: members-service/triggerChampaignMemberUpdate.handler
+    events:
+      - stream:
+          type: dynamodb
+          batchSize: 1
+          startingPosition: LATEST
+          arn:
+            Fn::GetAtt:
+              - OperationsTable
+              - StreamArn
+
   members-braintree-data:
     handler: payments-service/braintree_data.show
     events:
