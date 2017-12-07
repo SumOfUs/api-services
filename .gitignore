@@ -20,3 +20,7 @@ coverage
 settings/*
 !settings/prod.yml
 !settings/dev.yml
+.DS_Store
+
+# IDE files
+.idea
