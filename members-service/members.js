@@ -12,6 +12,7 @@ import {
   search as searchMember,
   find,
   update as updateMember,
+  unsubscribe as unsubscribeMember,
 } from '../lib/clients/actionkit/resources/users';
 import {
   LIST_MEMBERS_SCHEMA,
@@ -48,7 +49,6 @@ export function show(event, context, callback, _find = find) {
 }
 
 export function update(event, context, callback) {
-  console.log('event:', event);
   const parameters = {
     ...event.pathParameters,
     ...JSON.parse(event.body),
@@ -65,18 +65,18 @@ export function update(event, context, callback) {
   );
 }
 
-// export function unsubscribe(event, context, callback) {
-//   const parameters = {
-//     ...event.pathParameters,
-//     ...event.queryStringParameters,
-//   };
-//   return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, parameters).then(
-//     params => {
-//       callback(null, {
-//         message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',
-//         event,
-//       });
-//     },
-//     errors => callback(null, badRequest({ cors: true, body: errors }))
-//   );
-// }
+export function unsubscribe(event, context, callback) {
+  const data = {
+    page: process.env.UNSUBSCRIBE_PAGE_NAME,
+    email: JSON.parse(event.body).email,
+  };
+  return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, data).then(
+    params => {
+      unsubscribeMember(data).then(
+        result => callback(null, response(result)),
+        error => callback(null, response(error))
+      );
+    },
+    errors => callback(null, badRequest({ cors: true, body: errors }))
+  );
+}
