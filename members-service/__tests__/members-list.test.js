@@ -1,6 +1,8 @@
 // @flow
 import { index } from '../members';
 
+const { stringMatching, objectContaining, arrayContaining } = expect;
+
 describe('members-list', () => {
   describe('Validating requests', () => {
     test('Invalid when {email} is undefined', () => {
@@ -8,7 +10,7 @@ describe('members-list', () => {
       return index({}, null, cb).then(() => {
         const response = cb.mock.calls[0][1];
         expect(response.body).toEqual(
-          expect.stringMatching(/"missingProperty": "email"/)
+          stringMatching(/"missingProperty": "email"/)
         );
       });
     });
@@ -23,15 +25,15 @@ describe('members-list', () => {
       return index(params, null, cb).then(() => {
         expect(cb).toBeCalledWith(
           null,
-          expect.objectContaining({
+          objectContaining({
             statusCode: 400,
-            body: expect.stringMatching(/(properties\/email\/format)/),
+            body: stringMatching(/(properties\/email\/format)/),
           })
         );
         expect(cb).toBeCalledWith(
           null,
-          expect.objectContaining({
-            body: expect.stringMatching(/should match format/),
+          objectContaining({
+            body: stringMatching(/should match format/),
           })
         );
       });
@@ -46,7 +48,7 @@ describe('members-list', () => {
       return index(event, null, cb).then(() => {
         expect(cb).toHaveBeenCalledWith(
           null,
-          expect.objectContaining({ statusCode: 200 })
+          objectContaining({ statusCode: 200 })
         );
       });
     });
@@ -61,58 +63,62 @@ describe('members-list', () => {
     };
     test('Passes permitted parameters through', () => {
       const callback = jest.fn((error, data) => ({ error, data }));
-      const search = jest.fn(params => Promise.resolve(params));
-      return index(event, null, callback, search).then(success => {
-        expect(search).toHaveBeenCalledWith(
-          expect.objectContaining({ email: 'example@example.com' })
-        );
-      });
+      return index(event, null, callback).then(
+        success => {
+          const { body } = callback.mock.calls[0][1];
+          expect(JSON.parse(body)).toEqual(
+            objectContaining({
+              objects: arrayContaining([
+                objectContaining({ email: 'example@example.com' }),
+              ]),
+            })
+          );
+        },
+        error => {
+          console.log('error');
+        }
+      );
     });
     test('Omits unrecognised parameters', () => {
       const callback = jest.fn((error, data) => ({ error, data }));
       const search = jest.fn(params => Promise.resolve(params));
-      return index(event, null, callback, search).then(success => {
+      return index(event, null, callback).then(success => {
         expect(search).not.toHaveBeenCalledWith(
-          expect.objectContaining({ crisps: 'chips' })
+          objectContaining({ crisps: 'chips' })
         );
       });
     });
   });
 
   describe('API Gateway Responses', () => {
-    const event = {
-      queryStringParameters: {
-        email: 'example@example.com',
-      },
-    };
-
     test('Returns 200 OK when when successful', () => {
+      const event = {
+        queryStringParameters: {
+          email: 'example@example.com',
+        },
+      };
       const callback = jest.fn((error, data) => ({ error, data }));
       return index(event, null, callback).then(({ error, data }) => {
         expect(error).toBeNull();
         expect(data).toEqual(
-          expect.objectContaining({
+          objectContaining({
             statusCode: 200,
-            body: expect.stringMatching(/"email": "example@example.com"/),
+            body: stringMatching(/"email": "example@example.com"/),
           })
         );
       });
     });
 
     test('on rejection, it calls the callback with the error', () => {
+      const event = {
+        queryStringParameters: {
+          email: `non.existent.user@example.com`,
+        },
+      };
       const callback = jest.fn((error, data) => ({ error, data }));
-      const search = jest.fn(() =>
-        Promise.reject({
-          statusCode: 404,
-        })
-      );
-      return index(event, null, callback, search).then(({ error, data }) => {
-        expect(error).toBeNull();
-        expect(data).toEqual(
-          expect.objectContaining({
-            statusCode: 404,
-          })
-        );
+      const search = jest.fn(() => Promise.reject({ statusCode: 404 }));
+      index(event, null, callback, search).then(({ error, data }) => {
+        expect(data).toEqual(objectContaining({ statusCode: 404 }));
       });
     });
   });

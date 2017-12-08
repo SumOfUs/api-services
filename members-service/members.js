@@ -9,7 +9,7 @@ import {
   response,
 } from '../lib/lambda-utils/responses';
 import {
-  search,
+  search as searchMember,
   find,
   update as updateMember,
 } from '../lib/actionkit/resources/users';
@@ -20,7 +20,7 @@ import {
   UPDATE_MEMBER_SCHEMA,
 } from './request-schemas';
 
-export function index(event, context, callback) {
+export function index(event, context, callback, search = searchMember) {
   const permittedParams = Object.keys(LIST_MEMBERS_SCHEMA.properties);
   return validateRequest(LIST_MEMBERS_SCHEMA, event.queryStringParameters).then(
     params =>
@@ -28,9 +28,7 @@ export function index(event, context, callback) {
         result => callback(null, response(result)),
         error => callback(null, response(error))
       ),
-    error => {
-      callback(null, badRequest({ cors: true, body: error }));
-    }
+    error => callback(null, badRequest({ cors: true, body: error }))
   );
 }
 
