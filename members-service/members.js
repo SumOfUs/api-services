@@ -20,11 +20,11 @@ import {
   UPDATE_MEMBER_SCHEMA,
 } from './request-schemas';
 
-export function index(event, context, callback, _search = search) {
+export function index(event, context, callback) {
   const permittedParams = Object.keys(LIST_MEMBERS_SCHEMA.properties);
   return validateRequest(LIST_MEMBERS_SCHEMA, event.queryStringParameters).then(
     params =>
-      _search(pick(params, permittedParams)).then(
+      search(pick(params, permittedParams)).then(
         result => callback(null, response(result)),
         error => callback(null, response(error))
       ),
