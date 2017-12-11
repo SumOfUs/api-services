@@ -1,0 +1,31 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "cache-control": "max-age=0, private, must-revalidate",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 11 Dec 2017 14:22:24 GMT",
+    "etag": "W/\"8a3d2db267be05d61c058b47030e3144\"",
+    "server": "nginx/1.12.1",
+    "vary": "Origin",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-request-id": "e05061d5-7935-4d91-be5b-eb6b82e7b260",
+    "x-runtime": "0.009438",
+    "x-xss-protection": "1; mode=block",
+    "content-length": "328",
+    "connection": "keep-alive"
+  },
+  "url": "https://action-staging.sumofus.org/api/member_services/members/",
+  "time": 882,
+  "request": {
+    "method": "put",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": "application/json;charset=utf-8",
+      "x-champaign-nonce": "0d57b9d8-5883-4a18-a6cf-a45ad01251e6",
+      "x-champaign-signature": "05e9838253a439bd87f1a14995342efcff5316501c6a4145326864cf9e1a17e5",
+      "User-Agent": "axios/0.17.1",
+      "Content-Length": 106
+    }
+  }
+}

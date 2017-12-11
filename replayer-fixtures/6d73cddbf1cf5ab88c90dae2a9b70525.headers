@@ -1,0 +1,24 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "date": "Mon, 11 Dec 2017 14:18:25 GMT",
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "connection": "keep-alive",
+    "server": "nginx",
+    "x-machine-id": "ip-10-50-2-122",
+    "x-handled-for": "80.4.94.40",
+    "vary": "Accept,Cookie,Accept-Encoding,User-Agent",
+    "cache-control": "no-cache"
+  },
+  "url": "http://act.sumofus.org/rest/v1/user/388175/",
+  "time": 647,
+  "request": {
+    "method": "GET",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "authorization": "<AK_BASIC_AUTH_TOKEN>",
+      "User-Agent": "axios/0.17.1"
+    }
+  }
+}
