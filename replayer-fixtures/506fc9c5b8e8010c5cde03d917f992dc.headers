@@ -22,8 +22,8 @@
     "headers": {
       "Accept": "application/json, text/plain, */*",
       "Content-Type": "application/json;charset=utf-8",
-      "x-champaign-nonce": "0d57b9d8-5883-4a18-a6cf-a45ad01251e6",
-      "x-champaign-signature": "05e9838253a439bd87f1a14995342efcff5316501c6a4145326864cf9e1a17e5",
+      "x-champaign-nonce": "<X_CHAMPAIGN_NONCE>",
+      "x-champaign-signature": "<X_CHAMPAIGN_SIGNATURE>",
       "User-Agent": "axios/0.17.1",
       "Content-Length": 106
     }

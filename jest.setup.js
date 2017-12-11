@@ -31,6 +31,16 @@ replayer.substitute(`<BRAINTRE_BASIC_AUTH_TOKEN>`, () => {
   ).toString('base64');
 });
 
+// Special case: substitute x-champaign-nonce/signature fixtures
+replayer.substitute(
+  `<X_CHAMPAIGN_NONCE>`,
+  () => '0d57b9d8-5883-4a18-a6cf-a45ad01251e6'
+);
+replayer.substitute(
+  `<X_CHAMPAIGN_SIGNATURE>`,
+  () => '05e9838253a439bd87f1a14995342efcff5316501c6a4145326864cf9e1a17e5'
+);
+
 replayer.fixtureDir(path.join(process.cwd(), 'replayer-fixtures'));
 
 replayer.configure({});
