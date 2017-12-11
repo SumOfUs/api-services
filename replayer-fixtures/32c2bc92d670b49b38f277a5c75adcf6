@@ -1,0 +1,1 @@
+{"error":{"message":"Resource not found","errors":[{"reason":"resource_not_found","message":"Resource not found"}],"documentation_url":"https://developer.gocardless.com/api-reference#resource_not_found","type":"invalid_api_usage","request_id":"c211dbf2-9d8d-48db-9211-7d59b9a52b48","code":404}}
