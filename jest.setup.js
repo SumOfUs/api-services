@@ -1,5 +1,5 @@
 import path from 'path';
-import replayer from 'replayer';
+import replayer from '@vincemtnz/replayer';
 import { escape } from 'querystring';
 import { basicAuthToken } from './lib/util/basicAuthToken';
 
