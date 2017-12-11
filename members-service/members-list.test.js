@@ -1,5 +1,5 @@
 // @flow
-import { index } from '../members';
+import { index } from './members';
 
 const { stringMatching, objectContaining, arrayContaining } = expect;
 
