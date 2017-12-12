@@ -1,4 +1,4 @@
-import { index } from './gocardless_subscriptions';
+import { index } from '../gocardless_subscriptions';
 
 describe('handler: gocardless_subscriptions.index', () => {
   test('it returns a list of GC subscriptions', done => {
