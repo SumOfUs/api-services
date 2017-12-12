@@ -21,7 +21,7 @@ describe('handler', () => {
   describe('Deleting a subscription', () => {
     const event = {
       pathParameters: {
-        id: 'f9pkvr',
+        id: '83b3bw',
         provider: 'braintree',
       },
     };
@@ -36,14 +36,14 @@ describe('handler', () => {
       expect(fn).toBeCalledWith('f9pkvr', 'braintree');
     });
 
-    test.only('responds on success', () => {
+    test('responds on success (replayer)', () => {
       const fn = jest.fn((...params) => Promise.resolve(params));
       return expect(handler(event, null, cb)).resolves.toEqual(
         expect.objectContaining({ statusCode: 200, body: '' })
       );
     });
 
-    test('responds on errors / exceptions', () => {
+    test.only('responds on errors / exceptions (replayer)', () => {
       const fn = jest.fn((id, provider) => Promise.reject({ id, provider }));
       return expect(handler(event, null, cb, fn)).resolves.toEqual(
         expect.objectContaining({
