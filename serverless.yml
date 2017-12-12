@@ -100,7 +100,7 @@ functions:
     events:
       - http:
           method: get
-          path: members/{memberId}/gocardless_subscriptions
+          path: members/{id}/gocardless_subscriptions
           cors: true
 
   payments-subscriptions-del-ak:

@@ -5,7 +5,7 @@ describe('handler: gocardless_subscriptions.index', () => {
     const cb = jest.fn();
     const params = {
       httpMethod: 'GET',
-      pathParameters: { memberId: '12358102' },
+      pathParameters: { id: '12358102' },
     };
 
     index(params, null, cb).then(() => {
@@ -24,7 +24,7 @@ describe('handler: gocardless_subscriptions.index', () => {
     const cb = jest.fn();
     const params = {
       httpMethod: 'GET',
-      pathParameters: { memberId: '4666356' },
+      pathParameters: { id: '4666356' },
     };
 
     index(params, null, cb).then(() => {
