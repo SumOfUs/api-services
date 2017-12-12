@@ -95,6 +95,14 @@ functions:
           path: members/braintree_data
           cors: true
 
+  members-gocardless-subscriptions:
+    handler: payments-service/gocardless_subscriptions.index
+    events:
+      - http:
+          method: get
+          path: members/{memberId}/gocardless_subscriptions
+          cors: true
+
   payments-subscriptions-del-ak:
     handler: payments-service/subscriptions-delete-actionkit.handler
     events:
