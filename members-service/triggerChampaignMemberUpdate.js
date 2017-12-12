@@ -1,45 +1,17 @@
-// @flow
-import type { Context, Callback } from 'flow-aws-lambda';
+// @flow weak
+import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
+import { updateMember } from '../lib/champaign/member';
+import { DynamoDBStreams } from 'aws-sdk';
 
-interface DynamoDBEvent {
-  NextShardIterator?: string;
-  Records: DynamoDBEventRecord[];
-}
-interface DynamoDBEventRecord {
-  awsRegion?: string;
-  dynamodb: StreamRecord;
-  eventName: 'INSERT' | 'MODIFY' | 'REMOVE';
-  eventSource: 'aws:dynamodb';
-  eventVersion?: string;
-}
-type StreamRecord = {
-  ApproximateCreationDateTime: string, // timestamp
-  Keys: AttributeValueMap,
-  NewImage: AttributeValueMap,
-  OldImage: AttributeValueMap,
-  SequenceNumber: string,
-  SizeBytes: number,
-  StreamViewType:
-    | 'NEW_IMAGE'
-    | 'OLD_IMAGE'
-    | 'NEW_AND_OLD_IMAGES'
-    | 'KEYS_ONLY',
-};
-type AttributeValueMap = { [key: string]: AttributeValue };
-type AttributeValue =
-  | { B: string }
-  | { BOOL: boolean }
-  | { BS: string }
-  | { L: AttributeValue[] }
-  | { M: AttributeValueMap }
-  | { N: string }
-  | { NS: string[] }
-  | { NULL: boolean }
-  | { S: string }
-  | { SS: string[] };
-type DynamoDBKeys = {};
+const logger = new OperationsLogger({
+  namespace: 'MEMBERS',
+  tableName: process.env.DB_LOG_TABLE || '',
+});
 
-export function handler(e: DynamoDBEvent, ctx: Context, cb: Callback) {
+export function handler(e, ctx, cb) {
   console.log('[ updating member on champaign ]', JSON.stringify(e, null, 2));
+
+  e.Records;
+
   return cb(undefined, e.Records);
 }

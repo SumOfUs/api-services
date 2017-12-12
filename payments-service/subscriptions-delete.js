@@ -1,12 +1,12 @@
 import { post } from 'axios';
-import { ok, badRequest } from '../lib/lambda-utils/responses';
+import { response, ok, badRequest } from '../lib/lambda-utils/responses';
 import { client as braintree } from '../lib/clients/braintree';
 import uuid from 'uuid/v1';
 import AWS from 'aws-sdk';
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
-const logOperation = (id, provider) => {
+export const logOperation = (id, provider) => {
   const params = {
     TableName: process.env.DB_LOG_TABLE,
     Item: {
@@ -31,7 +31,7 @@ const logOperation = (id, provider) => {
     .catch(err => console.log('TABLE PUT ERROR', err));
 };
 
-const gocardless = id => {
+export const gocardless = id => {
   const url = `${process.env.GOCARDLESS_DOMAIN}/subscriptions/${
     id
   }/actions/cancel`;
@@ -49,23 +49,30 @@ const gocardless = id => {
   );
 };
 
-const cancelSubscription = (id, provider) => {
+function btResponseToPromise(btResponse) {
+  if (btResponse.success) return Promise.resolve(btResponse);
+  return Promise.reject(btResponse);
+}
+
+export const cancelSubscription = (id, provider) => {
   if (provider === 'braintree') {
-    return braintree.subscription.cancel(id);
+    return btResponseToPromise(braintree.subscription.cancel(id));
   } else {
     return gocardless(id);
   }
 };
 
-export const handler = (event, context, callback) => {
+export const handler = (event, context, callback, fn = cancelSubscription) => {
   const { id, provider } = event.pathParameters;
 
-  return cancelSubscription(id, provider)
+  return fn(id, provider)
     .then(resp => {
-      logOperation(id, provider);
-      callback(null, ok({ cors: true, body: event.data }));
+      console.log('resp:', JSON.stringify(resp, null, 2));
+      //logOperation(id, provider);
+      return callback(null, response({ cors: true, body: event.data }));
     })
     .catch(err => {
-      callback(null, badRequest({ cors: true, body: err }));
+      console.log('err:', JSON.stringify(err, null, 2));
+      return callback(null, badRequest({ cors: true, body: err }));
     });
 };
