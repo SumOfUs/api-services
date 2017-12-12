@@ -37,15 +37,13 @@ describe('handler', () => {
     });
 
     test('responds on success (replayer)', () => {
-      const fn = jest.fn((...params) => Promise.resolve(params));
       return expect(handler(event, null, cb)).resolves.toEqual(
         expect.objectContaining({ statusCode: 200, body: '' })
       );
     });
 
     test.only('responds on errors / exceptions (replayer)', () => {
-      const fn = jest.fn((id, provider) => Promise.reject({ id, provider }));
-      return expect(handler(event, null, cb, fn)).resolves.toEqual(
+      return expect(handler(event, null, cb)).resolves.toEqual(
         expect.objectContaining({
           statusCode: 400,
           body: expect.stringContaining('f9pkvr'),

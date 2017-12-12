@@ -1,5 +1,5 @@
 import { post } from 'axios';
-import { ok, badRequest } from '../lib/lambda-utils/responses';
+import { response, ok, badRequest } from '../lib/lambda-utils/responses';
 import { client as braintree } from '../lib/clients/braintree';
 import uuid from 'uuid/v1';
 import AWS from 'aws-sdk';
@@ -49,9 +49,14 @@ export const gocardless = id => {
   );
 };
 
+function btResponseToPromise(btResponse) {
+  if (btResponse.success) return Promise.resolve(btResponse);
+  return Promise.reject(btResponse);
+}
+
 export const cancelSubscription = (id, provider) => {
   if (provider === 'braintree') {
-    return braintree.subscription.cancel(id);
+    return btResponseToPromise(braintree.subscription.cancel(id));
   } else {
     return gocardless(id);
   }
@@ -62,10 +67,12 @@ export const handler = (event, context, callback, fn = cancelSubscription) => {
 
   return fn(id, provider)
     .then(resp => {
-      logOperation(id, provider);
-      return callback(null, ok({ cors: true, body: event.data }));
+      console.log('resp:', JSON.stringify(resp, null, 2));
+      //logOperation(id, provider);
+      return callback(null, response({ cors: true, body: event.data }));
     })
     .catch(err => {
+      console.log('err:', JSON.stringify(err, null, 2));
       return callback(null, badRequest({ cors: true, body: err }));
     });
 };
