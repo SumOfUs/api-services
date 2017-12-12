@@ -1,0 +1,35 @@
+{
+  "statusCode": 404,
+  "headers": {
+    "date": "Tue, 12 Dec 2017 03:37:53 GMT",
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "connection": "keep-alive",
+    "set-cookie": [
+      "__cfduid=d83a0f7f937faec0c602493a1ef465aa31513049872; expires=Wed, 12-Dec-18 03:37:52 GMT; path=/; domain=.gocardless.com; HttpOnly"
+    ],
+    "pragma": "no-cache",
+    "cache-control": "no-store",
+    "x-request-id": "c0200888-82fa-45a3-8d7a-0557bc217d76",
+    "vary": "Origin",
+    "x-xss-protection": "1; mode=block",
+    "x-content-type-options": "nosniff",
+    "strict-transport-security": "max-age=31556926; includeSubDomains; preload",
+    "ratelimit-limit": "1000",
+    "ratelimit-remaining": "998",
+    "ratelimit-reset": "Tue, 12 Dec 2017 03:38:00 GMT",
+    "server": "cloudflare-nginx",
+    "cf-ray": "3cbda5c69cbd1d00-EZE"
+  },
+  "url": "http://api-sandbox.gocardless.com/subscriptions/SB0002FC1Q4MHE",
+  "time": 3676,
+  "request": {
+    "method": "get",
+    "headers": {
+      "Accept": "application/json",
+      "Authorization": "Bearer <GOCARDLESS_TOKEN>",
+      "GoCardless-Version": "2015-07-06",
+      "User-Agent": "axios/0.17.1"
+    }
+  }
+}

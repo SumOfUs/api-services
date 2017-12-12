@@ -1,0 +1,10 @@
+{
+  "url": "https://act.sumofus.org/rest/v1/orderrecurring?user=4666356",
+  "method": "get",
+  "headers": {
+    "Accept": "application/json, text/plain, */*",
+    "authorization": "Basic cm9kcmlfYXBpOk8ySWRCOE56M0dDSQ==",
+    "User-Agent": "axios/0.17.1"
+  },
+  "body": ""
+}
