@@ -6,7 +6,7 @@ import AWS from 'aws-sdk';
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
-const logOperation = (id, provider) => {
+export const logOperation = (id, provider) => {
   const params = {
     TableName: process.env.DB_LOG_TABLE,
     Item: {
@@ -31,7 +31,7 @@ const logOperation = (id, provider) => {
     .catch(err => console.log('TABLE PUT ERROR', err));
 };
 
-const gocardless = id => {
+export const gocardless = id => {
   const url = `${process.env.GOCARDLESS_DOMAIN}/subscriptions/${
     id
   }/actions/cancel`;
@@ -49,7 +49,7 @@ const gocardless = id => {
   );
 };
 
-const cancelSubscription = (id, provider) => {
+export const cancelSubscription = (id, provider) => {
   if (provider === 'braintree') {
     return braintree.subscription.cancel(id);
   } else {
@@ -57,15 +57,15 @@ const cancelSubscription = (id, provider) => {
   }
 };
 
-export const handler = (event, context, callback) => {
+export const handler = (event, context, callback, fn = cancelSubscription) => {
   const { id, provider } = event.pathParameters;
 
-  return cancelSubscription(id, provider)
+  return fn(id, provider)
     .then(resp => {
       logOperation(id, provider);
-      callback(null, ok({ cors: true, body: event.data }));
+      return callback(null, ok({ cors: true, body: event.data }));
     })
     .catch(err => {
-      callback(null, badRequest({ cors: true, body: err }));
+      return callback(null, badRequest({ cors: true, body: err }));
     });
 };
