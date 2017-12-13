@@ -140,16 +140,6 @@ functions:
                 id: true
                 provider: true
 
-          # authorizer:
-          #   arn: arn:aws:cognito-idp:us-west-2:108409592308:userpool/us-west-2_pywcbSi8E
-
-  # payments-subscriptions-braintree:
-  #   handler: payments-service/braintree/subscriptions.handler
-  #   events:
-  #     - http:
-  #         method: get
-  #         path: payments-service/braintree/subscriptions
-  #         cors: true
   braintree-token:
     handler: payments-service/providers/braintree/token.handler
     events:
