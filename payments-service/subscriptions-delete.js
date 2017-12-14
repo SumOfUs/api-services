@@ -1,78 +1,54 @@
 import { post } from 'axios';
 import { response, ok, badRequest } from '../lib/lambda-utils/responses';
-import { client as braintree } from '../lib/clients/braintree';
+import { client as braintree } from '../lib/clients/braintree/braintree';
+import { deleteSubscription as deleteGCSubscription } from '../lib/clients/gocardless/gocardless';
+import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import uuid from 'uuid/v1';
-import AWS from 'aws-sdk';
 
-const documentClient = new AWS.DynamoDB.DocumentClient();
-
-export const logOperation = (id, provider) => {
-  const params = {
-    TableName: process.env.DB_LOG_TABLE,
-    Item: {
-      id: uuid(),
-      createdAt: new Date().toISOString(),
-      eventType: 'PAYMENT_SERVICE:SUBSCRIPTION:CANCEL',
-      data: {
-        recurringId: id,
-        paymentProcessor: provider,
-      },
-      status: {
-        actionkit: 'PENDING',
-        champaign: 'PENDING',
-      },
-    },
-  };
-
-  documentClient
-    .put(params)
-    .promise()
-    .then(resp => console.log('TABLE PUT RESPONSE:', resp))
-    .catch(err => console.log('TABLE PUT ERROR', err));
-};
-
-export const gocardless = id => {
-  const url = `${process.env.GOCARDLESS_DOMAIN}/subscriptions/${
-    id
-  }/actions/cancel`;
-
-  return post(
-    url,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.GOCARDLESS_TOKEN}`,
-        'GoCardless-Version': '2015-07-06',
-        Accept: 'application/json',
-      },
-    }
-  );
-};
+const logger = new OperationsLogger({
+  namespace: 'PAYMENT_SERVICE:SUBSCRIPTION',
+  tableName: process.env.DB_LOG_TABLE,
+});
 
 function btResponseToPromise(btResponse) {
   if (btResponse.success) return Promise.resolve(btResponse);
   return Promise.reject(btResponse);
 }
 
-export const cancelSubscription = (id, provider) => {
-  if (provider === 'braintree') {
-    return btResponseToPromise(braintree.subscription.cancel(id));
-  } else {
-    return gocardless(id);
+export function cancelSubscription(id, provider) {
+  switch (provider) {
+    case 'braintree':
+      return btResponseToPromise(braintree.subscription.cancel(id));
+    case 'gocardless':
+      return deleteGCSubscription(id);
+    default:
+      return Promise.reject({ error: 'Unknown provider' });
   }
-};
+}
 
 export const handler = (event, context, callback, fn = cancelSubscription) => {
   const { id, provider } = event.pathParameters;
 
   return fn(id, provider)
     .then(resp => {
-      console.log('resp:', JSON.stringify(resp, null, 2));
-      //logOperation(id, provider);
-      return callback(null, response({ cors: true, body: event.data }));
+      logger.log({
+        event: 'DELETE',
+        data: { recurringId: id, paymentProcessor: provider },
+        status: { actionkit: 'PENDING', champaign: 'PENDING' },
+      });
+      return resp;
     })
-    .catch(err => {
-      console.log('err:', JSON.stringify(err, null, 2));
-      return callback(null, badRequest({ cors: true, body: err }));
-    });
+    .then(resp => responseHandler(resp, provider))
+    .then(resp => callback(null, response({ cors: true, body: event.data })))
+    .catch(err => callback(null, badRequest({ cors: true, body: err })));
 };
+
+function responseHandler(provider, response) {
+  switch (provider) {
+    case 'braintree':
+      const { success } = response;
+      return success ? Promise.resolve(response) : Promise.reject(response);
+    default:
+      return response;
+  }
+}

@@ -12,7 +12,7 @@ import {
   search as searchMember,
   find,
   update as updateMember,
-} from '../lib/actionkit/resources/users';
+} from '../lib/clients/actionkit/resources/users';
 import {
   LIST_MEMBERS_SCHEMA,
   SHOW_MEMBER_SCHEMA,

@@ -1,6 +1,6 @@
 import { validateRequest } from '../lib/request-validator';
 import { ok, badRequest } from '../lib/lambda-utils/responses';
-import { searchCustomer } from '../lib/clients/braintree';
+import { searchCustomer } from '../lib/clients/braintree/braintree';
 
 const showSchema = {
   type: 'object',
