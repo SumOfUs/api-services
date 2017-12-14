@@ -1,8 +1,4 @@
 // @flow weak
-// Mock our local braintree client in lib/clients/braintree
-jest.mock('../lib/clients/braintree/braintree', () => ({
-  client: { subscription: { cancel: jest.fn(() => ({ success: true })) } },
-}));
 
 import {
   cancelSubscription,
@@ -58,12 +54,5 @@ describe('handler', () => {
         );
       });
     });
-  });
-});
-
-describe('cancelSubscription', function() {
-  test.skip('handles braintree subscriptions', () => {
-    cancelSubscription('1234', 'braintree');
-    expect(client.subscription.cancel).toHaveBeenCalledWith('1234');
   });
 });
