@@ -6,16 +6,12 @@ describe('handler', () => {
     });
 
     describe('Success', () => {
-      const event =
-
       test('responds on success (replayer)', () => {});
       test('Updates the operations log DynamoDB table', () => {});
-
     });
 
     describe('Failure', () => {
       test('responds on errors / exceptions (replayer)', () => {});
     });
-
   });
 });
