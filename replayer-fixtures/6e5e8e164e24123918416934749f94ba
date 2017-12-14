@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<subscription>
+  <add-ons type="array"/>
+  <balance>0.00</balance>
+  <billing-day-of-month type="integer">12</billing-day-of-month>
+  <billing-period-end-date type="date">2018-01-11</billing-period-end-date>
+  <billing-period-start-date type="date">2017-12-12</billing-period-start-date>
+  <created-at type="datetime">2017-12-12T15:52:05Z</created-at>
+  <updated-at type="datetime">2017-12-13T09:56:02Z</updated-at>
+  <current-billing-cycle type="integer">1</current-billing-cycle>
+  <days-past-due nil="true"/>
+  <discounts type="array"/>
+  <failure-count type="integer">0</failure-count>
+  <first-billing-date type="date">2017-12-12</first-billing-date>
+  <id>73zstm</id>
+  <merchant-account-id>sumofus2_EUR</merchant-account-id>
+  <never-expires type="boolean">true</never-expires>
+  <next-bill-amount>20.00</next-bill-amount>
+  <next-billing-period-amount>20.00</next-billing-period-amount>
+  <next-billing-date type="date">2018-01-12</next-billing-date>
+  <number-of-billing-cycles nil="true"/>
+  <paid-through-date type="date">2018-01-11</paid-through-date>
+  <payment-method-token>5pnw2j</payment-method-token>
+  <plan-id>EUR</plan-id>
+  <price>20.00</price>
+  <status>Canceled</status>
+  <trial-duration nil="true"/>
+  <trial-duration-unit nil="true"/>
+  <trial-period type="boolean">false</trial-period>
+  <descriptor>
+    <name nil="true"/>
+    <phone nil="true"/>
+    <url nil="true"/>
+  </descriptor>
+  <description nil="true"/>
+  <transactions type="array">
+    <transaction>
+      <id>2hzbvx2q</id>
+      <status>settled</status>
+      <type>sale</type>
+      <currency-iso-code>EUR</currency-iso-code>
+      <amount>20.00</amount>
+      <merchant-account-id>sumofus2_EUR</merchant-account-id>
+      <sub-merchant-account-id nil="true"/>
+      <master-merchant-account-id nil="true"/>
+      <order-id nil="true"/>
+      <created-at type="datetime">2017-12-12T15:52:04Z</created-at>
+      <updated-at type="datetime">2017-12-12T17:10:36Z</updated-at>
+      <customer>
+        <id>52779597</id>
+        <first-name>hjk</first-name>
+        <last-name nil="true"/>
+        <company nil="true"/>
+        <email><AK_USERNAME>@sumofus.org</email>
+        <website nil="true"/>
+        <phone nil="true"/>
+        <fax nil="true"/>
+      </customer>
+      <billing>
+        <id nil="true"/>
+        <first-name nil="true"/>
+        <last-name nil="true"/>
+        <company nil="true"/>
+        <street-address nil="true"/>
+        <extended-address nil="true"/>
+        <locality nil="true"/>
+        <region nil="true"/>
+        <postal-code nil="true"/>
+        <country-name nil="true"/>
+        <country-code-alpha2 nil="true"/>
+        <country-code-alpha3 nil="true"/>
+        <country-code-numeric nil="true"/>
+      </billing>
+      <refund-id nil="true"/>
+      <refund-ids type="array"/>
+      <refunded-transaction-id nil="true"/>
+      <partial-settlement-transaction-ids type="array"/>
+      <authorized-transaction-id nil="true"/>
+      <settlement-batch-id>2017-12-12_sumofus2_EUR_0er741t4</settlement-batch-id>
+      <shipping>
+        <id nil="true"/>
+        <first-name nil="true"/>
+        <last-name nil="true"/>
+        <company nil="true"/>
+        <street-address nil="true"/>
+        <extended-address nil="true"/>
+        <locality nil="true"/>
+        <region nil="true"/>
+        <postal-code nil="true"/>
+        <country-name nil="true"/>
+        <country-code-alpha2 nil="true"/>
+        <country-code-alpha3 nil="true"/>
+        <country-code-numeric nil="true"/>
+      </shipping>
+      <custom-fields/>
+      <avs-error-response-code nil="true"/>
+      <avs-postal-code-response-code>I</avs-postal-code-response-code>
+      <avs-street-address-response-code>I</avs-street-address-response-code>
+      <cvv-response-code>I</cvv-response-code>
+      <gateway-rejection-reason nil="true"/>
+      <processor-authorization-code>1VC2GY</processor-authorization-code>
+      <processor-response-code>1000</processor-response-code>
+      <processor-response-text>Approved</processor-response-text>
+      <additional-processor-response nil="true"/>
+      <voice-referral-number nil="true"/>
+      <purchase-order-number nil="true"/>
+      <tax-amount nil="true"/>
+      <tax-exempt type="boolean">false</tax-exempt>
+      <credit-card>
+        <token>5pnw2j</token>
+        <bin>411111</bin>
+        <last-4>1111</last-4>
+        <card-type>Visa</card-type>
+        <expiration-month>02</expiration-month>
+        <expiration-year>2020</expiration-year>
+        <customer-location>US</customer-location>
+        <cardholder-name nil="true"/>
+        <image-url>https://assets.braintreegateway.com/payment_method_logo/visa.png?environment=sandbox</image-url>
+        <prepaid>Unknown</prepaid>
+        <healthcare>Unknown</healthcare>
+        <debit>Unknown</debit>
+        <durbin-regulated>Unknown</durbin-regulated>
+        <commercial>Unknown</commercial>
+        <payroll>Unknown</payroll>
+        <issuing-bank>Unknown</issuing-bank>
+        <country-of-issuance>Unknown</country-of-issuance>
+        <product-id>Unknown</product-id>
+        <unique-number-identifier>7d5c59663908328a27ed80cacd089a1d</unique-number-identifier>
+        <venmo-sdk type="boolean">false</venmo-sdk>
+      </credit-card>
+      <status-history type="array">
+        <status-event>
+          <timestamp type="datetime">2017-12-12T15:52:05Z</timestamp>
+          <status>authorized</status>
+          <amount>20.00</amount>
+          <user>EricBoersma</user>
+          <transaction-source>recurring</transaction-source>
+        </status-event>
+        <status-event>
+          <timestamp type="datetime">2017-12-12T15:52:05Z</timestamp>
+          <status>submitted_for_settlement</status>
+          <amount>20.00</amount>
+          <user>EricBoersma</user>
+          <transaction-source>recurring</transaction-source>
+        </status-event>
+        <status-event>
+          <timestamp type="datetime">2017-12-12T17:10:36Z</timestamp>
+          <status>settled</status>
+          <amount>20.00</amount>
+          <user nil="true"/>
+          <transaction-source></transaction-source>
+        </status-event>
+      </status-history>
+      <plan-id>EUR</plan-id>
+      <subscription-id>73zstm</subscription-id>
+      <subscription>
+        <billing-period-end-date type="date">2018-01-11</billing-period-end-date>
+        <billing-period-start-date type="date">2017-12-12</billing-period-start-date>
+      </subscription>
+      <add-ons type="array"/>
+      <discounts type="array"/>
+      <descriptor>
+        <name nil="true"/>
+        <phone nil="true"/>
+        <url nil="true"/>
+      </descriptor>
+      <recurring type="boolean">true</recurring>
+      <channel nil="true"/>
+      <service-fee-amount nil="true"/>
+      <escrow-status nil="true"/>
+      <disbursement-details>
+        <disbursement-date nil="true"/>
+        <settlement-amount nil="true"/>
+        <settlement-currency-iso-code nil="true"/>
+        <settlement-currency-exchange-rate nil="true"/>
+        <funds-held nil="true"/>
+        <success nil="true"/>
+      </disbursement-details>
+      <disputes type="array"/>
+      <authorization-adjustments type="array"/>
+      <payment-instrument-type>credit_card</payment-instrument-type>
+      <processor-settlement-response-code></processor-settlement-response-code>
+      <processor-settlement-response-text></processor-settlement-response-text>
+      <risk-data>
+        <id>PP8T0TJ5GT18</id>
+        <decision>Approve</decision>
+        <device-data-captured type="boolean">false</device-data-captured>
+      </risk-data>
+      <three-d-secure-info nil="true"/>
+      <ships-from-postal-code nil="true"/>
+      <shipping-amount nil="true"/>
+      <discount-amount nil="true"/>
+    </transaction>
+  </transactions>
+  <status-history type="array">
+    <status-event>
+      <timestamp type="datetime">2017-12-13T09:56:02Z</timestamp>
+      <status>Canceled</status>
+      <user>EricBoersma</user>
+      <subscription-source>api</subscription-source>
+      <balance>0.00</balance>
+      <price>20.00</price>
+      <currency-iso-code>EUR</currency-iso-code>
+      <plan-id>EUR</plan-id>
+    </status-event>
+    <status-event>
+      <timestamp type="datetime">2017-12-12T15:52:05Z</timestamp>
+      <status>Active</status>
+      <user>EricBoersma</user>
+      <subscription-source>api</subscription-source>
+      <balance>0.00</balance>
+      <price>20.00</price>
+      <currency-iso-code>EUR</currency-iso-code>
+      <plan-id>EUR</plan-id>
+    </status-event>
+  </status-history>
+</subscription>

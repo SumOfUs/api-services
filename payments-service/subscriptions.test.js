@@ -3,25 +3,17 @@ import { logOperation, gocardless, handler } from './subscriptions-delete';
 import { client as braintree } from '../lib/clients/braintree';
 
 describe('handler', () => {
-  test.skip('successful request returns a 200', () => {
-    const cb = jest.fn();
-    const event = { pathParameters: { id: 'a1b2c3', provider: 'braintree' } };
-
-    return handler(event, null, cb).then(() => {
-      return expect(cb).toBeCalledWith(
-        null,
-        expect.objectContaining({
-          statusCode: 200,
-          body: '',
-        })
-      );
-    });
-  });
-
   describe('Deleting a subscription', () => {
-    const event = {
+    const failure_event = {
       pathParameters: {
-        id: '83b3bw',
+        id: 'bz6vvr',
+        provider: 'braintree',
+      },
+    };
+
+    const success_event = {
+      pathParameters: {
+        id: '73zstm',
         provider: 'braintree',
       },
     };
@@ -32,21 +24,23 @@ describe('handler', () => {
 
     test('passes the right parameters to cancelSubscription', () => {
       const fn = jest.fn((...params) => Promise.resolve(params));
-      handler(event, null, cb, fn);
-      expect(fn).toBeCalledWith('f9pkvr', 'braintree');
+      handler(success_event, null, cb, fn);
+      expect(fn).toBeCalledWith('73zstm', 'braintree');
     });
 
     test('responds on success (replayer)', () => {
-      return expect(handler(event, null, cb)).resolves.toEqual(
+      return expect(handler(success_event, null, cb)).resolves.toEqual(
         expect.objectContaining({ statusCode: 200, body: '' })
       );
     });
 
-    test.only('responds on errors / exceptions (replayer)', () => {
-      return expect(handler(event, null, cb)).resolves.toEqual(
+    test('responds on errors / exceptions (replayer)', () => {
+      return expect(handler(failure_event, null, cb)).resolves.toEqual(
         expect.objectContaining({
           statusCode: 400,
-          body: expect.stringContaining('f9pkvr'),
+          body: expect.stringContaining(
+            'Subscription has already been canceled.'
+          ),
         })
       );
     });
