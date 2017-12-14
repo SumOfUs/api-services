@@ -1,6 +1,6 @@
 // @flow weak
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
-import { updateMember } from '../lib/champaign/member';
+import { updateMember } from '../lib/clients/champaign/member';
 import { DynamoDBStreams } from 'aws-sdk';
 
 const logger = new OperationsLogger({

@@ -1,4 +1,4 @@
-import { client } from '../../../lib/clients/braintree';
+import { client } from '../../../lib/clients/braintree/braintree';
 
 const response = (code, body) => {
   return {
