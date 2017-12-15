@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api-error-response>
+  <errors>
+    <errors type="array"/>
+    <subscription>
+      <errors type="array">
+        <error>
+          <code>81905</code>
+          <attribute type="symbol">status</attribute>
+          <message>Subscription has already been canceled.</message>
+        </error>
+      </errors>
+    </subscription>
+  </errors>
+  <params/>
+  <message>Subscription has already been canceled.</message>
+</api-error-response>

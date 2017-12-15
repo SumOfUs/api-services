@@ -1,0 +1,33 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "date": "Wed, 13 Dec 2017 09:56:02 GMT",
+    "content-type": "application/xml; charset=utf-8",
+    "transfer-encoding": "chunked",
+    "x-frame-options": "SAMEORIGIN, SAMEORIGIN",
+    "x-xss-protection": "1; mode=block",
+    "x-content-type-options": "nosniff",
+    "x-authentication": "basic_auth",
+    "x-user": "2vtm97htjg9x4v78",
+    "vary": "Accept-Encoding",
+    "etag": "W/\"cf419dbf232ccf1231601cba9f8fb6cd\"",
+    "cache-control": "max-age=0, private, must-revalidate",
+    "x-request-id": "30be875f-bd64-49e6-9000-d47bc427b6a1",
+    "x-runtime": "0.455602",
+    "content-security-policy": "frame-ancestors 'self'",
+    "strict-transport-security": "max-age=31536000; includeSubDomains"
+  },
+  "url": "https://api.sandbox.braintreegateway.com:443/merchants/<BRAINTREE_MERCHANT_ID>/subscriptions/73zstm/cancel",
+  "time": 1419,
+  "request": {
+    "method": "PUT",
+    "headers": {
+      "Authorization": "Basic <BRAINTRE_BASIC_AUTH_TOKEN>",
+      "X-ApiVersion": "4",
+      "Accept": "application/xml",
+      "Content-Type": "application/json",
+      "User-Agent": "Braintree Node 2.4.0",
+      "Accept-Encoding": "gzip"
+    }
+  }
+}

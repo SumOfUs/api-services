@@ -1,15 +1,20 @@
 import axios from 'axios';
 import updateOperationsLog from './updateOperationsLog';
 import { cancelPaymentEvent } from '../lib/dynamodb/eventTypeChecker';
-import uuid from 'uuid/v4';
+import uuid from 'uuid/v1';
 import crypto from 'crypto';
 
 export const handler = (event, context, callback) => {
+  console.log('CANCEL SUBSCRIPTION EVENT: ', event);
+
   if (!cancelPaymentEvent(event.Records[0])) {
     return;
   }
 
   const record = event.Records[0].dynamodb.NewImage;
+
+  console.log('RECORD: ', JSON.stringify(record, null, 2));
+
   const recurringId = record.data.M.recurringId.S;
   const provider = record.data.M.paymentProcessor.S;
   const id = record.id.S;
