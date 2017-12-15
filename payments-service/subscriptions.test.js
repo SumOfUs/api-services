@@ -33,15 +33,12 @@ describe('handler', () => {
       });
 
       test.only('writes to the operations log table', () => {
-        handler(event, null, cb);
-        console.log(
-          'operations logger prototype log ',
-          OperationsLogger.prototype.log
-        );
-        expect(OperationsLogger.prototype.log).toHaveBeenCalledWith({
-          event: 'DELETE',
-          data: { recurringId: '73zstm', paymentProcessor: 'braintree' },
-          status: { actionkit: 'PENDING', champaign: 'PENDING' },
+        return handler(event, null, cb, () => Promise.resolve()).then(e => {
+          return expect(OperationsLogger.prototype.log).toHaveBeenCalledWith({
+            event: 'DELETE',
+            data: { recurringId: '73zstm', paymentProcessor: 'braintree' },
+            status: { actionkit: 'PENDING', champaign: 'PENDING' },
+          });
         });
       });
     });
