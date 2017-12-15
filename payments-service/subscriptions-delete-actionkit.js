@@ -17,12 +17,7 @@ export function handler(e, context, callback, cancel = cancelRecurringOrder) {
   if (!cancelPaymentEvent(record)) return callback(null, 'Not a cancel event');
 
   return cancel(record.data.recurringId)
-    .then(resp => {
-      logger.log({ data: { hello: 'world' } });
-      logger.updateStatus(record, { actionkit: 'SUCCESS' });
-    })
-    .catch(function(error) {
-      logger.updateStatus(record, { actionkit: 'FAILURE' });
-    })
+    .then(resp => logger.updateStatus(record, { actionkit: 'SUCCESS' }))
+    .catch(error => logger.updateStatus(record, { actionkit: 'FAILURE' }))
     .then(() => callback(undefined, 'done'), error => callback(error));
 }
