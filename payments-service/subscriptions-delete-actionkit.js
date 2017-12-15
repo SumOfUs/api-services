@@ -1,36 +1,28 @@
+import AWS from 'aws-sdk';
 import { post } from 'axios';
-import updateOperationsLog from './updateOperationsLog';
 import { cancelPaymentEvent } from '../lib/dynamodb/eventTypeChecker';
+import { cancelRecurringOrder } from '../lib/clients/actionkit';
+import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 
-export const handler = (event, context, callback) => {
-  if (!cancelPaymentEvent(event.Records[0])) {
-    return;
-  }
+const logger = new OperationsLogger({
+  client: new AWS.DynamoDB.DocumentClient(),
+  namespace: 'PAYMENT_SERVICE:SUBSCRIPTION',
+  tableName: process.env.DB_LOG_TABLE,
+});
 
-  const record = event.Records[0].dynamodb.NewImage;
+export function handler(e, context, callback, cancel = cancelRecurringOrder) {
+  // Get first item
+  const [item] = e.Records;
+  const record = AWS.DynamoDB.Converter.unmarshall(item.dynamodb.NewImage);
+  if (!cancelPaymentEvent(record)) return callback(null, 'Not a cancel event');
 
-  const recurringId = record.data.M.recurringId.S;
-  const id = record.id.S;
-  const createdAt = record.createdAt.S;
-
-  const url = `https://${process.env.AK_USERNAME}:${
-    process.env.AK_PASSWORD
-  }@act.sumofus.org/rest/v1/profilecancelpush/`;
-
-  const data = JSON.stringify({
-    recurring_id: recurringId,
-    canceled_by: 'admin',
-  });
-
-  post(url, data, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  return cancel(record.data.recurringId)
     .then(resp => {
-      updateOperationsLog(id, createdAt, 'SUCCESS', 'actionkit');
+      logger.log({ data: { hello: 'world' } });
+      logger.updateStatus(record, { actionkit: 'SUCCESS' });
     })
     .catch(function(error) {
-      updateOperationsLog(id, createdAt, 'FAILURE', 'actionkit');
-    });
-};
+      logger.updateStatus(record, { actionkit: 'FAILURE' });
+    })
+    .then(() => callback(undefined, 'done'), error => callback(error));
+}
