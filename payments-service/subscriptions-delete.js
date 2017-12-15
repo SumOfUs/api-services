@@ -15,18 +15,19 @@ export const cancelSubscription = (id, provider) => {
   } else {
     return cancelGCSubscription(id);
   }
-}
+};
 
 export const handler = (event, context, callback, fn = cancelSubscription) => {
   const { id, provider } = event.pathParameters;
 
   return fn(id, provider)
     .then(resp => {
-    logger.log({
-      event: 'DELETE',
-      data: { recurringId: id, paymentProcessor: provider },
-      status: { actionkit: 'PENDING', champaign: 'PENDING' },
-    });
+      console.log('LOGGER', logger.log);
+      logger.log({
+        event: 'DELETE',
+        data: { recurringId: id, paymentProcessor: provider },
+        status: { actionkit: 'PENDING', champaign: 'PENDING' },
+      });
       return callback(null, response({ cors: true, body: event.data }));
     })
     .catch(err => {

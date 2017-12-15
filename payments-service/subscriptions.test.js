@@ -1,7 +1,10 @@
 // @flow weak
 
 import { cancelSubscription, handler } from './subscriptions-delete';
+import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import { client } from '../lib/clients/braintree/braintree';
+
+jest.spyOn(OperationsLogger.prototype, 'log');
 
 describe('handler', () => {
   describe('Cancelling a Braintree subscription', () => {
@@ -27,6 +30,19 @@ describe('handler', () => {
         return expect(handler(event, null, cb)).resolves.toEqual(
           expect.objectContaining({ statusCode: 200, body: '' })
         );
+      });
+
+      test.only('writes to the operations log table', () => {
+        handler(event, null, cb);
+        console.log(
+          'operations logger prototype log ',
+          OperationsLogger.prototype.log
+        );
+        expect(OperationsLogger.prototype.log).toHaveBeenCalledWith({
+          event: 'DELETE',
+          data: { recurringId: '73zstm', paymentProcessor: 'braintree' },
+          status: { actionkit: 'PENDING', champaign: 'PENDING' },
+        });
       });
     });
 
@@ -75,6 +91,15 @@ describe('handler', () => {
           expect.objectContaining({ statusCode: 200, body: '' })
         );
       });
+
+      // test('writes to the operations log table', () => {
+      //   expect(operationsLogger).toBeCalledWith({
+      //     event: 'DELETE',
+      //     data: { recurringId: 'SB0000BPD0CBDC', paymentProcessor: 'gocardless' },
+      //     status: { actionkit: 'PENDING', champaign: 'PENDING' },
+      //   });
+      //   handler(event, null, cb);
+      // });
     });
 
     describe('Failure', () => {
