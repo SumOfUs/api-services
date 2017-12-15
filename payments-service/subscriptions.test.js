@@ -32,16 +32,13 @@ describe('handler', () => {
         );
       });
 
-      test.only('writes to the operations log table', () => {
-        handler(event, null, cb);
-        console.log(
-          'operations logger prototype log ',
-          OperationsLogger.prototype.log
-        );
-        expect(OperationsLogger.prototype.log).toHaveBeenCalledWith({
-          event: 'DELETE',
-          data: { recurringId: '73zstm', paymentProcessor: 'braintree' },
-          status: { actionkit: 'PENDING', champaign: 'PENDING' },
+      test('writes to the operations log table', () => {
+        return handler(event, null, cb).then(resp => {
+          expect(OperationsLogger.prototype.log).toHaveBeenCalledWith({
+            event: 'DELETE',
+            data: { recurringId: '73zstm', paymentProcessor: 'braintree' },
+            status: { actionkit: 'PENDING', champaign: 'PENDING' },
+          });
         });
       });
     });
@@ -92,14 +89,18 @@ describe('handler', () => {
         );
       });
 
-      // test('writes to the operations log table', () => {
-      //   expect(operationsLogger).toBeCalledWith({
-      //     event: 'DELETE',
-      //     data: { recurringId: 'SB0000BPD0CBDC', paymentProcessor: 'gocardless' },
-      //     status: { actionkit: 'PENDING', champaign: 'PENDING' },
-      //   });
-      //   handler(event, null, cb);
-      // });
+      test('writes to the operations log table', () => {
+        return handler(event, null, cb).then(resp => {
+          expect(OperationsLogger.prototype.log).toHaveBeenCalledWith({
+            event: 'DELETE',
+            data: {
+              recurringId: 'SB0000BPD0CBDC',
+              paymentProcessor: 'gocardless',
+            },
+            status: { actionkit: 'PENDING', champaign: 'PENDING' },
+          });
+        });
+      });
     });
 
     describe('Failure', () => {

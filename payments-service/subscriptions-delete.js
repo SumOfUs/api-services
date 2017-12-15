@@ -22,7 +22,6 @@ export const handler = (event, context, callback, fn = cancelSubscription) => {
 
   return fn(id, provider)
     .then(resp => {
-      console.log('LOGGER', logger.log);
       logger.log({
         event: 'DELETE',
         data: { recurringId: id, paymentProcessor: provider },

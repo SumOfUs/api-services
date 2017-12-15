@@ -7,7 +7,6 @@ import uuidv1 from 'uuid/v1';
 
 jest.spyOn(AWS.DynamoDB.DocumentClient.prototype, 'update');
 jest.spyOn(OperationsLogger.prototype, 'updateStatus');
-jest.spyOn(OperationsLogger.prototype, 'log');
 
 const validEvent = {
   Records: [
@@ -57,13 +56,9 @@ describe('subscriptions-delete-actionkit handler', function() {
     const cancelFn = jest.fn(() => Promise.resolve());
     handler(validEvent, null, cb, cancelFn);
 
-    expect(OperationsLogger.prototype.updateStatus).toHaveBeenCalledWith({
-      data: { hello: 'world' },
-    });
-
-    // expect(OperationsLogger.prototype.updateStatus).toHaveBeenCalledWith(
-    //   record,
-    //   { actionkit: 'SUCCESS' }
-    // );
+    expect(OperationsLogger.prototype.updateStatus).toHaveBeenCalledWith(
+      record,
+      { actionkit: 'SUCCESS' }
+    );
   });
 });
