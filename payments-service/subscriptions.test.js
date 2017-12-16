@@ -1,16 +1,23 @@
 // @flow weak
-// Mock our local braintree client in lib/clients/braintree
-jest.mock('../lib/clients/braintree/braintree', () => ({
-  client: { subscription: { cancel: jest.fn(() => ({ success: true })) } },
-}));
-
 import {
   cancelSubscription,
   logOperation,
   gocardless,
   handler,
 } from './subscriptions-delete';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { client } from '../lib/clients/braintree/braintree';
+
+// Mock our local braintree client in lib/clients/braintree
+jest.mock('../lib/clients/braintree/braintree', () => ({
+  client: { subscription: { cancel: jest.fn(() => ({ success: true })) } },
+}));
+jest
+  .spyOn(DocumentClient.prototype, 'put')
+  .mockImplementation(opts => ({ promise: () => Promise.resolve(opts) }));
+jest
+  .spyOn(DocumentClient.prototype, 'update')
+  .mockImplementation(opts => ({ promise: () => Promise.resolve(opts) }));
 
 describe('handler', () => {
   test('successful request returns a 200', () => {
