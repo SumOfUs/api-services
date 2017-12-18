@@ -10,19 +10,22 @@ const logger = new OperationsLogger({
   tableName: process.env.DB_LOG_TABLE,
 });
 
-export function handler(e, context, callback, cancel = cancelRecurringOrder) {
+export const handler = async (e, ctx, cb, cancel = cancelRecurringOrder) => {
   // Get first item
   const [item] = e.Records;
   const record = AWS.DynamoDB.Converter.unmarshall(item.dynamodb.NewImage);
-  if (!cancelPaymentEvent(record)) return callback(null, 'Not a cancel event');
+  if (!cancelPaymentEvent(record)) return cb(null, 'Not a cancel event');
 
-  return cancel(record.data.recurringId)
-    .then(resp => {
-      logger.log({ data: { hello: 'world' } });
-      logger.updateStatus(record, { actionkit: 'SUCCESS' });
-    })
-    .catch(function(error) {
-      logger.updateStatus(record, { actionkit: 'FAILURE' });
-    })
-    .then(() => callback(undefined, 'done'), error => callback(error));
-}
+  try {
+    await cancel(record.data.recurringId);
+    logger.updateStatus(record, { actionkit: 'SUCCESS' });
+  } catch (error) {
+    logger.updateStatus(record, { actionkit: 'FAILURE' });
+    return cb(error);
+  }
+
+  return cb(
+    null,
+    `Subscription ${record.data.recurringId} cancelled successfully`
+  );
+};

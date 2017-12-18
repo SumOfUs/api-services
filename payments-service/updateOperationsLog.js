@@ -2,15 +2,6 @@ import AWS from 'aws-sdk';
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
 export default (id, createdAt, state, platform) => {
-  console.log(
-    'update log',
-    id,
-    createdAt,
-    state,
-    platform,
-    process.env.DB_LOG_TABLE
-  );
-
   const params = {
     TableName: process.env.DB_LOG_TABLE,
     Key: {

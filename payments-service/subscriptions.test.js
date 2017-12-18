@@ -1,9 +1,20 @@
 // @flow weak
-
-import { cancelSubscription, handler } from './subscriptions-delete';
-import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
+import {
+  cancelSubscription,
+  logOperation,
+  gocardless,
+  handler,
+} from './subscriptions-delete';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { client } from '../lib/clients/braintree/braintree';
+import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 
+jest
+  .spyOn(DocumentClient.prototype, 'put')
+  .mockImplementation(opts => ({ promise: () => Promise.resolve(opts) }));
+jest
+  .spyOn(DocumentClient.prototype, 'update')
+  .mockImplementation(opts => ({ promise: () => Promise.resolve(opts) }));
 jest.spyOn(OperationsLogger.prototype, 'log');
 
 describe('handler', () => {
