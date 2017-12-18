@@ -1,20 +1,22 @@
+// @flow
 import 'source-map-support/register';
 import type { ProxyCallback } from 'flow-aws-lambda';
 import uuidv4 from 'uuid/v4';
-import AWS from 'aws-sdk';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { validateRequest } from '../lib/request-validator';
 import { badRequest, response } from '../lib/lambda-utils/responses';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 
-import { update } from '../lib/actionkit/resources/users';
+import { update } from '../lib/clients/actionkit/resources/users';
 import { UPDATE_MEMBER_SCHEMA } from './request-schemas';
 
 const logger = new OperationsLogger({
   namespace: 'MEMBERS',
-  tableName: process.env.DB_LOG_TABLE,
+  tableName: process.env.DB_LOG_TABLE || 'OperationsTable',
+  client: new DocumentClient(),
 });
 
-export function handler(event, context, callback) {
+export function handler(event: any, context: any, callback: any) {
   const parameters = {
     ...event.pathParameters,
     ...JSON.parse(event.body),
@@ -25,11 +27,9 @@ export function handler(event, context, callback) {
       update(id, data)
         .then(result => {
           logger.log({
-            status: {
-              actionkit: 'COMPLETE',
-              champaign: 'PENDING',
-            },
+            event: 'UPDATE',
             data,
+            status: { actionkit: 'SUCCESS', champaign: 'PENDING' },
           });
           return result;
         })
