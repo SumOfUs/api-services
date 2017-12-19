@@ -68,16 +68,13 @@ export function update(event, context, callback) {
   );
 }
 
-export function unsubscribe_page() {
-  const page = process.env.UNSUBSCRIBE_PAGE_NAME;
-  if (!page) {
-    return Promise.reject(new Error('Unsubscribe page needs to be set.'));
-  }
-  return Promise.resolve(page);
-}
-
-export function unsubscribe(event, context, callback, page = unsubscribe_page) {
-  return page()
+export function unsubscribe(
+  event,
+  context,
+  callback,
+  verifyPage = unsubscribePage
+) {
+  return verifyPage()
     .then(pageResult => {
       return {
         page: pageResult,
@@ -85,24 +82,34 @@ export function unsubscribe(event, context, callback, page = unsubscribe_page) {
       };
     })
     .then(data => {
-      const logger = new OperationsLogger({
-        namespace: 'MEMBERS',
-        tableName: process.env.DB_LOG_TABLE,
-        client: new DocumentClient(),
-      });
       return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, data)
         .then(result => unsubscribeMember(data))
-        .then(actionkitResult => {
-          logger.log({
-            event: 'EMAIL_UNSUBSCRIBE',
-            data: { email: data.email },
-          });
-        })
+        .then(actionkitResult => logUnsubscribeEvent(data))
         .then(dynamodbResult => {
-          return callback(null, response(result));
+          return callback(null, response(dynamodbResult));
         });
     })
     .catch(err => {
       return callback(null, badRequest({ cors: true, body: err }));
     });
+}
+
+export function unsubscribePage() {
+  const page = process.env.UNSUBSCRIBE_PAGE_NAME;
+  if (!page) {
+    return Promise.reject(new Error('Unsubscribe page needs to be set.'));
+  }
+  return Promise.resolve(page);
+}
+
+export function logUnsubscribeEvent(data) {
+  const logger = new OperationsLogger({
+    namespace: 'MEMBERS',
+    tableName: process.env.DB_LOG_TABLE,
+    client: new DocumentClient(),
+  });
+  return logger.log({
+    event: 'EMAIL_UNSUBSCRIBE',
+    data: { email: data.email },
+  });
 }
