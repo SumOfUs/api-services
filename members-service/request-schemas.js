@@ -34,6 +34,5 @@ export const UNSUBSCRIBE_MEMBER_SCHEMA = {
   required: ['email', 'page'],
   properties: {
     email: { type: 'string', format: 'email' },
-    page: { type: 'string', minLength: 1 },
   },
 };

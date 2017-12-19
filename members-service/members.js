@@ -21,6 +21,8 @@ import {
   UNSUBSCRIBE_MEMBER_SCHEMA,
   UPDATE_MEMBER_SCHEMA,
 } from './request-schemas';
+import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
 export function index(event, context, callback, search = searchMember) {
   const permittedParams = Object.keys(LIST_MEMBERS_SCHEMA.properties);
@@ -66,18 +68,41 @@ export function update(event, context, callback) {
   );
 }
 
-export function unsubscribe(event, context, callback) {
-  const data = {
-    page: process.env.UNSUBSCRIBE_PAGE_NAME,
-    email: JSON.parse(event.body).email,
-  };
-  return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, data).then(
-    params => {
-      unsubscribeMember(data).then(
-        result => callback(null, response(result)),
-        error => callback(null, response(error))
-      );
-    },
-    errors => callback(null, badRequest({ cors: true, body: errors }))
-  );
+export function unsubscribe_page() {
+  const page = process.env.UNSUBSCRIBE_PAGE_NAME;
+  if (!page) {
+    return Promise.reject(new Error('Unsubscribe page needs to be set.'));
+  }
+  return Promise.resolve(page);
+}
+
+export function unsubscribe(event, context, callback, page = unsubscribe_page) {
+  return page()
+    .then(pageResult => {
+      return {
+        page: pageResult,
+        email: JSON.parse(event.body).email,
+      };
+    })
+    .then(data => {
+      const logger = new OperationsLogger({
+        namespace: 'MEMBERS',
+        tableName: process.env.DB_LOG_TABLE,
+        client: new DocumentClient(),
+      });
+      return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, data)
+        .then(result => unsubscribeMember(data))
+        .then(actionkitResult => {
+          logger.log({
+            event: 'EMAIL_UNSUBSCRIBE',
+            data: { email: data.email },
+          });
+        })
+        .then(dynamodbResult => {
+          return callback(null, response(result));
+        });
+    })
+    .catch(err => {
+      return callback(null, badRequest({ cors: true, body: err }));
+    });
 }
