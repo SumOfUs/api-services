@@ -1,13 +1,13 @@
+// @flow weak
 import AWS from 'aws-sdk';
-import { post } from 'axios';
 import { cancelPaymentEvent } from '../lib/dynamodb/eventTypeChecker';
-import { cancelRecurringOrder } from '../lib/clients/actionkit';
+import { cancel as cancelRecurringOrder } from '../lib/clients/actionkit';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 
 const logger = new OperationsLogger({
   client: new AWS.DynamoDB.DocumentClient(),
   namespace: 'PAYMENT_SERVICE:SUBSCRIPTION',
-  tableName: process.env.DB_LOG_TABLE,
+  tableName: process.env.DB_LOG_TABLE || 'OperationsTable',
 });
 
 export const handler = async (e, ctx, cb, cancel = cancelRecurringOrder) => {
