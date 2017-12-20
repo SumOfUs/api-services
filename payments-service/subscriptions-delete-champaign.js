@@ -1,52 +1,70 @@
 import axios from 'axios';
-import updateOperationsLog from './updateOperationsLog';
+import AWS from 'aws-sdk';
+// import updateOperationsLog from './updateOperationsLog';
+import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
+
 import { cancelPaymentEvent } from '../lib/dynamodb/eventTypeChecker';
-import uuid from 'uuid/v1';
-import crypto from 'crypto';
+import { cancelRecurringDonation } from '../lib/clients/champaign/recurring_donation';
 
-export const handler = (event, context, callback) => {
-  console.log('CANCEL SUBSCRIPTION EVENT: ', event);
+const logger = new OperationsLogger({
+  client: new AWS.DynamoDB.DocumentClient(),
+  namespace: 'PAYMENT_SERVICE:SUBSCRIPTION',
+  tableName: process.env.DB_LOG_TABLE,
+});
 
-  if (!cancelPaymentEvent(event.Records[0])) {
-    return;
+export const handler = (
+  event,
+  context,
+  callback,
+  cancelDonation = cancelRecurringDonation
+) => {
+  // Get first item
+  const [item] = event.Records;
+  const record = AWS.DynamoDB.Converter.unmarshall(item.dynamodb.NewImage);
+
+  if (!cancelPaymentEvent(record)) {
+    return callback(null, 'Not a cancel event');
   }
-
-  const record = event.Records[0].dynamodb.NewImage;
-
-  console.log('RECORD: ', JSON.stringify(record, null, 2));
-
-  const recurringId = record.data.M.recurringId.S;
-  const provider = record.data.M.paymentProcessor.S;
-  const id = record.id.S;
-  const createdAt = record.createdAt.S;
-
-  const url = `${
-    process.env.CHAMPAIGN_URL
-  }/api/member_services/recurring_donations/${provider}/${recurringId}`;
+  const recurringId = record.data.recurringId;
+  const provider = record.data.paymentProcessor;
+  const id = record.id;
+  const createdAt = record.createdAt;
 
   const data = JSON.stringify({
     id: recurringId,
     provider: provider,
   });
 
-  const nonce = uuid();
-  const signature = crypto
-    .createHmac('sha256', process.env.MEMBER_SERVICES_SECRET)
-    .update(nonce)
-    .digest('hex');
-
-  axios
-    .delete(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CHAMPAIGN-NONCE': nonce,
-        'X-CHAMPAIGN-SIGNATURE': signature,
-      },
-    })
+  return cancelDonation(recurringId, provider)
     .then(resp => {
-      updateOperationsLog(id, createdAt, 'SUCCESS', 'champaign');
+      logger
+        .updateStatus(record, { champaign: 'SUCCESS' })
+        .then(dynamodbResponse => {
+          console.log('Champaign success, log success');
+          return callback(
+            null,
+            `Subscription ${record.data.recurringId} cancelled successfully`
+          );
+        })
+        .catch(dynamodbError => {
+          console.log('Champaign success, log error: ', dynamodbError);
+          // call back with error from dynamodb
+          return callback(dynamodbError);
+        });
     })
-    .catch(function(error) {
-      updateOperationsLog(id, createdAt, 'FAILURE', 'champaign');
+    .catch(champaignError => {
+      console.log('Champaign error: ', champaignError);
+      logger
+        .updateStatus(record, { champaign: 'FAILURE' })
+        .then(dynamodbSuccess => {
+          console.log('Champaign error, log success ', champaignError);
+          // call back with error from champaign
+          return callback(champaignError);
+        })
+        .catch(dynamodbError => {
+          console.log('Champaign error, log error: ', dynamodbError);
+          // call back with error from dynamodb
+          return callback(dynamodbError);
+        });
     });
 };
