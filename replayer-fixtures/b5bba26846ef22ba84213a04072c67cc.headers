@@ -1,0 +1,28 @@
+{
+  "statusCode": 404,
+  "headers": {
+    "cache-control": "no-cache",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 21 Dec 2017 09:42:55 GMT",
+    "server": "nginx/1.12.1",
+    "vary": "Origin",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-request-id": "940dd865-435b-45d1-b74d-aed0c69ca194",
+    "x-runtime": "0.024101",
+    "x-xss-protection": "1; mode=block",
+    "content-length": "69",
+    "connection": "keep-alive"
+  },
+  "url": "https://action-staging.sumofus.org/api/member_services/recurring_donations/braintree/IdontExist",
+  "time": 1140,
+  "request": {
+    "method": "delete",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "x-champaign-nonce": "518a53f0-e633-11e7-b6ad-c9327b3eb133",
+      "x-champaign-signature": "72022c2ee6cf85e7775c8860c8632f56b36611718c5d59ee0880fa3bd1aca375",
+      "User-Agent": "axios/0.17.1"
+    }
+  }
+}

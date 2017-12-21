@@ -35,22 +35,29 @@ describe('subscriptions-delete-champaign handler', function() {
     const record = unmarshall(event.Records[0].dynamodb.NewImage);
     const cancelFn = jest.fn(() => Promise.resolve());
     await handler(event, null, cb, cancelFn);
-    expect(cancelFn).toHaveBeenCalledWith('testRecurringId', 'paymentprovider');
+    expect(cancelFn).toHaveBeenCalledWith('c8rqgb', 'braintree');
   });
 
-  test(`[on champaign success] updates the operation log status with 'success'`, async () => {
+  test(`[on champaign success] updates the operation log status with 'success' (replayer)`, async () => {
     const event = validEvent(new Date().toISOString());
     const record = unmarshall(event.Records[0].dynamodb.NewImage);
     await handler(event, null, jest.fn(), () => Promise.resolve());
     expect(statusSpy).toBeCalledWith(record, { champaign: 'SUCCESS' });
+    expect(cb).toHaveBeenCalledWith(
+      null,
+      'Subscription c8rqgb cancelled successfully'
+    );
   });
 
-  test(`[on champaign failure] updates the operation log status with 'failure'`, async () => {
-    const event = validEvent(new Date().toISOString());
+  test(`[on champaign failure] updates the operation log status with 'failure' (replayer)`, async () => {
+    const event = notFoundEvent(new Date().toISOString());
     const record = unmarshall(event.Records[0].dynamodb.NewImage);
-    const cancelFn = jest.fn(() => Promise.reject());
-    await handler(event, null, cb, cancelFn);
+    // const cancelFn = jest.fn(() => Promise.reject());
+    await handler(event, null, cb);
     expect(statusSpy).toBeCalledWith(record, { champaign: 'FAILURE' });
+    expect(cb).toHaveBeenCalledWith({
+      errors: ['Recurring donation IdontExist for braintree not found.'],
+    });
   });
 });
 
@@ -66,8 +73,30 @@ function validEvent(date) {
             createdAt: date,
             status: { actionkit: 'PENDING', champaign: 'PENDING' },
             data: {
-              recurringId: 'testRecurringId',
-              paymentProcessor: 'paymentprovider',
+              recurringId: 'c8rqgb',
+              paymentProcessor: 'braintree',
+            },
+          }),
+        },
+      },
+    ],
+  };
+}
+
+function notFoundEvent(date) {
+  return {
+    Records: [
+      {
+        dynamodb: {
+          NewImage: marshall({
+            eventName: 'INSERT',
+            eventType: CANCEL_PAYMENT_EVENT,
+            id: uuidv1(),
+            createdAt: date,
+            status: { actionkit: 'PENDING', champaign: 'PENDING' },
+            data: {
+              recurringId: 'IdontExist',
+              paymentProcessor: 'braintree',
             },
           }),
         },

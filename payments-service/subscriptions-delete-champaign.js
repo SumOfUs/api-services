@@ -4,7 +4,7 @@ import AWS from 'aws-sdk';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 
 import { cancelPaymentEvent } from '../lib/dynamodb/eventTypeChecker';
-import { cancelRecurringDonation } from '../lib/clients/champaign/recurring_donation';
+import { cancelRecurringDonation } from '../lib/clients/champaign/recurringDonation';
 
 const logger = new OperationsLogger({
   client: new AWS.DynamoDB.DocumentClient(),
@@ -40,29 +40,24 @@ export const handler = (
       logger
         .updateStatus(record, { champaign: 'SUCCESS' })
         .then(dynamodbResponse => {
-          console.log('Champaign success, log success');
           return callback(
             null,
             `Subscription ${record.data.recurringId} cancelled successfully`
           );
         })
         .catch(dynamodbError => {
-          console.log('Champaign success, log error: ', dynamodbError);
           // call back with error from dynamodb
           return callback(dynamodbError);
         });
     })
     .catch(champaignError => {
-      console.log('Champaign error: ', champaignError);
       logger
         .updateStatus(record, { champaign: 'FAILURE' })
         .then(dynamodbSuccess => {
-          console.log('Champaign error, log success ', champaignError);
           // call back with error from champaign
-          return callback(champaignError);
+          return callback(champaignError.response.data);
         })
         .catch(dynamodbError => {
-          console.log('Champaign error, log error: ', dynamodbError);
           // call back with error from dynamodb
           return callback(dynamodbError);
         });
