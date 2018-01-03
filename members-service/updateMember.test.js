@@ -1,3 +1,4 @@
+// @flow
 import { handler } from './updateMember';
 
 describe('updateMember handler', function() {

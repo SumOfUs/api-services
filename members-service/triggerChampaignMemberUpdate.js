@@ -22,5 +22,6 @@ export async function handler(e, ctx, cb, fn = updateMember) {
   } catch (e) {
     logger.updateStatus(record, { champaign: 'FAILURE' });
     cb(e);
+    throw e;
   }
 }

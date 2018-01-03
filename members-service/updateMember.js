@@ -1,7 +1,6 @@
 // @flow
 import 'source-map-support/register';
 import type { ProxyCallback } from 'flow-aws-lambda';
-import uuidv4 from 'uuid/v4';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { validateRequest } from '../lib/request-validator';
 import { badRequest, response } from '../lib/lambda-utils/responses';
