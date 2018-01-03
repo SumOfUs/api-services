@@ -39,11 +39,11 @@ describe('members-unsubscribe', () => {
 
     describe('failure', () => {
       test('It fails if unsubscribe page check fails.', () => {
-        const event = { body: '{"email":"tuuli@sumofus.org"}' };
-        const pageCheck = jest.fn(() => {
-          return Promise.reject(new Error('Unsubscribe page needs to be set.'));
-        });
-        return unsubscribe(event, null, cb, pageCheck).then(() => {
+        const event = {
+          body: '{"email":"tuuli@sumofus.org"}',
+          unsubscribePage: '',
+        };
+        return unsubscribe(event, null, cb).then(() => {
           expect(cb).toBeCalledWith(
             null,
             expect.objectContaining({

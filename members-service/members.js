@@ -1,4 +1,3 @@
-
 import 'source-map-support/register';
 import { pick } from 'lodash';
 import { validateRequest } from '../lib/request-validator';
@@ -13,7 +12,6 @@ import {
   find,
   update as updateMember,
   unsubscribe as unsubscribeMember,
-
 } from '../lib/clients/actionkit/resources/users';
 import {
   LIST_MEMBERS_SCHEMA,
@@ -68,26 +66,18 @@ export function update(event, context, callback) {
   );
 }
 
-export function unsubscribe(
-  event,
-  context,
-  callback,
-  verifyPage = unsubscribePage
-) {
-  return verifyPage()
-    .then(pageResult => {
-      return {
-        page: pageResult,
-        email: JSON.parse(event.body).email,
-      };
-    })
-    .then(data => {
-      return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, data)
-        .then(result => unsubscribeMember(data))
-        .then(actionkitResult => logUnsubscribeEvent(data))
-        .then(dynamodbResult => {
-          return callback(null, response(dynamodbResult));
-        });
+export function unsubscribe(event, context, callback) {
+  const { UNSUBSCRIBE_PAGE_NAME } = process.env;
+  const { unsubscribePage, body } = event;
+  const data = {
+    page: unsubscribePage == null ? UNSUBSCRIBE_PAGE_NAME : unsubscribePage,
+    email: JSON.parse(event.body).email,
+  };
+  return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, data)
+    .then(result => unsubscribeMember(data.email, data.page))
+    .then(actionkitResult => logUnsubscribeEvent(data))
+    .then(dynamodbResult => {
+      return callback(null, response(dynamodbResult));
     })
     .catch(err => {
       return callback(null, badRequest({ cors: true, body: err }));
