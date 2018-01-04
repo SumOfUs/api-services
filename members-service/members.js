@@ -1,4 +1,3 @@
-// @flow weak
 import 'source-map-support/register';
 import { pick } from 'lodash';
 import { validateRequest } from '../lib/request-validator';
@@ -12,6 +11,7 @@ import {
   search as searchMember,
   find,
   update as updateMember,
+  unsubscribe as unsubscribeMember,
 } from '../lib/clients/actionkit/resources/users';
 import {
   LIST_MEMBERS_SCHEMA,
@@ -19,6 +19,8 @@ import {
   UNSUBSCRIBE_MEMBER_SCHEMA,
   UPDATE_MEMBER_SCHEMA,
 } from './request-schemas';
+import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
 export function index(event, context, callback, search = searchMember) {
   const permittedParams = Object.keys(LIST_MEMBERS_SCHEMA.properties);
@@ -48,7 +50,6 @@ export function show(event, context, callback, _find = find) {
 }
 
 export function update(event, context, callback) {
-  console.log('event:', event);
   const parameters = {
     ...event.pathParameters,
     ...JSON.parse(event.body),
@@ -65,18 +66,40 @@ export function update(event, context, callback) {
   );
 }
 
-// export function unsubscribe(event, context, callback) {
-//   const parameters = {
-//     ...event.pathParameters,
-//     ...event.queryStringParameters,
-//   };
-//   return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, parameters).then(
-//     params => {
-//       callback(null, {
-//         message: 'Go Serverless Webpack (Ecma Script) v1.0! First module!',
-//         event,
-//       });
-//     },
-//     errors => callback(null, badRequest({ cors: true, body: errors }))
-//   );
-// }
+export function unsubscribe(event, context, callback) {
+  const { UNSUBSCRIBE_PAGE_NAME } = process.env;
+  const { unsubscribePage, body } = event;
+  const data = {
+    page: unsubscribePage == null ? UNSUBSCRIBE_PAGE_NAME : unsubscribePage,
+    email: JSON.parse(event.body).email,
+  };
+  return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, data)
+    .then(result => unsubscribeMember(data.email, data.page))
+    .then(actionkitResult => logUnsubscribeEvent(data))
+    .then(dynamodbResult => {
+      return callback(null, response(dynamodbResult));
+    })
+    .catch(err => {
+      return callback(null, badRequest({ cors: true, body: err }));
+    });
+}
+
+export function unsubscribePage() {
+  const page = process.env.UNSUBSCRIBE_PAGE_NAME;
+  if (!page) {
+    return Promise.reject(new Error('Unsubscribe page needs to be set.'));
+  }
+  return Promise.resolve(page);
+}
+
+export function logUnsubscribeEvent(data) {
+  const logger = new OperationsLogger({
+    namespace: 'MEMBERS',
+    tableName: process.env.DB_LOG_TABLE,
+    client: new DocumentClient(),
+  });
+  return logger.log({
+    event: 'EMAIL_UNSUBSCRIBE',
+    data: { email: data.email },
+  });
+}

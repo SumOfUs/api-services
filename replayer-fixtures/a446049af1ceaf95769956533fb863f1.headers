@@ -1,0 +1,26 @@
+{
+  "statusCode": 201,
+  "headers": {
+    "date": "Tue, 19 Dec 2017 11:37:37 GMT",
+    "content-type": "application/json",
+    "transfer-encoding": "chunked",
+    "connection": "keep-alive",
+    "server": "nginx",
+    "x-machine-id": "ip-10-50-2-190",
+    "x-handled-for": "217.250.169.38",
+    "vary": "Accept,Cookie,Accept-Encoding,User-Agent",
+    "location": "https://act.sumofus.org/rest/v1/unsubscribeaction/95820377/"
+  },
+  "url": "https://act.sumofus.org/rest/v1/action/",
+  "time": 1039,
+  "request": {
+    "method": "post",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": "application/json;charset=utf-8",
+      "authorization": "<AK_BASIC_AUTH_TOKEN>",
+      "User-Agent": "axios/0.17.1",
+      "Content-Length": 50
+    }
+  }
+}

@@ -67,13 +67,6 @@ functions:
           method: put
           path: members/{id}
           cors: true
-  # members-unsubscribe:
-  #   handler: members-service/members.unsubscribe
-  #   events:
-  #     - http:
-  #         method: post
-  #         path: members/{id}/unsubscribe
-  #         cors: true
 
   trigger-champaign-member-update:
     handler: members-service/triggerChampaignMemberUpdate.handler
@@ -86,6 +79,14 @@ functions:
             Fn::GetAtt:
               - OperationsTable
               - StreamArn
+
+  members-unsubscribe:
+    handler: members-service/members.unsubscribe
+    events:
+      - http:
+          method: post
+          path: members/unsubscribe
+          cors: true
 
   members-braintree-data:
     handler: payments-service/braintree_data.show
