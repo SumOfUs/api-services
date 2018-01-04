@@ -19,7 +19,7 @@ coverage
 # Settings files!
 settings/*
 !settings/prod.yml
-!settings/dev.yml
+!settings/staging.yml
 .DS_Store
 
 # IDE files
