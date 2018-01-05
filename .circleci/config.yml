@@ -6,7 +6,6 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/node:7.10
 
     working_directory: ~/api-services
@@ -31,3 +30,11 @@ jobs:
       - run: npm run ci:test
       - run: npm run ci:coveralls
       - run: npm run flow check
+
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "deploy" ]; then
+              npm install serverless
+              ./node_modules/serverless/bin/serverless deploy -s staging
+            fi
+
