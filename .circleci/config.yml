@@ -16,25 +16,28 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package-lock.json" }}
+          - v1-dependencies-y{{ checksum "package-lock.json" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          # - v1-dependencies-
 
       - run: npm install
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          key: v1-dependencies-y{{ checksum "package-lock.json" }}
 
-      - run: npm run ci:test
-      - run: npm run ci:coveralls
-      - run: npm run flow check
+      # - run: npm run ci:test
+      # - run: npm run ci:coveralls
+      # - run: npm run flow check
 
       - deploy:
           command: |
             if [ "${CIRCLE_BRANCH}" == "deploy" ]; then
-              npm install serverless
-              ./node_modules/serverless/bin/serverless deploy -s staging
+              ./deploy/deploy.sh staging
+              # ./deploy/downloadSecrets.js '/staging/api-services/' > secrets.sh
+              # source secrets.sh
+              # npm install serverless
+              # ./node_modules/serverless/bin/serverless deploy -s staging
             fi
 

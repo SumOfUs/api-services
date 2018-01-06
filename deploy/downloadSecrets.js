@@ -36,7 +36,7 @@ function parse(data) {
   data.Parameters.forEach(function(secret) {
     const name = secret.Name.replace(/^.*\//, '');
     const value = secret.Value;
-    secrets.push(`${name}='${value}'`);
+    secrets.push(`export ${name}='${value}'`);
   });
   return secrets.join('\n');
 }

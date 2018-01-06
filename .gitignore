@@ -15,6 +15,7 @@ coverage
 
 # dotenv environment variables file
 .env
+secrets.sh
 
 # Settings files!
 settings/*
