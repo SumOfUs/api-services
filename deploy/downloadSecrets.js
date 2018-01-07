@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const getParametersByPath = require('./parametersStoreClient');
 const AWS = require('aws-sdk');
 const commandLineArgs = require('command-line-args');
 
@@ -24,19 +25,12 @@ Options:
   process.exit(1);
 }
 
-const ssm = new AWS.SSM({ region: options['aws-region'] });
-
-ssm.getParametersByPath({ Path: options['secrets-path'] }, function(err, data) {
-  if (err) console.log(err, err.stack);
-  else console.log(parse(data));
-});
-
-function parse(data) {
-  const secrets = [];
-  data.Parameters.forEach(function(secret) {
-    const name = secret.Name.replace(/^.*\//, '');
-    const value = secret.Value;
-    secrets.push(`export ${name}='${value}'`);
+getParametersByPath(options['secrets-path'], options['aws-region'])
+  .then(function(secrets) {
+    secrets.forEach(function(secret) {
+      console.log(`export ${secret[0]}='${secret[1]}'`);
+    });
+  })
+  .catch(function(error) {
+    throw error;
   });
-  return secrets.join('\n');
-}
