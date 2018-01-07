@@ -31,9 +31,11 @@ jobs:
 
       - deploy:
           command: |
-            if [ "${CIRCLE_BRANCH}" == "development" ]; then
+            if [ "${CIRCLE_BRANCH}" == "${STAGING_DEPLOY_BRANCH}" ]; then
+              echo "Deploying to STAGING"
               ./deploy/deploy.sh staging
-            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+            elif [ "${CIRCLE_BRANCH}" == "${PRODUCTION_DEPLOY_BRANCH}" ]; then
+              echo "Deploying to PRODUCTION"
               ./deploy/deploy.sh production
             fi
 
