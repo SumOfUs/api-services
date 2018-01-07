@@ -33,11 +33,9 @@ jobs:
 
       - deploy:
           command: |
-            if [ "${CIRCLE_BRANCH}" == "deploy" ]; then
+            if [ "${CIRCLE_BRANCH}" == "development" ]; then
               ./deploy/deploy.sh staging
-              # ./deploy/downloadSecrets.js '/staging/api-services/' > secrets.sh
-              # source secrets.sh
-              # npm install serverless
-              # ./node_modules/serverless/bin/serverless deploy -s staging
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ./deploy/deploy.sh production
             fi
 

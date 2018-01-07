@@ -19,7 +19,7 @@ secrets.sh
 
 # Settings files!
 settings/*
-!settings/prod.yml
+!settings/production.yml
 !settings/staging.yml
 .DS_Store
 
