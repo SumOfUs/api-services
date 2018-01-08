@@ -6,7 +6,6 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/node:7.10
 
     working_directory: ~/api-services
@@ -17,17 +16,26 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package-lock.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-y{{ checksum "package-lock.json" }}
 
       - run: npm install
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          key: v1-dependencies-y{{ checksum "package-lock.json" }}
 
-      - run: npm run ci:test
+      - run: source .env.test && npm run ci:test
       - run: npm run ci:coveralls
       - run: npm run flow check
+
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "${STAGING_DEPLOY_BRANCH}" ]; then
+              echo "Deploying to STAGING"
+              ./deploy/deploy.sh staging
+            elif [ "${CIRCLE_BRANCH}" == "${PRODUCTION_DEPLOY_BRANCH}" ]; then
+              echo "Deploying to PRODUCTION"
+              ./deploy/deploy.sh production
+            fi
+
