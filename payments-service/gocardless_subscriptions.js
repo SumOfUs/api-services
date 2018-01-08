@@ -1,3 +1,4 @@
+// @flow weak
 import { validateRequest } from '../lib/request-validator';
 import { ok, badRequest, serverError } from '../lib/lambda-utils/responses';
 import { searchGCSubscriptions } from '../lib/services/gocardless';
