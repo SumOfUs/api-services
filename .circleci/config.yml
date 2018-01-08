@@ -27,7 +27,7 @@ jobs:
 
       - run: source .env.test && npm run ci:test
       - run: npm run ci:coveralls
-      # - run: npm run flow check
+      - run: npm run flow check
 
       - deploy:
           command: |
