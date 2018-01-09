@@ -7,22 +7,25 @@ import { updateMember } from '../lib/clients/champaign/member';
 
 jest.mock('../lib/dynamodb/operationsLogger');
 
+jest.spyOn(console, 'error');
+
 describe('handler', function() {
   test('it is a function', () => {
     expect(typeof handler).toEqual('function');
   });
 
-  test('does not process non-update member events', async () => {
+  test.only('does not process non-update member events', async () => {
     const cb = jest.fn();
-    await handler(invalidEvent(), null, cb);
-    return expect(cb).toBeCalledWith(null, 'Not a member update event');
+    handler(invalidEvent(), null, cb);
+    return expect(console.error).toBeCalledWith(
+      'ERROR: Not a member update event'
+    );
   });
 
-  test('calls updateMember() with the member data', async () => {
-    const cb = jest.fn();
+  test.only('calls updateMember() with the member data', async () => {
     const event = validEvent();
     const update = jest.fn((...args) => updateMember(...args));
-    await handler(event, null, cb, update);
+    handler(event, null, jest.fn(), update);
     return expect(update).toHaveBeenCalledWith(
       expect.objectContaining({
         email: 'vincent@sumofus.org',
@@ -37,9 +40,9 @@ function validEvent(date) {
   return {
     Records: [
       {
+        eventName: 'INSERT',
         dynamodb: {
           NewImage: Converter.marshall({
-            eventName: 'INSERT',
             eventType: UPDATE_MEMBER_EVENT,
             id: uuidv1(),
             createdAt: date || new Date().toISOString(),
@@ -60,9 +63,9 @@ function invalidEvent(date = new Date().toISOString()) {
   return {
     Records: [
       {
+        eventName: 'INSERT',
         dynamodb: {
           NewImage: Converter.marshall({
-            eventName: 'INSERT',
             eventType: 'INVALID_EVENT',
             id: uuidv1(),
             createdAt: date || new Date().toISOString(),

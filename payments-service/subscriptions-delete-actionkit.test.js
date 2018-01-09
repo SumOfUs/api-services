@@ -57,9 +57,9 @@ function validEvent(date) {
   return {
     Records: [
       {
+        eventName: 'INSERT',
         dynamodb: {
           NewImage: marshall({
-            eventName: 'INSERT',
             eventType: CANCEL_PAYMENT_EVENT,
             id: uuidv1(),
             createdAt: date,
@@ -77,7 +77,7 @@ function validEvent(date) {
 function invalidEvent() {
   return {
     Records: [
-      { dynamodb: { NewImage: { eventName: 'INSERT', eventType: 'INVALID' } } },
+      { eventName: 'INSERT', dynamodb: { NewImage: { eventType: 'INVALID' } } },
     ],
   };
 }

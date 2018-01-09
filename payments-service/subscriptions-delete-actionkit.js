@@ -14,7 +14,8 @@ export const handler = async (e, ctx, cb, fn = cancelRecurringOrders) => {
   // Get first item
   const [item] = e.Records;
   const record = AWS.DynamoDB.Converter.unmarshall(item.dynamodb.NewImage);
-  if (!cancelPaymentEvent(record)) return cb(null, 'Not a cancel event');
+  if (!cancelPaymentEvent(item.eventName, record))
+    return cb(null, 'Not a cancel event');
 
   try {
     await fn(record.data.recurringId);

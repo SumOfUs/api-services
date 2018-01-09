@@ -10,18 +10,26 @@ const logger = new OperationsLogger({
   client: new DocumentClient(),
 });
 
-export async function handler(e, ctx, cb, fn = updateMember) {
-  const [item] = e.Records;
+async function update(item, fn = updateMember) {
   const record = Converter.unmarshall(item.dynamodb.NewImage);
-  if (!updateMemberEvent(record)) return cb(null, 'Not a member update event');
+
+  if (!updateMemberEvent(item.eventName, record)) {
+    console.error('ERROR: Not a member update event');
+    return;
+  }
 
   try {
     const result = await fn(record.data);
     logger.updateStatus(record, { champaign: 'SUCCESS' });
-    return cb(null, result);
   } catch (e) {
     logger.updateStatus(record, { champaign: 'FAILURE' });
-    cb(e);
-    throw e;
   }
+}
+
+export async function handler(e, ctx, cb, memberUpdater = updateMember) {
+  e.Records.forEach(item => {
+    update(item, memberUpdater);
+  });
+
+  cb(null);
 }
