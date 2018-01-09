@@ -22,7 +22,7 @@ export const handler = (
   const [item] = event.Records;
   const record = AWS.DynamoDB.Converter.unmarshall(item.dynamodb.NewImage);
 
-  if (!cancelPaymentEvent(record)) {
+  if (!cancelPaymentEvent(item.eventName, record)) {
     return callback(null, 'Not a cancel event');
   }
   const recurringId = record.data.recurringId;
