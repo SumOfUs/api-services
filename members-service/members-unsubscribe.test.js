@@ -14,7 +14,9 @@ describe('members-unsubscribe', () => {
   describe('with a valid email address', () => {
     describe('success', () => {
       test('It sends an AK action to the unsubscribe page (replayer)', () => {
-        const event = { body: '{"email":"tuuli@sumofus.org"}' };
+        const event = {
+          body: '{"email":"tuuli@sumofus.org", "page":"unsubscribe"}',
+        };
         return unsubscribe(event, null, cb).then(() => {
           expect(cb).toBeCalledWith(
             null,
@@ -40,8 +42,7 @@ describe('members-unsubscribe', () => {
     describe('failure', () => {
       test('It fails if unsubscribe page check fails.', () => {
         const event = {
-          body: '{"email":"tuuli@sumofus.org"}',
-          unsubscribePage: '',
+          body: '{"email":"tuuli@sumofus.org", "page":""}',
         };
         return unsubscribe(event, null, cb).then(() => {
           expect(cb).toBeCalledWith(

@@ -67,29 +67,22 @@ export function update(event, context, callback) {
 }
 
 export function unsubscribe(event, context, callback) {
-  const { UNSUBSCRIBE_PAGE_NAME } = process.env;
-  const { unsubscribePage, body } = event;
+  const { email, page } = JSON.parse(event.body);
+
   const data = {
-    page: unsubscribePage == null ? UNSUBSCRIBE_PAGE_NAME : unsubscribePage,
-    email: JSON.parse(event.body).email,
+    page: page,
+    email: email,
   };
+
   return validateRequest(UNSUBSCRIBE_MEMBER_SCHEMA, data)
     .then(result => unsubscribeMember(data.email, data.page))
-    .then(actionkitResult => logUnsubscribeEvent(data))
-    .then(dynamodbResult => {
-      return callback(null, response(dynamodbResult));
+    .then(actionkitResult => {
+      logUnsubscribeEvent(data);
+      return callback(null, response({ cors: true }));
     })
     .catch(err => {
       return callback(null, badRequest({ cors: true, body: err }));
     });
-}
-
-export function unsubscribePage() {
-  const page = process.env.UNSUBSCRIBE_PAGE_NAME;
-  if (!page) {
-    return Promise.reject(new Error('Unsubscribe page needs to be set.'));
-  }
-  return Promise.resolve(page);
 }
 
 export function logUnsubscribeEvent(data) {
