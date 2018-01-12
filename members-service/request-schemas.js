@@ -18,7 +18,7 @@ export const SHOW_MEMBER_SCHEMA = {
 
 export const UPDATE_MEMBER_SCHEMA = {
   type: 'object',
-  required: ['id', 'email'],
+  required: ['id'],
   properties: {
     id: { type: 'string', pattern: '^[0-9]+$' },
     email: { type: 'string', format: 'email' },
