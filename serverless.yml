@@ -53,6 +53,8 @@ functions:
           method: get
           path: members
           cors: true
+          authorizer:
+            arn: ${self:provider.environment.COGNITO_POOL_ARN}
   members-show:
     handler: members-service/members.show
     events:
@@ -60,6 +62,8 @@ functions:
           method: get
           path: members/{id}
           cors: true
+          authorizer:
+            arn: ${self:provider.environment.COGNITO_POOL_ARN}
   members-update:
     handler: members-service/updateMember.handler
     events:
@@ -67,6 +71,8 @@ functions:
           method: put
           path: members/{id}
           cors: true
+          authorizer:
+            arn: ${self:provider.environment.COGNITO_POOL_ARN}
 
   trigger-champaign-member-update:
     handler: members-service/triggerChampaignMemberUpdate.handler
@@ -87,6 +93,8 @@ functions:
           method: post
           path: members/unsubscribe
           cors: true
+          authorizer:
+            arn: ${self:provider.environment.COGNITO_POOL_ARN}
 
   members-braintree-data:
     handler: payments-service/braintree_data.show
@@ -95,6 +103,8 @@ functions:
           method: get
           path: members/braintree_data
           cors: true
+          authorizer:
+            arn: ${self:provider.environment.COGNITO_POOL_ARN}
 
   members-gocardless-subscriptions:
     handler: payments-service/gocardless_subscriptions.index
@@ -103,6 +113,8 @@ functions:
           method: get
           path: members/{id}/gocardless_subscriptions
           cors: true
+          authorizer:
+            arn: ${self:provider.environment.COGNITO_POOL_ARN}
 
   payments-subscriptions-del-ak:
     handler: payments-service/subscriptions-delete-actionkit.handler
@@ -135,6 +147,8 @@ functions:
           method: delete
           path: payments-service/{provider}/subscriptions/{id}
           cors: true
+          authorizer:
+            arn: ${self:provider.environment.COGNITO_POOL_ARN}
           request:
             parameters:
               paths:
