@@ -15,7 +15,7 @@ describe('members-unsubscribe', () => {
     describe('success', () => {
       test('It sends an AK action to the unsubscribe page (replayer)', () => {
         const event = {
-          body: '{"email":"tuuli@sumofus.org", "page":"unsubscribe"}',
+          body: '{"email":"tuuli@sumofus.org", "lang":"/v1/rest/lang/101/"}',
         };
         return unsubscribe(event, null, cb).then(() => {
           expect(cb).toBeCalledWith(
@@ -29,7 +29,9 @@ describe('members-unsubscribe', () => {
       });
 
       test('It writes to the operations log table', () => {
-        const event = { body: '{"email":"tuuli@sumofus.org"}' };
+        const event = {
+          body: '{"email":"tuuli@sumofus.org", "lang":"/foo/101/"}',
+        };
         return unsubscribe(event, null, cb).then(resp => {
           expect(OperationsLogger.prototype.log).toHaveBeenCalledWith({
             event: 'EMAIL_UNSUBSCRIBE',
@@ -40,24 +42,9 @@ describe('members-unsubscribe', () => {
     });
 
     describe('failure', () => {
-      test('It fails if unsubscribe page check fails.', () => {
-        const event = {
-          body: '{"email":"tuuli@sumofus.org", "page":""}',
-        };
-        return unsubscribe(event, null, cb).then(() => {
-          expect(cb).toBeCalledWith(
-            null,
-            expect.objectContaining({
-              statusCode: 400,
-              body: expect.stringMatching('Unsubscribe page needs to be set.'),
-            })
-          );
-        });
-      });
-
       describe('Invalid requests', () => {
         test('Invalid when email is undefined', () => {
-          const event = { body: '{}' };
+          const event = { body: '{"lang":"/foo/101/"}' };
           return unsubscribe(event, null, cb).then(() => {
             expect(cb).toBeCalledWith(
               null,
@@ -70,7 +57,7 @@ describe('members-unsubscribe', () => {
         });
 
         test('Invalid when email is not an email', () => {
-          const event = { body: '{"email":"asd"}' };
+          const event = { body: '{"email":"asd", "lang":"/foo/101/"}' };
           return unsubscribe(event, null, cb).then(() => {
             expect(cb).toBeCalledWith(
               null,
