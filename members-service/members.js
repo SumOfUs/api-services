@@ -21,6 +21,7 @@ import {
 } from './request-schemas';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import unsubscribePageFinder from '../lib/unsubscribePageFinder';
 
 export function index(event, context, callback, search = searchMember) {
   const permittedParams = Object.keys(LIST_MEMBERS_SCHEMA.properties);
@@ -67,7 +68,9 @@ export function update(event, context, callback) {
 }
 
 export function unsubscribe(event, context, callback) {
-  const { email, page } = JSON.parse(event.body);
+  const { email, lang } = JSON.parse(event.body);
+
+  const page = unsubscribePageFinder(lang);
 
   const data = {
     page: page,
