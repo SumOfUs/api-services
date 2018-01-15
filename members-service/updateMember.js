@@ -1,5 +1,6 @@
 // @flow
 import 'source-map-support/register';
+import log from '../lib/logger';
 import type { ProxyCallback } from 'flow-aws-lambda';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { validateRequest } from '../lib/request-validator';
@@ -15,7 +16,7 @@ const logger = new OperationsLogger({
   client: new DocumentClient(),
 });
 
-export function handler(event: any, context: any, callback: any) {
+const handlerFunc = (event: any, context: any, callback: any) => {
   const parameters = {
     ...event.pathParameters,
     ...JSON.parse(event.body),
@@ -39,4 +40,6 @@ export function handler(event: any, context: any, callback: any) {
     },
     errors => callback(null, badRequest({ cors: true, body: errors }))
   );
-}
+};
+
+export const handler = log(handlerFunc, 'updateMember');
