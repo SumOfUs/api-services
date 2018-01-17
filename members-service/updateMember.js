@@ -16,7 +16,7 @@ const logger = new OperationsLogger({
   client: new DocumentClient(),
 });
 
-const handlerFunc = (event: any, context: any, callback: any) => {
+export const handlerFunc = (event: any, context: any, callback: any) => {
   const parameters = {
     ...event.pathParameters,
     ...JSON.parse(event.body),
