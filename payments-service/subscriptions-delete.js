@@ -4,6 +4,7 @@ import { response, ok, badRequest } from '../lib/lambda-utils/responses';
 import { deleteSubscription as cancelGCSubscription } from '../lib/clients/gocardless/gocardless';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import { cancelSubscription as cancelBtSubscription } from '../lib/clients/braintree/braintree';
+import log from '../lib/logger';
 
 const logger = new OperationsLogger({
   namespace: 'PAYMENT_SERVICE:SUBSCRIPTION',
@@ -19,7 +20,12 @@ export const cancelSubscription = (id, provider) => {
   }
 };
 
-export const handler = (event, context, callback, fn = cancelSubscription) => {
+export const handlerFunc = (
+  event,
+  context,
+  callback,
+  fn = cancelSubscription
+) => {
   const { id, provider } = event.pathParameters;
 
   return fn(id, provider)
@@ -35,3 +41,5 @@ export const handler = (event, context, callback, fn = cancelSubscription) => {
       return callback(null, badRequest({ cors: true, body: err }));
     });
 };
+
+export const handler = log(handlerFunc);

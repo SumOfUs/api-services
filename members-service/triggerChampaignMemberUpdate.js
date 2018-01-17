@@ -3,6 +3,7 @@ import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import { updateMember } from '../lib/clients/champaign/member';
 import { DocumentClient, Converter } from 'aws-sdk/clients/dynamodb';
 import { updateMemberEvent } from '../lib/dynamodb/eventTypeChecker';
+import log from '../lib/logger';
 
 const logger = new OperationsLogger({
   namespace: 'MEMBERS',
@@ -26,10 +27,12 @@ async function update(item, fn = updateMember) {
   }
 }
 
-export async function handler(e, ctx, cb, memberUpdater = updateMember) {
+export async function handlerFunc(e, ctx, cb, memberUpdater = updateMember) {
   e.Records.forEach(item => {
     update(item, memberUpdater);
   });
 
   cb(null);
 }
+
+export const handler = log(handlerFunc);

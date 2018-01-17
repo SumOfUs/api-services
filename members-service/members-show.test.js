@@ -1,5 +1,5 @@
 // @flow
-import { show } from './members';
+import { showHandler as show } from './members';
 
 describe('handler: members-show', () => {
   describe('Request Validation', () => {

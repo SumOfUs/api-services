@@ -1,5 +1,8 @@
 // @flow weak
-import { cancelSubscription, handler } from './subscriptions-delete';
+import {
+  cancelSubscription,
+  handlerFunc as handler,
+} from './subscriptions-delete';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { client } from '../lib/clients/braintree/braintree';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';

@@ -1,6 +1,6 @@
 // @flow
 import uuidv1 from 'uuid/v1';
-import { handler } from './triggerChampaignMemberUpdate';
+import { handlerFunc as handler } from './triggerChampaignMemberUpdate';
 import { UPDATE_MEMBER_EVENT } from '../lib/dynamodb/eventTypeChecker';
 import { Converter } from 'aws-sdk/clients/dynamodb';
 import { updateMember } from '../lib/clients/champaign/member';
@@ -14,7 +14,7 @@ describe('handler', function() {
     expect(typeof handler).toEqual('function');
   });
 
-  test.only('does not process non-update member events', async () => {
+  test('does not process non-update member events', async () => {
     const cb = jest.fn();
     handler(invalidEvent(), null, cb);
     return expect(console.error).toBeCalledWith(
@@ -22,7 +22,7 @@ describe('handler', function() {
     );
   });
 
-  test.only('calls updateMember() with the member data', async () => {
+  test('calls updateMember() with the member data', async () => {
     const event = validEvent();
     const update = jest.fn((...args) => updateMember(...args));
     handler(event, null, jest.fn(), update);

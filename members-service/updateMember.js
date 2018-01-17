@@ -42,4 +42,4 @@ export const handlerFunc = (event: any, context: any, callback: any) => {
   );
 };
 
-export const handler = log(handlerFunc, 'updateMember');
+export const handler = log(handlerFunc);

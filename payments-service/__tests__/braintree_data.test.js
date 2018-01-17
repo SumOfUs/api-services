@@ -1,5 +1,5 @@
 // @flow weak
-import { show } from '../braintree_data';
+import { showFunc as show } from '../braintree_data';
 
 describe('handler: braintree-data.show', () => {
   test('if email param is blank it returns 400 bad request', () => {

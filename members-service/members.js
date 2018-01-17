@@ -36,9 +36,9 @@ export function indexHandler(event, context, callback, search = searchMember) {
   );
 }
 
-export const index = log(indexHandler, 'member-service/members/index');
+export const index = log(indexHandler);
 
-export function show(event, context, callback, _find = find) {
+export function showHandler(event, context, callback, _find = find) {
   const parameters = {
     ...event.pathParameters,
     ...event.queryStringParameters,
@@ -53,7 +53,9 @@ export function show(event, context, callback, _find = find) {
   );
 }
 
-export function update(event, context, callback) {
+export const show = log(showHandler);
+
+export function updateHandler(event, context, callback) {
   const parameters = {
     ...event.pathParameters,
     ...JSON.parse(event.body),
@@ -70,7 +72,9 @@ export function update(event, context, callback) {
   );
 }
 
-export function unsubscribe(event, context, callback) {
+export const update = log(updateHandler);
+
+export function unsubscribeHandler(event, context, callback) {
   const { email, lang } = JSON.parse(event.body);
 
   const page = unsubscribePageFinder(lang);
@@ -90,6 +94,8 @@ export function unsubscribe(event, context, callback) {
       return callback(null, badRequest({ cors: true, body: err }));
     });
 }
+
+export const unsubscribe = log(unsubscribeHandler);
 
 export function logUnsubscribeEvent(data) {
   const logger = new OperationsLogger({
