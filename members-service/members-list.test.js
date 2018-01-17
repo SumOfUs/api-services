@@ -1,5 +1,5 @@
 // @flow
-import { index } from './members';
+import { indexHandler } from './members';
 
 const { stringMatching, objectContaining, arrayContaining } = expect;
 
@@ -7,7 +7,7 @@ describe('members-list', () => {
   describe('Validating requests', () => {
     test('Invalid when {email} is undefined', () => {
       const cb = jest.fn();
-      return index({}, null, cb).then(() => {
+      return indexHandler({}, null, cb).then(() => {
         const response = cb.mock.calls[0][1];
         expect(response.body).toEqual(
           stringMatching(/"missingProperty": "email"/)
@@ -22,7 +22,7 @@ describe('members-list', () => {
           email: 'not an email',
         },
       };
-      return index(params, null, cb).then(() => {
+      return indexHandler(params, null, cb).then(() => {
         expect(cb).toBeCalledWith(
           null,
           objectContaining({
@@ -45,7 +45,7 @@ describe('members-list', () => {
           email: 'example@example.com',
         },
       };
-      return index(event, null, cb).then(() => {
+      return indexHandler(event, null, cb).then(() => {
         expect(cb).toHaveBeenCalledWith(
           null,
           objectContaining({ statusCode: 200 })
@@ -63,7 +63,7 @@ describe('members-list', () => {
     };
     test('Passes permitted parameters through', () => {
       const callback = jest.fn((error, data) => ({ error, data }));
-      return index(event, null, callback).then(
+      return indexHandler(event, null, callback).then(
         success => {
           const { body } = callback.mock.calls[0][1];
           expect(JSON.parse(body)).toEqual(
@@ -82,7 +82,7 @@ describe('members-list', () => {
     test('Omits unrecognised parameters', () => {
       const callback = jest.fn((error, data) => ({ error, data }));
       const search = jest.fn(params => Promise.resolve(params));
-      return index(event, null, callback).then(success => {
+      return indexHandler(event, null, callback).then(success => {
         expect(search).not.toHaveBeenCalledWith(
           objectContaining({ crisps: 'chips' })
         );
@@ -98,7 +98,7 @@ describe('members-list', () => {
         },
       };
       const callback = jest.fn((error, data) => ({ error, data }));
-      return index(event, null, callback).then(({ error, data }) => {
+      return indexHandler(event, null, callback).then(({ error, data }) => {
         expect(error).toBeNull();
         expect(data).toEqual(
           objectContaining({
@@ -117,7 +117,7 @@ describe('members-list', () => {
       };
       const callback = jest.fn((error, data) => ({ error, data }));
       const search = jest.fn(() => Promise.reject({ statusCode: 404 }));
-      index(event, null, callback, search).then(({ error, data }) => {
+      indexHandler(event, null, callback, search).then(({ error, data }) => {
         expect(data).toEqual(objectContaining({ statusCode: 404 }));
       });
     });

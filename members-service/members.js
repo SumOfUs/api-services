@@ -22,8 +22,9 @@ import {
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import unsubscribePageFinder from '../lib/unsubscribePageFinder';
+import log from '../lib/logger';
 
-export function index(event, context, callback, search = searchMember) {
+export function indexHandler(event, context, callback, search = searchMember) {
   const permittedParams = Object.keys(LIST_MEMBERS_SCHEMA.properties);
   return validateRequest(LIST_MEMBERS_SCHEMA, event.queryStringParameters).then(
     params =>
@@ -34,6 +35,8 @@ export function index(event, context, callback, search = searchMember) {
     error => callback(null, badRequest({ cors: true, body: error }))
   );
 }
+
+export const index = log(indexHandler, 'member-service/members/index');
 
 export function show(event, context, callback, _find = find) {
   const parameters = {
