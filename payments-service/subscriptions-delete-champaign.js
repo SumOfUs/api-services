@@ -5,6 +5,7 @@ import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 
 import { cancelPaymentEvent } from '../lib/dynamodb/eventTypeChecker';
 import { cancelRecurringDonation } from '../lib/clients/champaign/recurringDonation';
+import log from '../lib/logger';
 
 const logger = new OperationsLogger({
   client: new AWS.DynamoDB.DocumentClient(),
@@ -12,7 +13,7 @@ const logger = new OperationsLogger({
   tableName: process.env.DB_LOG_TABLE,
 });
 
-export const handler = (
+export const handlerFunc = (
   event,
   context,
   callback,
@@ -63,3 +64,5 @@ export const handler = (
         });
     });
 };
+
+export const handler = log(handlerFunc);

@@ -1,4 +1,4 @@
-import { handler } from './subscriptions-delete-champaign';
+import { handlerFunc as handler } from './subscriptions-delete-champaign';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { marshall, unmarshall } from 'aws-sdk/lib/dynamodb/converter';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';

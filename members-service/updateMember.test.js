@@ -1,6 +1,6 @@
 // @flow
-import { handlerFunc } from './updateMember';
+import { handlerFunc as handler } from './updateMember';
 
 describe('updateMember handler', function() {
-  test('is a function', () => expect(typeof handlerFunc).toBe('function'));
+  test('is a function', () => expect(typeof handler).toBe('function'));
 });

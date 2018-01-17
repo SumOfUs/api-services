@@ -1,5 +1,5 @@
 // @flow
-import { unsubscribe, unsubscribe_page } from './members';
+import { unsubscribeHandler as unsubscribe, unsubscribe_page } from './members';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 

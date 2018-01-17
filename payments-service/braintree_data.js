@@ -1,6 +1,7 @@
 import { validateRequest } from '../lib/request-validator';
 import { ok, badRequest } from '../lib/lambda-utils/responses';
 import { searchCustomer } from '../lib/clients/braintree/braintree';
+import log from '../lib/logger';
 
 const showSchema = {
   type: 'object',
@@ -12,7 +13,7 @@ const showSchema = {
   },
 };
 
-export const show = (event, context, callback) => {
+export const showFunc = (event, context, callback) => {
   return validateRequest(showSchema, event.queryStringParameters).then(
     () => {
       return searchCustomer(event.queryStringParameters.email).then(
@@ -27,3 +28,5 @@ export const show = (event, context, callback) => {
     }
   );
 };
+
+export const show = log(showFunc);

@@ -1,6 +1,6 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { marshall, unmarshall } from 'aws-sdk/lib/dynamodb/converter';
-import { handler } from './subscriptions-delete-actionkit';
+import { handlerFunc as handler } from './subscriptions-delete-actionkit';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import { CANCEL_PAYMENT_EVENT } from '../lib/dynamodb/eventTypeChecker';
 import uuidv1 from 'uuid/v1';

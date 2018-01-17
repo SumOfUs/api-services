@@ -3,6 +3,7 @@ import AWS from 'aws-sdk';
 import { cancelPaymentEvent } from '../lib/dynamodb/eventTypeChecker';
 import { cancel as cancelRecurringOrders } from '../lib/clients/actionkit/recurringOrders';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
+import log from '../lib/logger';
 
 const logger = new OperationsLogger({
   client: new AWS.DynamoDB.DocumentClient(),
@@ -10,7 +11,7 @@ const logger = new OperationsLogger({
   tableName: process.env.DB_LOG_TABLE || 'OperationsTable',
 });
 
-export const handler = async (e, ctx, cb, fn = cancelRecurringOrders) => {
+export const handlerFunc = async (e, ctx, cb, fn = cancelRecurringOrders) => {
   // Get first item
   const [item] = e.Records;
   const record = AWS.DynamoDB.Converter.unmarshall(item.dynamodb.NewImage);
@@ -30,3 +31,5 @@ export const handler = async (e, ctx, cb, fn = cancelRecurringOrders) => {
     `Subscription ${record.data.recurringId} cancelled successfully`
   );
 };
+
+export const handler = log(handlerFunc);
