@@ -24,15 +24,12 @@ describe('handler', function() {
 
   test('calls updateMember() with the member data', async () => {
     const event = validEvent();
-    const update = jest.fn((...args) => updateMember(...args));
+    const update = jest.fn();
     handler(event, null, jest.fn(), update);
-    return expect(update).toHaveBeenCalledWith(
-      expect.objectContaining({
-        email: 'vincent@sumofus.org',
-        first_name: 'Vince',
-        last_name: 'Martinez',
-      })
-    );
+    return expect(update).toHaveBeenCalledWith('vincent@sumofus.org', {
+      first_name: 'Vince',
+      last_name: 'Martinez',
+    });
   });
 });
 
@@ -49,8 +46,10 @@ function validEvent(date) {
             status: { actionkit: 'PENDING', champaign: 'PENDING' },
             data: {
               email: 'vincent@sumofus.org',
-              first_name: 'Vince',
-              last_name: 'Martinez',
+              params: {
+                first_name: 'Vince',
+                last_name: 'Martinez',
+              },
             },
           }),
         },

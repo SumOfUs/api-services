@@ -18,14 +18,20 @@ export const SHOW_MEMBER_SCHEMA = {
 
 export const UPDATE_MEMBER_SCHEMA = {
   type: 'object',
-  required: ['id', 'email'],
+  required: ['id', 'email', 'member'],
   properties: {
-    id: { type: 'string', pattern: '^[0-9]+$' },
     email: { type: 'string', format: 'email' },
-    first_name: { type: 'string', minLength: 2 },
-    last_name: { type: 'string', minLength: 2 },
-    country: { type: 'string', minLength: 2 },
-    postal: { type: 'string', minLength: 2 },
+    id: { type: 'string', pattern: '^[0-9]+$' },
+    member: {
+      type: 'object',
+      properties: {
+        first_name: { type: 'string', minLength: 2 },
+        last_name: { type: 'string', minLength: 2 },
+        country: { type: 'string', minLength: 2 },
+        postal: { type: 'string', minLength: 2 },
+        email: { type: 'string', minLength: 2 },
+      },
+    },
   },
 };
 

@@ -20,10 +20,10 @@ async function update(item, fn = updateMember) {
   }
 
   try {
-    const result = await fn(record.data);
+    const result = await fn(record.data.email, record.data.params);
     logger.updateStatus(record, { champaign: 'SUCCESS' });
   } catch (e) {
-    logger.updateStatus(record, { champaign: 'FAILURE' });
+    logger.updateStatus(record, { champaign: 'FAILURE', champaign_error: e });
   }
 }
 

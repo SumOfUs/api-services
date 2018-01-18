@@ -4,7 +4,7 @@ import log from '../lib/logger';
 import type { ProxyCallback } from 'flow-aws-lambda';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { validateRequest } from '../lib/request-validator';
-import { badRequest, response } from '../lib/lambda-utils/responses';
+import { response, badRequest, ok } from '../lib/lambda-utils/responses';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 
 import { update } from '../lib/clients/actionkit/resources/users';
@@ -17,18 +17,23 @@ const logger = new OperationsLogger({
 });
 
 export const handlerFunc = (event: any, context: any, callback: any) => {
+  const payload = event.body ? JSON.parse(event.body) : {};
   const parameters = {
     ...event.pathParameters,
-    ...JSON.parse(event.body),
+    ...payload,
   };
-  const { id, ...data } = parameters;
+
   return validateRequest(UPDATE_MEMBER_SCHEMA, parameters).then(
     params => {
-      update(id, data)
+      update(parameters.id, parameters.member)
         .then(result => {
           logger.log({
             event: 'MEMBER:UPDATE',
-            data,
+            data: {
+              akId: parameters.id,
+              email: parameters.email,
+              params: parameters.member,
+            },
             status: { actionkit: 'SUCCESS', champaign: 'PENDING' },
           });
           return result;
