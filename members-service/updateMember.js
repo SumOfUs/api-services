@@ -26,17 +26,42 @@ export const handlerFunc = (event: any, context: any, callback: any) => {
   return validateRequest(UPDATE_MEMBER_SCHEMA, parameters).then(
     params => {
       update(parameters.id, parameters.member)
-        .then(result => {
-          logger.log({
-            event: 'MEMBER:UPDATE',
-            data: {
-              akId: parameters.id,
-              email: parameters.email,
-              params: parameters.member,
-            },
-            status: { actionkit: 'SUCCESS', champaign: 'PENDING' },
-          });
-          return result;
+        .then(akResponse => {
+          return logger
+            .log({
+              event: 'MEMBER:UPDATE',
+              data: {
+                akId: parameters.id,
+                email: parameters.email,
+                params: parameters.member,
+              },
+              status: { actionkit: 'SUCCESS', champaign: 'PENDING' },
+            })
+            .then(
+              () => {
+                return {
+                  ...akResponse,
+                  body: {
+                    ...akResponse.body,
+                    logged: true,
+                  },
+                };
+              },
+              dynamodbFailure => {
+                return {
+                  ...akResponse,
+                  // if we want to return a 500 status code:
+                  // statusCode: 500,
+                  body: {
+                    ...akResponse.body,
+                    logged: false,
+                    errors: [
+                      // ... dynamodb errors?
+                    ],
+                  },
+                };
+              }
+            );
         })
         .then(
           result => callback(null, response(result)),
