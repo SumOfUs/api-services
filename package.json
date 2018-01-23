@@ -12,7 +12,8 @@
     "test:cache": "VCR_MODE=cache jest",
     "test:playback": "VCR_MODE=playback jest",
     "test:record": "VCR_MODE=record jest",
-    "test:watch": "VCR_MODE=cache jest --watch"
+    "test:watch": "VCR_MODE=cache jest --watch",
+    "logs:subscribe": "node ./scripts/subscribe-logs.js"
   },
   "lint-staged": {
     "*.{js,ts}": [

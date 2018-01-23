@@ -14,3 +14,5 @@ environment:
   UNSUBSCRIBE_PAGE_NAME: ${ssm:/api-services/production/UNSUBSCRIBE_PAGE_NAME}
   BRAINTREE_MERCHANT_CURRENCIES: ${ssm:/api-services/production/BRAINTREE_MERCHANT_CURRENCIES}
   COGNITO_POOL_ARN: ${ssm:/api-services/production/COGNITO_POOL_ARN}
+  PAPERTRAIL_HOST: ${ssm:/api-services/production/PAPERTRAIL_HOST}
+  PAPERTRAIL_PORT: 34848

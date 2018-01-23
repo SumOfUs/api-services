@@ -44,8 +44,19 @@ resources:
           WriteCapacityUnits: 1
         StreamSpecification:
           StreamViewType: NEW_AND_OLD_IMAGES
+    LambdaInvokePermission:
+      Type: AWS::Lambda::Permission
+      Properties:
+        Action: lambda:InvokeFunction
+        FunctionName:
+          Fn::GetAtt:
+          - LogDashstreamerLambdaFunction
+          - Arn
+        Principal: logs.us-east-1.amazonaws.com
 
 functions:
+  log-streamer:
+    handler: log-stream.handler
   members-list:
     handler: members-service/members.index
     events:
