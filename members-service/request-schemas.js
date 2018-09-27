@@ -42,3 +42,11 @@ export const UNSUBSCRIBE_MEMBER_SCHEMA = {
     email: { type: 'string', format: 'email' },
   },
 };
+
+export const DATA_ACCESS_REQUEST_SCHEMA = {
+  type: 'object',
+  required: ['email'],
+  properties: {
+    email: { type: 'string', format: 'email' },
+  },
+};
