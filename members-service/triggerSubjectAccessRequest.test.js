@@ -2,10 +2,13 @@ import { handlerFunc as handler } from './triggerSubjectAccessRequest';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 
+jest.spyOn(OperationsLogger.prototype, 'log');
+
 describe('triggerSubjectAccessRequest handler', function() {
   describe('failure', function() {
+    const cb = jest.fn();
+
     test('if email param is blank it returns 400 bad request', () => {
-      const cb = jest.fn();
       const params = {
         pathParameters: 'abc',
       };
@@ -27,7 +30,11 @@ describe('triggerSubjectAccessRequest handler', function() {
         });
     });
   });
+
   describe('success', function() {
+    const cb = jest.fn(function(err, response) {
+      return response;
+    });
     const event = {
       pathParameters: {
         email: 'foo@sumofus.org',

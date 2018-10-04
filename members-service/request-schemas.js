@@ -43,7 +43,7 @@ export const UNSUBSCRIBE_MEMBER_SCHEMA = {
   },
 };
 
-export const DATA_ACCESS_REQUEST_SCHEMA = {
+export const SUBJECT_ACCESS_REQUEST_SCHEMA = {
   type: 'object',
   required: ['email'],
   properties: {

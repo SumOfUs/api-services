@@ -86,6 +86,17 @@ functions:
               - OperationsTable
               - StreamArn
 
+  trigger-subject-access-request:
+    handler: members-service/triggerSubjectAccessRequest.handler
+    events:
+      - http:
+          method: post
+          path: subject_access_request/
+          cors: true
+          authorizer:
+            arn: ${self:provider.environment.COGNITO_POOL_ARN}
+
+
   members-unsubscribe:
     handler: members-service/members.unsubscribe
     events:
