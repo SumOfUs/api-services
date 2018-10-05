@@ -1,0 +1,54 @@
+{
+  "Records": [
+    {
+      "eventID": "96f14494b14874db73bc40712f18fd61",
+      "eventName": "INSERT",
+      "eventVersion": "1.1",
+      "eventSource": "aws:dynamodb",
+      "awsRegion": "us-east-1",
+      "dynamodb": {
+        "ApproximateCreationDateTime": 1538657760,
+        "Keys": {
+          "createdAt": {
+            "S": "2018-10-04T12:56:58.445Z"
+          },
+          "id": {
+            "S": "80273b8d-9348-4ac4-86f0-f6c8f482c009"
+          }
+        },
+        "NewImage": {
+          "createdAt": {
+            "S": "2018-10-04T12:56:58.445Z"
+          },
+          "data": {
+            "M": {
+              "email": {
+                "S": "tuuli@sumofus.org"
+              }
+            }
+          },
+          "eventType": {
+            "S": "MEMBERS_SERVICE:MEMBER:SUBJECT_ACCESS_REQUEST"
+          },
+          "id": {
+            "S": "80273b8d-9348-4ac4-86f0-f6c8f482c009"
+          },
+          "status": {
+            "M": {
+              "actionkit": {
+                "S": "PENDING"
+              },
+              "champaign": {
+                "S": "PENDING"
+              }
+            }
+          }
+        },
+        "SequenceNumber": "32805700000000001340668396",
+        "SizeBytes": 269,
+        "StreamViewType": "NEW_AND_OLD_IMAGES"
+      },
+      "eventSourceARN": "arn:aws:dynamodb:us-east-1:108409592308:table/OperationsTable-tuuli/stream/2018-09-27T13:29:48.625"
+    }
+  ]
+}

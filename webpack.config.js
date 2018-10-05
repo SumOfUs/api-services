@@ -4,6 +4,9 @@ const slsw = require('serverless-webpack');
 module.exports = {
   entry: slsw.lib.entries,
   target: 'node',
+  node: {
+    __dirname: false,
+  },
   devtool: 'source-map',
   module: {
     loaders: [

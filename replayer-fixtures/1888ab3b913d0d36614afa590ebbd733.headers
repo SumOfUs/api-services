@@ -1,0 +1,18 @@
+{
+  "timeout": true,
+  "time": 0,
+  "url": "https://dynamodb.us-east-1.amazonaws.com:443/",
+  "request": {
+    "method": "POST",
+    "headers": {
+      "User-Agent": "aws-sdk-nodejs/2.165.0 linux/v9.0.0 promise",
+      "Content-Type": "application/x-amz-json-1.0",
+      "X-Amz-Target": "DynamoDB_20120810.PutItem",
+      "X-Amz-Content-Sha256": "8fade2f97cfccd0378554f90f10058fe9ed9abf7a08db96920d48ab2298c403e",
+      "Content-Length": 327,
+      "Host": "dynamodb.us-east-1.amazonaws.com",
+      "X-Amz-Date": "20181004T084126Z",
+      "Authorization": "AWS4-HMAC-SHA256 Credential=AKIAJHQQHKPH2VJPLV5Q/20181004/us-east-1/dynamodb/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date;x-amz-target, Signature=f4d98ecca78f822a281897927e0ddf3750fc12df3d10511ee7dd544b538b4883"
+    }
+  }
+}

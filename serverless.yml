@@ -93,9 +93,31 @@ functions:
           method: post
           path: subject_access_request/
           cors: true
-          authorizer:
-            arn: ${self:provider.environment.COGNITO_POOL_ARN}
 
+
+  champaign-subject-access-data:
+    handler: members-service/champaignSubjectAccessData.handler
+    events:
+      - stream:
+          type: dynamodb
+          batchSize: 1
+          startingPosition: LATEST
+          arn:
+            Fn::GetAtt:
+              - OperationsTable
+              - StreamArn
+
+  ak-subject-access-data:
+    handler: members-service/akSubjectAccessData.handler
+    events:
+      - stream:
+          type: dynamodb
+          batchSize: 1
+          startingPosition: LATEST
+          arn:
+            Fn::GetAtt:
+              - OperationsTable
+              - StreamArn
 
   members-unsubscribe:
     handler: members-service/members.unsubscribe
