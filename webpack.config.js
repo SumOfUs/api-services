@@ -16,6 +16,13 @@ module.exports = {
         include: __dirname,
         exclude: /node_modules/,
       },
+      {
+        test: /\.sql$/,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      },
     ],
   },
   output: {
