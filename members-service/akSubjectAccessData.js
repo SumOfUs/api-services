@@ -8,6 +8,7 @@ import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import { DocumentClient, Converter } from 'aws-sdk/clients/dynamodb';
 import { subjectAccessRequestEvent } from '../lib/dynamodb/eventTypeChecker';
 import { AKSubjectAccessData } from '../lib/clients/actionkit/resources/akSubjectAccessData';
+import { processSubjectAccessRequest } from '../lib/util/processSubjectAccessRequest';
 
 import log from '../lib/logger';
 
@@ -28,9 +29,19 @@ export const handlerFunc = (
   const record = Converter.unmarshall(item.dynamodb.NewImage);
 
   if (!subjectAccessRequestEvent(item.eventName, record)) {
+    //TODO: OR if AK status is 'success'
     return;
   }
-  const data = getData(record.data.email);
+  getData(record.data.email)
+    .then(resp => {
+      processSubjectAccessRequest(resp, 'actionkit', record.data.email);
+      //TODO:
+      //update operations log table
+    })
+    .catch(err => {
+      console.log('In the catch block');
+      console.log(err);
+    });
 };
 
 export const handler = log(handlerFunc);
