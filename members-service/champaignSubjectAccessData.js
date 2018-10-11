@@ -27,20 +27,37 @@ export const handlerFunc = (
   const [item] = event.Records;
   const record = Converter.unmarshall(item.dynamodb.NewImage);
 
-  if (!subjectAccessRequestEvent(item.eventName, record)) {
-    //TODO: OR if Champaign status is 'success'
-    return;
+  if (
+    !subjectAccessRequestEvent(item.eventName, record) ||
+    record.status.champaign == 'SUCCESS'
+  ) {
+    return callback(null, 'Not a subject access request event.');
   }
 
-  getData(record.data.email)
+  return getData(record.data.email)
     .then(resp => {
       processSubjectAccessRequest(resp.data, 'champaign', record.data.email);
-      //TODO:
-      //update operations log table
+    })
+    .then(success => {
+      logger
+        .updateStatus(record, { champaign: 'SUCCESS' })
+        .then(dynamodbSuccess => {
+          return callback(null, success);
+        })
+        .catch(dynamodbError => {
+          return callback(dynamodbError);
+        });
     })
     .catch(err => {
-      console.log('In the catch block');
-      console.log(err);
+      logger
+        .updateStatus(record, { champaign: 'FAILURE' })
+        .then(dynamodbSuccess => {
+          return callback(err);
+        })
+        .catch(dynamodbError => {
+          // Wow, nothing is going right today. The request failed AND DynamoDB didn't update the record.
+          return callback(dynamodbError);
+        });
     });
 };
 

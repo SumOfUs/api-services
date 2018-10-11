@@ -28,19 +28,37 @@ export const handlerFunc = (
   const [item] = event.Records;
   const record = Converter.unmarshall(item.dynamodb.NewImage);
 
-  if (!subjectAccessRequestEvent(item.eventName, record)) {
-    //TODO: OR if AK status is 'success'
+  if (
+    !subjectAccessRequestEvent(item.eventName, record) ||
+    record.status.actionkit == 'SUCCESS'
+  ) {
     return;
   }
-  getData(record.data.email)
+
+  return getData(record.data.email)
     .then(resp => {
-      processSubjectAccessRequest(resp, 'actionkit', record.data.email);
-      //TODO:
-      //update operations log table
+      return processSubjectAccessRequest(resp, 'actionkit', record.data.email);
+    })
+    .then(success => {
+      logger
+        .updateStatus(record, { actionkit: 'SUCCESS' })
+        .then(dynamodbSuccess => {
+          return callback(null, success);
+        })
+        .catch(dynamodbError => {
+          return callback(dynamodbError);
+        });
     })
     .catch(err => {
-      console.log('In the catch block');
-      console.log(err);
+      logger
+        .updateStatus(record, { actionkit: 'FAILURE' })
+        .then(dynamodbSuccess => {
+          return callback(err);
+        })
+        .catch(dynamodbError => {
+          // Wow, nothing is going right today. The request failed AND DynamoDB didn't update the record.
+          return callback(dynamodbError);
+        });
     });
 };
 
