@@ -9,13 +9,7 @@ import { DocumentClient, Converter } from 'aws-sdk/clients/dynamodb';
 import { subjectAccessRequestEvent } from '../lib/dynamodb/eventTypeChecker';
 import { subjectAccessData } from '../lib/clients/champaign/subjectAccessData';
 import { processSubjectAccessRequest } from '../lib/util/processSubjectAccessRequest';
-
 import log from '../lib/logger';
-
-// JSON to CSV converters deal unpredictably with nested JSON. We want to dump values from our JSONB fields into
-// a single CSV column instead making every key in theaddd m into a new column - that would break CSV conversion because
-// custom keys in jsonb fields don't match between different rows.
-// We can take care of this by converting the JSON value from the nested field into a string.
 
 const logger = new OperationsLogger({
   namespace: 'MEMBERS_SERVICE',
