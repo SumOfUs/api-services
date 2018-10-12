@@ -32,7 +32,7 @@ export const handlerFunc = (
     !subjectAccessRequestEvent(item.eventName, record) ||
     record.status.actionkit == 'SUCCESS'
   ) {
-    return;
+    return callback(null, 'Not a pending subject access request event.');
   }
 
   return getData(record.data.email)
@@ -40,9 +40,15 @@ export const handlerFunc = (
       return processSubjectAccessRequest(resp, 'actionkit', record.data.email);
     })
     .then(success => {
-      logger
+      return logger
         .updateStatus(record, { actionkit: 'SUCCESS' })
         .then(dynamodbSuccess => {
+          console.log(
+            'SUCCESSFUL SUBJECT ACCESS REQUEST EVENT - call callback with: ',
+            success,
+            ' callback: ',
+            callback
+          );
           return callback(null, success);
         })
         .catch(dynamodbError => {
@@ -50,7 +56,7 @@ export const handlerFunc = (
         });
     })
     .catch(err => {
-      logger
+      return logger
         .updateStatus(record, { actionkit: 'FAILURE' })
         .then(dynamodbSuccess => {
           return callback(err);

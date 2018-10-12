@@ -31,17 +31,27 @@ export const handlerFunc = (
     !subjectAccessRequestEvent(item.eventName, record) ||
     record.status.champaign == 'SUCCESS'
   ) {
-    return callback(null, 'Not a subject access request event.');
+    return callback(null, 'Not a pending subject access request event.');
   }
 
   return getData(record.data.email)
     .then(resp => {
-      processSubjectAccessRequest(resp.data, 'champaign', record.data.email);
+      return processSubjectAccessRequest(
+        resp.data,
+        'champaign',
+        record.data.email
+      );
     })
     .then(success => {
-      logger
+      return logger
         .updateStatus(record, { champaign: 'SUCCESS' })
         .then(dynamodbSuccess => {
+          console.log(
+            'SUCCESSFUL SUBJECT ACCESS REQUEST EVENT - call callback with: ',
+            success,
+            ' callback: ',
+            callback
+          );
           return callback(null, success);
         })
         .catch(dynamodbError => {
@@ -49,7 +59,8 @@ export const handlerFunc = (
         });
     })
     .catch(err => {
-      logger
+      console.log('FAILURE!', err);
+      return logger
         .updateStatus(record, { champaign: 'FAILURE' })
         .then(dynamodbSuccess => {
           return callback(err);

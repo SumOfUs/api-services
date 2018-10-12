@@ -41,7 +41,7 @@ describe('subscriptions-delete-champaign handler', function() {
   test(`[on champaign success] updates the operation log status with 'success' (replayer)`, async () => {
     const event = validEvent(new Date().toISOString());
     const record = unmarshall(event.Records[0].dynamodb.NewImage);
-    await handler(event, null, jest.fn(), () => Promise.resolve());
+    await handler(event, null, cb, () => Promise.resolve());
     expect(statusSpy).toBeCalledWith(record, { champaign: 'SUCCESS' });
     expect(cb).toHaveBeenCalledWith(
       null,
