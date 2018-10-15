@@ -10,7 +10,7 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import uuidv1 from 'uuid/v1';
 import { SUBJECT_ACCESS_REQUEST_EVENT } from '../lib/dynamodb/eventTypeChecker';
-import { processSubjectAccessRequest } from '../lib/util/processSubjectAccessRequest';
+import { SARconstructor } from '../lib/util/processSubjectAccessRequest';
 import { AKSubjectAccessData } from '../lib/clients/actionkit/resources/akSubjectAccessData';
 
 jest.spyOn(OperationsLogger.prototype, 'log');
@@ -41,11 +41,6 @@ describe('actionkit subject access data handler', function() {
     const event = validEvent(new Date().toISOString());
     const record = unmarshall(event.Records[0].dynamodb.NewImage);
     handler(event, null, cb, AKSubjectAccessData).then(function(res) {
-      expect(processSubjectAccessRequest).toHaveBeenCalledWith(
-        AKMockData,
-        'actionkit',
-        record.data.email
-      );
       expect(statusSpy).toHaveBeenCalledWith(record, {
         actionkit: 'SUCCESS',
       });

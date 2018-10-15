@@ -4,8 +4,9 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import uuidv1 from 'uuid/v1';
 import { SUBJECT_ACCESS_REQUEST_EVENT } from '../lib/dynamodb/eventTypeChecker';
+
 jest.mock('../lib/util/processSubjectAccessRequest');
-import { processSubjectAccessRequest } from '../lib/util/processSubjectAccessRequest';
+import { SARconstructor } from '../lib/util/processSubjectAccessRequest';
 
 jest.spyOn(OperationsLogger.prototype, 'log');
 const statusSpy = jest.spyOn(OperationsLogger.prototype, 'updateStatus');
@@ -29,17 +30,12 @@ describe('Champaign subject access data handler', function() {
     );
   });
 
-  test(`[on success], updates the operations log status with 'SUCCESS' (replayer)`, function() {
+  test(`[on success], updates the operations log status with 'SUCCESS'`, function() {
     const event = validEvent(new Date().toISOString());
     const record = unmarshall(event.Records[0].dynamodb.NewImage);
 
     handler(event, null, cb, () => Promise.resolve(champaignMockData)).then(
       function(res) {
-        expect(processSubjectAccessRequest).toHaveBeenCalledWith(
-          champaignMockData.data,
-          'champaign',
-          record.data.email
-        );
         expect(statusSpy).toHaveBeenCalledWith(record, {
           champaign: 'SUCCESS',
         });
@@ -51,7 +47,7 @@ describe('Champaign subject access data handler', function() {
     );
   });
 
-  test(`[on failure], updates the operations log status with 'FAILURE' (replayer)`, function() {
+  test(`[on failure], updates the operations log status with 'FAILURE'`, function() {
     const event = memberNotFoundEvent(new Date().toISOString());
     const record = unmarshall(event.Records[0].dynamodb.NewImage);
 

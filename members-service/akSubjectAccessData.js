@@ -8,7 +8,7 @@ import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import { DocumentClient, Converter } from 'aws-sdk/clients/dynamodb';
 import { subjectAccessRequestEvent } from '../lib/dynamodb/eventTypeChecker';
 import { AKSubjectAccessData } from '../lib/clients/actionkit/resources/akSubjectAccessData';
-import { processSubjectAccessRequest } from '../lib/util/processSubjectAccessRequest';
+import { SARconstructor } from '../lib/util/processSubjectAccessRequest';
 
 import log from '../lib/logger';
 
@@ -37,6 +37,7 @@ export const handlerFunc = (
 
   return getData(record.data.email)
     .then(resp => {
+      const processSubjectAccessRequest = SARconstructor();
       return processSubjectAccessRequest(resp, 'actionkit', record.data.email);
     })
     .then(success => {

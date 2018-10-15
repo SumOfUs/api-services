@@ -8,7 +8,7 @@ import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 import { DocumentClient, Converter } from 'aws-sdk/clients/dynamodb';
 import { subjectAccessRequestEvent } from '../lib/dynamodb/eventTypeChecker';
 import { subjectAccessData } from '../lib/clients/champaign/subjectAccessData';
-import { processSubjectAccessRequest } from '../lib/util/processSubjectAccessRequest';
+import { SARconstructor } from '../lib/util/processSubjectAccessRequest';
 import log from '../lib/logger';
 
 const logger = new OperationsLogger({
@@ -36,7 +36,8 @@ export const handlerFunc = (
 
   return getData(record.data.email)
     .then(resp => {
-      return processSubjectAccessRequest(
+      const ProcessSubjectAccessRequest = SARconstructor();
+      return ProcessSubjectAccessRequest(
         resp.data,
         'champaign',
         record.data.email
