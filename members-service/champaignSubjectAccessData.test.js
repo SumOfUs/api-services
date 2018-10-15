@@ -32,11 +32,6 @@ describe('Champaign subject access data handler', function() {
   test(`[on success], updates the operations log status with 'SUCCESS' (replayer)`, function() {
     const event = validEvent(new Date().toISOString());
     const record = unmarshall(event.Records[0].dynamodb.NewImage);
-    processSubjectAccessRequest.mockImplementation((data, processor, email) =>
-      Promise.resolve(
-        `Subject Access Data for ${processor} successfully sent for ${email}`
-      )
-    );
 
     handler(event, null, cb, () => Promise.resolve(champaignMockData)).then(
       function(res) {

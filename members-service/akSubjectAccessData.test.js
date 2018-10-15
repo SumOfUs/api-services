@@ -1,5 +1,8 @@
 jest.mock('../lib/util/processSubjectAccessRequest');
 jest.mock('../lib/clients/actionkit/resources/akSubjectAccessData');
+jest.mock(
+  '../lib/clients/actionkit/resources/subjectAccessQueries/subjectAccessQueries'
+);
 
 import { handlerFunc as handler } from './akSubjectAccessData';
 import { marshall, unmarshall } from 'aws-sdk/lib/dynamodb/converter';
@@ -16,54 +19,56 @@ const updateSpy = jest
   .spyOn(DocumentClient.prototype, 'update')
   .mockImplementation(opts => ({ promise: () => Promise.resolve(opts) }));
 
-const AKMockData = {
-  actions: [{ page_id: 213, member_id: 123 }, { page_id: 234, member_id: 435 }],
-};
-
 describe('actionkit subject access data handler', function() {
-  AKSubjectAccessData.mockImplementation(email => Promise.resolve(AKMockData));
-
   const cb = jest.fn();
+  const AKMockData = {
+    actions: [
+      { page_id: 213, member_id: 123 },
+      { page_id: 234, member_id: 435 },
+    ],
+  };
 
   test('returns if the event is not a subject access event', function() {
     const event = invalidEvent(new Date().toISOString());
-    handler(event, null, cb, () => Promise.resolve(AKMockData));
+    handler(event, null, cb, AKSubjectAccessData);
     expect(cb).toHaveBeenCalledWith(
       null,
       'Not a pending subject access request event.'
     );
   });
 
-  //test(`[on success], updates the operations log status with 'SUCCESS' (replayer)`, function() {
-  //  const event = validEvent(new Date().toISOString());
-  //  const record = unmarshall(event.Records[0].dynamodb.NewImage);
-  //  processSubjectAccessRequest.mockImplementation((data, processor, email) => Promise.resolve(`Subject Access Data for ${processor} successfully sent for ${email}`))
-  //
-  //  handler(event, null, cb, () => Promise.resolve(AKMockData))
-  //  .then(function(res) {
-  //    expect(processSubjectAccessRequest).toHaveBeenCalledWith(AKMockData, 'actionkit', record.data.email);
-  //    expect(statusSpy).toHaveBeenCalledWith(record, {
-  //      actionkit: 'SUCCESS',
-  //    });
-  //    expect(cb).toHaveBeenCalledWith(
-  //      null,
-  //      'Subject Access Data for actionkit successfully sent for tuuli@sumofus.org'
-  //    );
-  //  })
-  //});
-  //
-  //test(`[on failure], updates the operations log status with 'FAILURE' (replayer)`, function() {
-  //  const event = memberNotFoundEvent(new Date().toISOString());
-  //  const record = unmarshall(event.Records[0].dynamodb.NewImage);
-  //
-  //  handler(event, null, cb, () => Promise.reject('oh no member not found'))
-  //  .then(function(_) {
-  //    expect(statusSpy).toHaveBeenCalledWith(record, {
-  //      actionkit: 'FAILURE',
-  //    });
-  //    expect(cb).toHaveBeenCalledWith('oh no member not found');
-  //  })
-  //});
+  test(`[on success], updates the operations log status with 'SUCCESS' (replayer)`, function() {
+    const event = validEvent(new Date().toISOString());
+    const record = unmarshall(event.Records[0].dynamodb.NewImage);
+    handler(event, null, cb, AKSubjectAccessData).then(function(res) {
+      expect(processSubjectAccessRequest).toHaveBeenCalledWith(
+        AKMockData,
+        'actionkit',
+        record.data.email
+      );
+      expect(statusSpy).toHaveBeenCalledWith(record, {
+        actionkit: 'SUCCESS',
+      });
+      expect(cb).toHaveBeenCalledWith(
+        null,
+        'Subject Access Data for actionkit successfully sent for tuuli@sumofus.org'
+      );
+    });
+  });
+
+  test(`[on failure], updates the operations log status with 'FAILURE' (replayer)`, function() {
+    const event = memberNotFoundEvent(new Date().toISOString());
+    const record = unmarshall(event.Records[0].dynamodb.NewImage);
+
+    handler(event, null, cb, () =>
+      Promise.reject('oh no member not found')
+    ).then(function(_) {
+      expect(statusSpy).toHaveBeenCalledWith(record, {
+        actionkit: 'FAILURE',
+      });
+      expect(cb).toHaveBeenCalledWith('oh no member not found');
+    });
+  });
 });
 
 function validEvent(date) {
