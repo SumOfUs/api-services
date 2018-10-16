@@ -44,12 +44,6 @@ export const handlerFunc = (
       return logger
         .updateStatus(record, { actionkit: 'SUCCESS' })
         .then(dynamodbSuccess => {
-          console.log(
-            'SUCCESSFUL SUBJECT ACCESS REQUEST EVENT - call callback with: ',
-            success,
-            ' callback: ',
-            callback
-          );
           return callback(null, success);
         })
         .catch(dynamodbError => {
@@ -60,11 +54,12 @@ export const handlerFunc = (
       return logger
         .updateStatus(record, { actionkit: 'FAILURE' })
         .then(dynamodbSuccess => {
-          return callback(err);
+          return callback(null, err);
         })
         .catch(dynamodbError => {
           // Wow, nothing is going right today. The request failed AND DynamoDB didn't update the record.
-          return callback(dynamodbError);
+          // return a success response because we don't want a week of retries.
+          return callback(null, dynamodbError);
         });
     });
 };

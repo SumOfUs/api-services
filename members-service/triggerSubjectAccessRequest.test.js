@@ -2,6 +2,9 @@ import { handlerFunc as handler } from './triggerSubjectAccessRequest';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { OperationsLogger } from '../lib/dynamodb/operationsLogger';
 
+jest
+  .spyOn(DocumentClient.prototype, 'put')
+  .mockImplementation(opts => ({ promise: () => Promise.resolve(opts) }));
 jest.spyOn(OperationsLogger.prototype, 'log');
 
 describe('triggerSubjectAccessRequest handler', function() {

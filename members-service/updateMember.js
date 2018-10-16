@@ -39,8 +39,8 @@ export const handlerFunc = (event: any, context: any, callback: any) => {
           return result;
         })
         .then(
-          result => callback(null, response(result)),
-          error => callback(null, response(error))
+          result => callback(null, response({ cors: true, body: result })),
+          error => callback(null, response({ cors: true, body: error }))
         );
     },
     errors => callback(null, badRequest({ cors: true, body: errors }))

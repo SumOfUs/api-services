@@ -22,6 +22,10 @@ provider:
         - dynamodb:ListStreams
       Resource: "arn:aws:dynamodb:us-east-1:*:table/${self:provider.environment.DB_LOG_TABLE}"
       Effect: Allow
+    - Action:
+        - s3:PutObject
+      Resource: "arn:aws:s3:::champaign/*"
+      Effect: Allow
 
 resources:
   Resources:

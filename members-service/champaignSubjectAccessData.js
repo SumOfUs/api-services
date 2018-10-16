@@ -47,12 +47,6 @@ export const handlerFunc = (
       return logger
         .updateStatus(record, { champaign: 'SUCCESS' })
         .then(dynamodbSuccess => {
-          console.log(
-            'SUCCESSFUL SUBJECT ACCESS REQUEST EVENT - call callback with: ',
-            success,
-            ' callback: ',
-            callback
-          );
           return callback(null, success);
         })
         .catch(dynamodbError => {
@@ -60,15 +54,15 @@ export const handlerFunc = (
         });
     })
     .catch(err => {
-      console.log('FAILURE!', err);
       return logger
         .updateStatus(record, { champaign: 'FAILURE' })
         .then(dynamodbSuccess => {
-          return callback(err);
+          return callback(null, err);
         })
         .catch(dynamodbError => {
           // Wow, nothing is going right today. The request failed AND DynamoDB didn't update the record.
-          return callback(dynamodbError);
+          // return a success response because we don't want a week of retries.
+          return callback(null, dynamodbError);
         });
     });
 };
