@@ -14,3 +14,8 @@ environment:
   UNSUBSCRIBE_PAGE_NAME: ${ssm:/api-services/staging/UNSUBSCRIBE_PAGE_NAME}
   BRAINTREE_MERCHANT_CURRENCIES: ${ssm:/api-services/staging/BRAINTREE_MERCHANT_CURRENCIES}
   COGNITO_POOL_ARN: ${ssm:/api-services/staging/COGNITO_POOL_ARN}
+  AK_MYSQL_HOST: ${ssm:/api-services/staging/AK_MYSQL_HOST}
+  AK_MYSQL_USER: ${ssm:/api-services/staging/AK_MYSQL_USER}
+  AK_MYSQL_PWD: ${ssm:/api-services/staging/AK_MYSQL_PWD}
+  AK_MYSQL_DB: ${ssm:/api-services/staging/AK_MYSQL_DB}
+  MEMBER_SERVICES_EMAIL: ${ssm:/api-services/staging/MEMBER_SERVICES_EMAIL}
