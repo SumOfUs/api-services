@@ -54,12 +54,11 @@ export const handlerFunc = (
       return logger
         .updateStatus(record, { actionkit: 'FAILURE' })
         .then(dynamodbSuccess => {
-          return callback(null, err);
+          return callback(err);
         })
         .catch(dynamodbError => {
           // Wow, nothing is going right today. The request failed AND DynamoDB didn't update the record.
-          // return a success response because we don't want a week of retries.
-          return callback(null, dynamodbError);
+          return callback(dynamodbError);
         });
     });
 };
