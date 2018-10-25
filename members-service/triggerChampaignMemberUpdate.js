@@ -6,7 +6,7 @@ import { updateMemberEvent } from '../lib/dynamodb/eventTypeChecker';
 import log from '../lib/logger';
 
 const logger = new OperationsLogger({
-  namespace: 'MEMBERS',
+  namespace: 'MEMBERS_SERVICE',
   tableName: process.env.DB_LOG_TABLE || '',
   client: new DocumentClient(),
 });

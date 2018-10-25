@@ -22,6 +22,10 @@ provider:
         - dynamodb:ListStreams
       Resource: "arn:aws:dynamodb:us-east-1:*:table/${self:provider.environment.DB_LOG_TABLE}"
       Effect: Allow
+    - Action:
+        - s3:PutObject
+      Resource: "arn:aws:s3:::champaign/*"
+      Effect: Allow
 
 resources:
   Resources:
@@ -76,6 +80,39 @@ functions:
 
   trigger-champaign-member-update:
     handler: members-service/triggerChampaignMemberUpdate.handler
+    events:
+      - stream:
+          type: dynamodb
+          batchSize: 1
+          startingPosition: LATEST
+          arn:
+            Fn::GetAtt:
+              - OperationsTable
+              - StreamArn
+
+  trigger-subject-access-request:
+    handler: members-service/triggerSubjectAccessRequest.handler
+    events:
+      - http:
+          method: post
+          path: subject_access_request/
+          cors: true
+
+
+  champaign-subject-access-data:
+    handler: members-service/champaignSubjectAccessData.handler
+    events:
+      - stream:
+          type: dynamodb
+          batchSize: 1
+          startingPosition: LATEST
+          arn:
+            Fn::GetAtt:
+              - OperationsTable
+              - StreamArn
+
+  ak-subject-access-data:
+    handler: members-service/akSubjectAccessData.handler
     events:
       - stream:
           type: dynamodb

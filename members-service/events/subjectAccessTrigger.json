@@ -1,0 +1,106 @@
+{
+  "resource": "/subject_access_request",
+  "path": "/subject_access_request/",
+  "httpMethod": "POST",
+  "headers": {
+    "Accept": "*/*",
+    "CloudFront-Forwarded-Proto": "https",
+    "CloudFront-Is-Desktop-Viewer": "true",
+    "CloudFront-Is-Mobile-Viewer": "false",
+    "CloudFront-Is-SmartTV-Viewer": "false",
+    "CloudFront-Is-Tablet-Viewer": "false",
+    "CloudFront-Viewer-Country": "SI",
+    "Content-Type": "application/json",
+    "Host": "lyj3sz7ipk.execute-api.us-east-1.amazonaws.com",
+    "User-Agent": "curl/7.47.0",
+    "Via": "1.1 e90303ba6db45a2785ea8e963e1ef010.cloudfront.net (CloudFront)",
+    "X-Amz-Cf-Id": "XsN-AlJv3rYiYquIzPIaEXq2uHb5khWQ3xxsQ87QHyP4AKF-Q4HCcQ==",
+    "X-Amzn-Trace-Id": "Root=1-5bb5fc2b-c21613daa5e422462b15fe6c",
+    "X-Forwarded-For": "93.103.245.240, 54.240.159.92",
+    "X-Forwarded-Port": "443",
+    "X-Forwarded-Proto": "https"
+  },
+  "multiValueHeaders": {
+    "Accept": [
+      "*/*"
+    ],
+    "CloudFront-Forwarded-Proto": [
+      "https"
+    ],
+    "CloudFront-Is-Desktop-Viewer": [
+      "true"
+    ],
+    "CloudFront-Is-Mobile-Viewer": [
+      "false"
+    ],
+    "CloudFront-Is-SmartTV-Viewer": [
+      "false"
+    ],
+    "CloudFront-Is-Tablet-Viewer": [
+      "false"
+    ],
+    "CloudFront-Viewer-Country": [
+      "SI"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "Host": [
+      "lyj3sz7ipk.execute-api.us-east-1.amazonaws.com"
+    ],
+    "User-Agent": [
+      "curl/7.47.0"
+    ],
+    "Via": [
+      "1.1 e90303ba6db45a2785ea8e963e1ef010.cloudfront.net (CloudFront)"
+    ],
+    "X-Amz-Cf-Id": [
+      "XsN-AlJv3rYiYquIzPIaEXq2uHb5khWQ3xxsQ87QHyP4AKF-Q4HCcQ=="
+    ],
+    "X-Amzn-Trace-Id": [
+      "Root=1-5bb5fc2b-c21613daa5e422462b15fe6c"
+    ],
+    "X-Forwarded-For": [
+      "93.103.245.240, 54.240.159.92"
+    ],
+    "X-Forwarded-Port": [
+      "443"
+    ],
+    "X-Forwarded-Proto": [
+      "https"
+    ]
+  },
+  "queryStringParameters": null,
+  "multiValueQueryStringParameters": null,
+  "pathParameters": null,
+  "stageVariables": null,
+  "requestContext": {
+    "resourceId": "og5sl5",
+    "resourcePath": "/subject_access_request",
+    "httpMethod": "POST",
+    "extendedRequestId": "OPRWxEqyIAMFfIQ=",
+    "requestTime": "04/Oct/2018:11:40:27 +0000",
+    "path": "/tuuli/subject_access_request/",
+    "accountId": "",
+    "protocol": "HTTP/1.1",
+    "stage": "tuuli",
+    "requestTimeEpoch": 1538653227358,
+    "requestId": "49ff2842-c7ca-11e8-aff7-0b6665eae4c3",
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "accountId": null,
+      "cognitoIdentityId": null,
+      "caller": null,
+      "sourceIp": "93.103.245.240",
+      "accessKey": null,
+      "cognitoAuthenticationType": null,
+      "cognitoAuthenticationProvider": null,
+      "userArn": null,
+      "userAgent": "curl/7.47.0",
+      "user": null
+    },
+    "apiId": "lyj3sz7ipk"
+  },
+  "body": "{\"email\":\"tuuli@sumofus.org\"}",
+  "isBase64Encoded": false
+}
