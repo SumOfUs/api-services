@@ -50,18 +50,18 @@ export const handlerFunc = (
           return callback(null, success);
         })
         .catch(dynamodbError => {
-          return callback(null, dynamodbError);
+          return callback(dynamodbError);
         });
     })
     .catch(err => {
       return logger
         .updateStatus(record, { champaign: 'FAILURE' })
         .then(dynamodbSuccess => {
-          return callback(null, err);
+          return callback(err);
         })
         .catch(dynamodbError => {
           // Wow, nothing is going right today. The request failed AND DynamoDB didn't update the record.
-          return callback(null, dynamodbError);
+          return callback(dynamodbError);
         });
     });
 };
