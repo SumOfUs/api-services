@@ -30,7 +30,7 @@ export const handlerFunc = (
 
   if (
     !subjectAccessRequestEvent(item.eventName, record) ||
-    record.status.actionkit == 'SUCCESS'
+    record.status.actionkit != 'PENDING'
   ) {
     return callback(null, 'Not a pending subject access request event.');
   }
@@ -47,18 +47,18 @@ export const handlerFunc = (
           return callback(null, success);
         })
         .catch(dynamodbError => {
-          return callback(null, dynamodbError);
+          return callback(dynamodbError);
         });
     })
     .catch(err => {
       return logger
         .updateStatus(record, { actionkit: 'FAILURE' })
         .then(dynamodbSuccess => {
-          return callback(null, err);
+          return callback(err);
         })
         .catch(dynamodbError => {
           // Wow, nothing is going right today. The request failed AND DynamoDB didn't update the record.
-          return callback(null, dynamodbError);
+          return callback(dynamodbError);
         });
     });
 };
