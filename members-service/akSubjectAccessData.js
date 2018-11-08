@@ -30,7 +30,7 @@ export const handlerFunc = (
 
   if (
     !subjectAccessRequestEvent(item.eventName, record) ||
-    record.status.actionkit == 'SUCCESS'
+    record.status.actionkit != 'PENDING'
   ) {
     return callback(null, 'Not a pending subject access request event.');
   }

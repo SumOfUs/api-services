@@ -29,7 +29,7 @@ export const handlerFunc = (
 
   if (
     !subjectAccessRequestEvent(item.eventName, record) ||
-    record.status.champaign == 'SUCCESS'
+    record.status.champaign != 'PENDING'
   ) {
     return callback(null, 'Not a pending subject access request event.');
   }
