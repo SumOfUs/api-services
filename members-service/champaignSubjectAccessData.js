@@ -54,7 +54,6 @@ export const handlerFunc = (
         });
     })
     .catch(err => {
-      console.log('FAILURE', err);
       return logger
         .updateStatus(record, { champaign: 'FAILURE' })
         .then(dynamodbSuccess => {
