@@ -29,7 +29,7 @@ export const handlerFunc = (
 
   if (
     !subjectAccessRequestEvent(item.eventName, record) ||
-    record.status.champaign == 'SUCCESS'
+    record.status.champaign != 'PENDING'
   ) {
     return callback(null, 'Not a pending subject access request event.');
   }
@@ -50,18 +50,18 @@ export const handlerFunc = (
           return callback(null, success);
         })
         .catch(dynamodbError => {
-          return callback(dynamodbError);
+          return callback(null, dynamodbError);
         });
     })
     .catch(err => {
       return logger
         .updateStatus(record, { champaign: 'FAILURE' })
         .then(dynamodbSuccess => {
-          return callback(err);
+          return callback(null, err);
         })
         .catch(dynamodbError => {
           // Wow, nothing is going right today. The request failed AND DynamoDB didn't update the record.
-          return callback(dynamodbError);
+          return callback(null, dynamodbError);
         });
     });
 };
